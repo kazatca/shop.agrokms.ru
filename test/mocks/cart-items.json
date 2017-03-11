@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "Coffee",
+    "image": "/coffee.png",
+    "qty": 10,
+    "price": 50
+  },
+  {
+    "id": 2,
+    "name": "Burger",
+    "image": "/burger.png",
+    "qty": 2,
+    "price": 130
+  }
+]

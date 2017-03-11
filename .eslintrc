@@ -1,0 +1,27 @@
+{
+  "env": {
+    "browser": true
+  },
+  "extends": "react",
+  "installedESLint": true,
+  "plugins": [
+    "mocha"
+  ],
+  "rules": {
+    "mocha/no-exclusive-tests": "error",
+    "indent": "off",
+    "object-curly-spacing": "off",
+    "no-trailing-spaces": "off",
+    "space-before-function-paren": "off",
+    "space-before-blocks": "off",
+    "arrow-spacing": "off",
+    "max-nested-callbacks": ["error", 5],
+    "new-cap": "off",
+    "eol-last": "off",
+    "keyword-spacing": "off",
+    "padded-blocks": "warn",
+    "eqeqeq": "off",
+    "no-unused-vars": "warn",
+    "space-infix-ops": "off"
+  }
+}
