@@ -4,7 +4,13 @@ import {shallow, mount} from 'enzyme';
 
 import CartItem from '../../src/components/CartItem';
 
-const [coffee] = require('../mocks/cart-items.json');
+let [coffee] = require('../mocks/cart-items.json');
+
+coffee = {
+  ...coffee,
+  changeQty: ()=>{},
+  remove: ()=>{}
+};
 
 describe('CartItem component', function() {
   it('basic', function() {
