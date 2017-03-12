@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import Price from './Price';
 
 export default class CartItem extends Component {
 
@@ -20,7 +21,9 @@ export default class CartItem extends Component {
           <img src={this.props.image} alt=""/>
         </td>
         <td className="name">{this.props.name}</td>
-        <td className="price">{this.props.price} р.</td>
+        <td>
+          <Price price={this.props.price} />
+        </td>
         <td className="qty">
           <button 
             className="minus" 

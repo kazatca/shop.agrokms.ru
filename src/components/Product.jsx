@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-
+import Price from './Price';
 
 export default class Product extends Component{
   
@@ -11,22 +11,12 @@ export default class Product extends Component{
     this.props.addToCart(this.props.id, this.state.qty);
   }
 
-  decrement(){
-    if(this.state.qty <= 1){
+  changeQty(qty){
+    if(isNaN(qty) || qty < 1){
       return;
     }
-
-    this.setState({
-      qty: this.state.qty - 1
-    });
+    this.setState({qty});
   }
-
-  increment(){
-    this.setState({
-      qty: this.state.qty + 1
-    });
-  }
-
 
   render(){
     return (
@@ -36,14 +26,19 @@ export default class Product extends Component{
         </div>
         <div>
           <h1 className="name">{this.props.name}</h1>
-          <div className="price">{this.props.price} р.</div>
+          <Price price={this.props.price} />
           <button className="minus" 
-            onClick={() => this.decrement()}>
+            onClick={() => this.changeQty(this.state.qty*1 - 1)}>
             -
           </button>
-          <input type="text" className="qty" value={this.state.qty}/>
+          <input 
+            type="text" 
+            className="qty" 
+            value={this.state.qty}
+            onChange={e => this.changeQty(e.target.value*1)}
+          />
           <button className="plus" 
-            onClick={() => this.increment()}>
+            onClick={() => this.changeQty(this.state.qty*1 + 1)}>
             +
           </button>
           <button className="buy"

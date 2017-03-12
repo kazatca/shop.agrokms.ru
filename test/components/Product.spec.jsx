@@ -1,20 +1,20 @@
 import React from 'react';
 import expect from 'expect.js';
-import {shallow} from 'enzyme';
+import {mount} from 'enzyme';
 
 import Product from '../../src/components/Product';
 
-const noop = value => value;
+const coffee = {
+  id: 1,
+  name: 'Coffee',
+  price: 50,
+  image: '/coffee.png',
+  addToCart: ()=>{}
+};
 
 describe('Product component', ()=>{
   it('basic', ()=>{
-    const product = shallow(<Product 
-      id={1}
-      name={'Coffee'}
-      price={50}
-      image={'/coffee.png'}
-      addToCart={noop}
-    />);
+    const product = mount(<Product {...coffee}/>);
 
     expect(product.find('.name').text()).to.equal('Coffee');
     expect(product.find('.price').text()).to.equal('50 р.');
@@ -28,11 +28,7 @@ describe('Product component', ()=>{
   it('buy click', ()=>{
     let cart = [];
     const addToCart = id => cart.push(id);
-    const product = shallow(<Product 
-      id={1}
-      name={'Coffee'}
-      price={50}
-      image={'/coffee.png'}
+    const product = mount(<Product {...coffee} 
       addToCart={addToCart}
     />);
 
@@ -41,14 +37,8 @@ describe('Product component', ()=>{
     expect(cart).to.eql([1]);
   });
 
-  it('change counter', ()=>{
-    const product = shallow(<Product 
-      id={1}
-      name={'Coffee'}
-      price={50}
-      image={'/coffee.png'}
-      addToCart={noop}
-    />);
+  it('change qty by buttons', ()=>{
+    const product = mount(<Product {...coffee} />);
 
     const minusBtn = product.find('.minus');
     const plusBtn = product.find('.plus');
@@ -70,14 +60,20 @@ describe('Product component', ()=>{
     expect(product.find('.qty').prop('value')).to.eql(1);
   });
 
+  it('change by direct input', ()=> {
+    const product = mount(<Product {...coffee} />);
+
+    const qtyInput = product.find('.qty');
+
+    qtyInput.simulate('change', {target: {value: '10'}});
+
+    expect(qtyInput.prop('value')).to.eql('10');
+  });
+
   it('buy click with custom qty', ()=>{
     let cart = [];
     const addToCart = (id, qty) => cart.push({id, qty});
-    const product = shallow(<Product 
-      id={1}
-      name={'Coffee'}
-      price={50}
-      image={'/coffee.png'}
+    const product = mount(<Product {...coffee} 
       addToCart={addToCart}
     />);
 
