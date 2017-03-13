@@ -9,7 +9,7 @@ let [coffee] = require('../mocks/cart-items.json');
 coffee = {
   ...coffee,
   changeQty: ()=>{},
-  remove: ()=>{}
+  removeItem: ()=>{}
 };
 // avoid react warning "<div> cannot appear as a child of <tr>"
 const Cart = props => {
@@ -67,9 +67,9 @@ describe('CartItem component', function() {
 
   it('remove button', ()=>{
     let removed;
-    const remove = (id) => {removed = id;};
+    const removeItem = (id) => {removed = id;};
     const cartItem = mount(<Cart><CartItem {...coffee}
-      remove={remove}
+      removeItem={removeItem}
     /></Cart>);
 
     const removeBtn = cartItem.find('.remove');

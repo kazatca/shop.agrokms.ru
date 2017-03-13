@@ -1,6 +1,7 @@
 {
   "env": {
-    "browser": true
+    "browser": true,
+    "es6": true
   },
   "extends": "react",
   "installedESLint": true,
@@ -22,6 +23,7 @@
     "padded-blocks": "warn",
     "eqeqeq": "off",
     "no-unused-vars": "warn",
-    "space-infix-ops": "off"
+    "space-infix-ops": "off",
+    "semi": "warn"
   }
 }

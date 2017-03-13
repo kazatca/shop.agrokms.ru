@@ -1,8 +1,12 @@
 {
   "env": {
-    "mocha": true
+    "mocha": true,
+    "node": true
   },
   "globals": {
     "require": true
+  },
+  "rules": {
+    "no-unused-expressions": "off"
   }
 }

@@ -1,15 +1,22 @@
 import React from 'react';
 import expect from 'expect.js';
-import {shallow, mount} from 'enzyme';
+import {mount} from 'enzyme';
 
-import Cart from '../../src/components/Cart';
+import {CartDummy as Cart} from '../../src/components/Cart';
 
 const [coffee, burger] = require('../mocks/cart-items.json');
+
+const dispatch = {
+  changeQty: ()=>{},
+  removeItem: ()=>{},
+  removeAll: ()=>{}
+};
 
 describe('Cart component', function() {
   it('basic', function() {
     const cart = mount(<Cart
       items={[coffee]}
+      {...dispatch}
     />);
 
     const cartItem = cart.find('.cart-item').first();
@@ -23,31 +30,39 @@ describe('Cart component', function() {
     expect(cart.find('.total .cost').text()).to.eql('500 р.');
   });
 
+  it('empty cart', ()=>{
+    mount(<Cart {...dispatch} />);
+  });
+
   it('total', function() {
     const cart = mount(<Cart
       items={[coffee, burger]}
+      {...dispatch}
     />);
 
     expect(cart.find('.total .cost').text()).to.eql('760 р.');
   });
 
   it('item removing', function() {
+    let itemRemoved;
+    const removeItem = id=> {itemRemoved = id;};
+
     const cart = mount(<Cart
       items={[coffee, burger]}
+      {...dispatch}
+      removeItem={removeItem}
     />);
 
     let removeBtn = cart.find('.cart-item').first().find('.remove');
     expect(removeBtn).to.be.ok();
 
     removeBtn.simulate('click');
-    expect(cart.find('.cart-item').length).to.eql(1);
-    expect(cart.find('.total .cost').text()).to.eql('260 р.');
+    expect(itemRemoved).to.eql(1);
 
-    removeBtn = cart.find('.cart-item').first().find('.remove');
+    removeBtn = cart.find('.cart-item').last().find('.remove');
     expect(removeBtn).to.be.ok();
 
     removeBtn.simulate('click');
-    expect(cart.find('.cart-item').length).to.eql(0);
-    expect(cart.find('.total .cost').text()).to.eql('0 р.');
+    expect(itemRemoved).to.eql(2);
   });
 });

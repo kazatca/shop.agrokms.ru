@@ -1,17 +1,16 @@
-import React, {Component, PropTypes} from 'react';
-import Product from './Product';
+import React, {Component} from 'react';
 
-const product = {
-  name: 'Coffee',
-  price: 15,
-  image: '//i.imgur.com/bFdWQbi.jpg'
-};
+import Cart from './Cart';
+import StoreFront from './StoreFront';
 
 
 export default class App extends Component{
   render(){
     return (
-      <Product {...product} /> 
+      <div>
+        <Cart />
+        <StoreFront />
+      </div>
     );
   }
 }

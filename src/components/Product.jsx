@@ -1,12 +1,21 @@
-import React, {Component, PropTypes} from 'react';
-import Price from './Price';
+import React, {PureComponent, PropTypes} from 'react';
+import Money from './Money';
 
-export default class Product extends Component{
+export default class Product extends PureComponent{
+
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    addToCart: PropTypes.func.isRequired 
+  };
   
   constructor(props){
     super(props);
     this.state = {qty: 1};
   }
+
   addToCart(){
     this.props.addToCart(this.props.id, this.state.qty);
   }
@@ -26,7 +35,7 @@ export default class Product extends Component{
         </div>
         <div>
           <h1 className="name">{this.props.name}</h1>
-          <Price price={this.props.price} />
+          <Money className="price">{this.props.price}</Money>
           <button className="minus" 
             onClick={() => this.changeQty(this.state.qty*1 - 1)}>
             -
@@ -50,11 +59,3 @@ export default class Product extends Component{
     );
   }
 }
-
-Product.propTypes = {
-  id: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  addToCart: PropTypes.func.isRequired 
-};

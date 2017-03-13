@@ -1,17 +1,30 @@
 import React, {Component, PropTypes} from 'react';
-import Price from './Price';
+import Money from './Money';
 
 export default class CartItem extends Component {
 
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    qty: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
+    ]).isRequired,
+    price: PropTypes.number.isRequired,
+    changeQty: PropTypes.func.isRequired,
+    removeItem: PropTypes.func.isRequired
+  };
+
   changeQty(qty){
-    if(qty < 0 || isNaN(qty)){
+    if(qty < 0){
       return;
     }
     this.props.changeQty(this.props.id, qty);
   }
 
-  remove(){
-    this.props.remove(this.props.id);
+  removeItem(){
+    this.props.removeItem(this.props.id);
   }
 
   render() {
@@ -21,8 +34,8 @@ export default class CartItem extends Component {
           <img src={this.props.image} alt=""/>
         </td>
         <td className="name">{this.props.name}</td>
-        <td>
-          <Price price={this.props.price} />
+        <td >
+          <Money className="price">{this.props.price}</Money>
         </td>
         <td className="qty">
           <button 
@@ -39,11 +52,13 @@ export default class CartItem extends Component {
             onClick={() => this.changeQty(this.props.qty*1 + 1)}
           >+</button>
         </td>
-        <td className="cost">{this.props.price * this.props.qty} р.</td>
+        <td>
+          <Money className="cost">{this.props.price * this.props.qty}</Money>
+        </td>
         <td>
           <button 
             className="remove" 
-            onClick={() => this.remove()}
+            onClick={() => this.removeItem()}
           >remove</button>
         </td>
       </tr>
@@ -51,15 +66,3 @@ export default class CartItem extends Component {
   }
 }
 
-CartItem.propTypes = {
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  qty: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ]).isRequired,
-  price: PropTypes.number.isRequired,
-  changeQty: PropTypes.func.isRequired,
-  remove: PropTypes.func.isRequired
-};
