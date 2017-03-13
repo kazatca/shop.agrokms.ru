@@ -45,7 +45,8 @@ export default class CartItem extends Component {
           <input 
             type="text" 
             value={this.props.qty} 
-            onChange={e => this.changeQty(e.target.value)} 
+            onChange={e => this.changeQty(e.target.value)}
+            onFocus={e => e.target.select()}
           />
           <button 
             className="plus" 

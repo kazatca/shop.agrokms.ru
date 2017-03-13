@@ -45,6 +45,7 @@ export default class Product extends PureComponent{
             className="qty" 
             value={this.state.qty}
             onChange={e => this.changeQty(e.target.value*1)}
+            onFocus={e => e.target.select()}
           />
           <button className="plus" 
             onClick={() => this.changeQty(this.state.qty*1 + 1)}>
