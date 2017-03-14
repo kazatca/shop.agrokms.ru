@@ -1,19 +1,29 @@
 import {OrderedMap} from 'immutable';
 
-export default {
-  add: (cart, id, qty) => {
-    return cart.set(id, cart.get(id, 0) + qty);
-  },
+const add = (cart, id, qty) => 
+  cart.set(id, cart.get(id, 0) + qty);
 
-  changeQty: (cart, id, qty) => {
-    return cart.set(id, qty);
-  },
+const changeQty = (cart, id, qty) => 
+  cart.set(id, qty);
 
-  removeItem: (cart, id) => {
-    return cart.delete(id);
-  },
+const removeItem = (cart, id) => 
+  cart.delete(id);
 
-  removeAll: (cart) => {
-    return OrderedMap();
-  }
+const removeAll = () => 
+  OrderedMap();
+
+
+const reducers = {
+  'CART.ADD': (cart, action) => 
+    add(cart, action.id, action.qty),
+  'CART.CHANGE_QTY': (cart, action) => 
+    changeQty(cart, action.id, action.qty),
+  'CART.REMOVE_ITEM': (cart, action) => 
+    removeItem(cart, action.id),
+  'CART.REMOVE_ALL': (cart, action) => 
+    removeAll()
 };
+
+export default (cart = OrderedMap(), action) => {
+  return action.type in reducers ? reducers[action.type](cart, action) : cart;
+}

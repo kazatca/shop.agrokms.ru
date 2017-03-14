@@ -1,46 +1,25 @@
-import {Map, List, OrderedMap} from 'immutable';
+import {Map} from 'immutable';
+
+// import {combineReducers} from 'redux';
+
 import cartReducer from './reducers/cart';
 import productsReducer from './reducers/products';
 
+import {routerReducer} from 'react-router-redux';
 
-const reducers = {
-  'CART.ADD': (state, action) => {
-    return state.update('cart', cart => 
-      cartReducer.add(cart, action.id, action.qty)
-    );
-  },
-  'CART.CHANGE_QTY': (state, action) => {
-    return state.update('cart', cart => 
-      cartReducer.changeQty(cart, action.id, action.qty)
-    );
-  },
-  'CART.REMOVE_ITEM': (state, action) => {
-    return state.update('cart', cart => 
-      cartReducer.removeItem(cart, action.id)
-    );
-  },
-  'CART.REMOVE_ALL': (state, action) => {
-    return state.update('cart', cart => 
-      cartReducer.removeAll(cart)
-    );
-  },
-
-  'PRODUCTS.SET': (state, action) => {
-    return state.update('products', products=>
-      productsReducer.set(action.products)
-    );
-  }
+export const combineReducers = reducers => {
+  return (state = Map(), action) => {
+    return Map(Object.keys(reducers).reduce((result, key) => {
+      return {...result, [key]: reducers[key](state.get(key), action)};
+    }, {}));
+  };
 };
 
-const makeInitialState = (state = {}) => Map({
-  cart: OrderedMap(state.cart || {}), 
-  products: List(state.products || [])
+
+const reducer = combineReducers({
+  cart: cartReducer,
+  products: productsReducer,
+  router: routerReducer
 });
-
-const reducer = (state = makeInitialState(), action) => {
-  return action.type in reducers ? 
-    reducers[action.type](state, action) : 
-    state;
-};
 
 export default reducer;
