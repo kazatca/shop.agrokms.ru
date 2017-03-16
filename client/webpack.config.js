@@ -1,4 +1,6 @@
+/* eslint-env node */
 var webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
   entry: [
@@ -6,6 +8,11 @@ module.exports = {
     'webpack/hot/only-dev-server',
     './src/index.jsx'
   ],
+  output: {
+    path: path.join(__dirname, 'dist'),
+    publicPath: '/',
+    filename: 'bundle.js'
+  },
   module: {
     loaders: [{
       test: /\.jsx?$/,
@@ -15,11 +22,6 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx']
-  },
-  output: {
-    path: __dirname + '/dist',
-    publicPath: '/',
-    filename: 'bundle.js'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin()

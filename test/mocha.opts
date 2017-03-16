@@ -1,4 +1,0 @@
---compilers js:babel-core/register 
---compilers jsx:babel-core/register 
---require ./test/test_helper.js 
-./test/**/*@(.js|.jsx)

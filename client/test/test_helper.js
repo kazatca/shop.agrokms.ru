@@ -1,6 +1,7 @@
 import jsdom from 'jsdom';
 import chai from 'chai';
 import chaiImmutable from 'chai-immutable';
+import chaiAsPromised from 'chai-as-promised';
 
 // import mochaClean from 'mocha-clean';
 
@@ -14,6 +15,7 @@ Object.keys(window).forEach((key) => {
 });
 
 chai.use(chaiImmutable);
+chai.use(chaiAsPromised);
 
 
 // const error = console.error;
