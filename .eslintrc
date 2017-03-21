@@ -1,15 +1,11 @@
 {
   "env": {
-    "browser": true,
+    "node": true,
     "es6": true
   },
   "extends": "react",
   "installedESLint": true,
-  "plugins": [
-    "mocha"
-  ],
   "rules": {
-    "mocha/no-exclusive-tests": "error",
     "indent": "off",
     "object-curly-spacing": "off",
     "no-trailing-spaces": "off",
@@ -24,6 +20,8 @@
     "eqeqeq": "off",
     "no-unused-vars": "warn",
     "space-infix-ops": "off",
-    "semi": "warn"
+    "semi": "warn",
+    "no-multi-spaces": "warn",
+    "no-throw-literal": "off"
   }
 }
