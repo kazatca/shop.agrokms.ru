@@ -5,7 +5,7 @@ export default class Product extends PureComponent{
 
   static propTypes = {
     id: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
+    image: PropTypes.string,
     name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     addToCart: PropTypes.func.isRequired 
