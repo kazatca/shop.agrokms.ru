@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 
 import db from '../../src/db';
-import * as StoreFront from '../../src/controllers/StoreFront';
+import {getAll} from '../../src/controllers/StoreFront';
 
 describe('StoreFront controller', function() {
   beforeEach(() => Promise.all([
@@ -14,7 +14,7 @@ describe('StoreFront controller', function() {
       {name: 'Coffee', image: '/coffee.png', price: 5000},
       {name: 'Burger', image: '/burger.png', price: 8000}
     ])
-    .then(() => StoreFront.getAll())
+    .then(() => getAll())
     .then(store => {
       const {products} = store;
 
@@ -28,7 +28,7 @@ describe('StoreFront controller', function() {
   });
 
   it('empty list', () => {
-    return StoreFront.getAll()
+    return getAll()
     .then(storeFront => {
       expect(storeFront).to.have.property('products');
       expect(storeFront.products).to.be.a('Array');
@@ -49,7 +49,7 @@ describe('StoreFront controller', function() {
         name: 'Drinks'
       })
     ])
-    .then(() => StoreFront.getAll())
+    .then(() => getAll())
     .then(store => {
       const {products, categories} = store;
 

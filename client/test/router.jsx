@@ -1,5 +1,5 @@
 import React from 'react';
-import expect from 'expect.js';
+import {expect} from 'chai';
 import {mount} from 'enzyme';
 
 import {createStore, applyMiddleware} from 'redux';

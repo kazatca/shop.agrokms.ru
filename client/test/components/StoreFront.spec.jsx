@@ -1,5 +1,5 @@
 import React from 'react';
-import expect from 'expect.js';
+import {expect} from 'chai';
 import {mount} from 'enzyme';
 
 import {StoreFrontDummy as StoreFront} from '../../src/components/StoreFront';

@@ -1,5 +1,5 @@
 import React from 'react';
-import expect from 'expect.js';
+import {expect} from 'chai';
 import {mount} from 'enzyme';
 
 import CartItem from '../../src/components/CartItem';
@@ -75,6 +75,6 @@ describe('CartItem component', function() {
     const removeBtn = cartItem.find('.remove');
 
     removeBtn.simulate('click');
-    expect(removed).to.eql(1);
+    expect(removed).to.eql('1');
   });
 }); 

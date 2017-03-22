@@ -1,5 +1,5 @@
 import React from 'react';
-import expect from 'expect.js';
+import {expect} from 'chai';
 import {mount} from 'enzyme';
 
 import Product from '../../src/components/Product';
@@ -20,9 +20,9 @@ describe('Product component', ()=>{
     expect(product.find('.price').text()).to.equal('50 р.');
     expect(product.find('img').prop('src')).to.equal('/coffee.png');
     expect(product.find('.qty').prop('value')).to.equal(1);
-    expect(product.find('.buy')).to.be.ok();
-    expect(product.find('.minus')).to.be.ok();
-    expect(product.find('.plus')).to.be.ok();
+    expect(product.find('.buy')).to.be.ok;
+    expect(product.find('.minus')).to.be.ok;
+    expect(product.find('.plus')).to.be.ok;
   });
 
   it('buy click', ()=>{
@@ -67,7 +67,8 @@ describe('Product component', ()=>{
 
     qtyInput.simulate('change', {target: {value: '10'}});
 
-    expect(qtyInput.prop('value')).to.eql('10');
+    //todo: why numeric?
+    expect(qtyInput.prop('value')).to.eql(10);
   });
 
   it('buy click with custom qty', ()=>{

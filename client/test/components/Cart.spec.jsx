@@ -1,5 +1,5 @@
 import React from 'react';
-import expect from 'expect.js';
+import {expect} from 'chai';
 import {mount} from 'enzyme';
 
 import {CartDummy as Cart} from '../../src/components/Cart';
@@ -54,15 +54,15 @@ describe('Cart component', function() {
     />);
 
     let removeBtn = cart.find('.cart-item').first().find('.remove');
-    expect(removeBtn).to.be.ok();
+    expect(removeBtn).to.be.ok;
 
     removeBtn.simulate('click');
-    expect(itemRemoved).to.eql(1);
+    expect(itemRemoved).to.eql('1');
 
     removeBtn = cart.find('.cart-item').last().find('.remove');
-    expect(removeBtn).to.be.ok();
+    expect(removeBtn).to.be.ok;
 
     removeBtn.simulate('click');
-    expect(itemRemoved).to.eql(2);
+    expect(itemRemoved).to.eql('2');
   });
 });
