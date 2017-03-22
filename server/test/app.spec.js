@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import request from 'supertest-as-promised';
+import request from 'supertest';
 
 import db from '../src/db.js';
 import app from '../src/app.js';
