@@ -2,9 +2,9 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 
-import storeFrontRouter from './routers/storeFront.js';
-import productRouter from './routers/product.js';
-import categoryRouter from './routers/category.js';
+import storeFrontRouter from './routes/storeFront.js';
+import productRouter from './routes/product.js';
+import categoryRouter from './routes/category.js';
 import renderPage from './renderPage';
 
 const app = express();
