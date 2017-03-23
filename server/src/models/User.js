@@ -10,6 +10,7 @@ export default sequelize =>
       type: Sequelize.STRING,
       allowNull: false,
       unique: true
-    }
+    },
+    password: Sequelize.STRING
   });
 

@@ -1,4 +1,4 @@
-
+import * as api from '../api.js';
 
 export const set = products => {
   return {
@@ -6,3 +6,10 @@ export const set = products => {
     products
   };
 };
+
+export const fetch = () => 
+  (dispatch) => 
+    api.get('/product/all')
+    .then(products => dispatch(set(products)));
+
+

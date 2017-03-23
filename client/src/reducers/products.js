@@ -5,6 +5,7 @@ const set = newProducts =>
     return {...result, [product.id]: Map(product)};
   }, {}));
 
+
 const reducers = {
   'PRODUCTS.SET': (products, action) => 
     set(action.products)

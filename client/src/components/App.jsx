@@ -32,8 +32,10 @@ const App = ({store, history}) => {
       <ConnectedRouter history={history}>
         <div>
           <NavLink to="/">StoreFront</NavLink>
+          <NavLink to="/cart">Cart</NavLink>
           <NavLink to="/about">About</NavLink>
           <Route exact path="/" component={StoreFrontPage} />
+          <Route path="/cart" component={Cart} />
           <Route path="/about" component={AboutPage} />
         </div>
       </ConnectedRouter>

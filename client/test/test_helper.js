@@ -13,6 +13,7 @@ Object.keys(window).forEach((key) => {
     global[key] = window[key];
   }
 });
+jsdom.changeURL(window, "http://localhost/");
 
 chai.use(chaiImmutable);
 chai.use(chaiAsPromised);
