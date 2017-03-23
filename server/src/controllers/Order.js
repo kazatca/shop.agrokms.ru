@@ -36,7 +36,7 @@ export const add = order => {
 };
 
 
-export const get = () => {
+export const getAll = () => {
   return db.model('Order').findAll({
     include: [{
       model: db.model('CartItem')
@@ -44,3 +44,12 @@ export const get = () => {
   })
   .then(orders => orders.map(orderToPlain));
 };
+
+export const getByUser = userId => {
+  return db.model('Order').findAll({
+    where: {UserId: userId},
+    include: [db.model('CartItem')]
+  })
+  .then(orders => orders.map(orderToPlain));
+};
+

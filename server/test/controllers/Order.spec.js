@@ -4,11 +4,7 @@ import db from '../../src/db.js';
 import * as Order from '../../src/controllers/Order.js';
 
 describe('Order controller', function() {
-  beforeEach(() => Promise.all([
-    'Order',
-    'CartItem',
-    'Product'
-  ].map(model => db.model(model).sync({force: true}))));
+  beforeEach(() => db.sync({force: true}));
 
   it('get', () => {
     return Promise.all([
@@ -27,7 +23,7 @@ describe('Order controller', function() {
       })
     ])
     .then(() => {
-      return Order.get();
+      return Order.getAll();
     })
     .then(orders => {
       const order = orders[0];
@@ -41,7 +37,7 @@ describe('Order controller', function() {
   });
 
   it('get emty order list', ()=> {
-    return Order.get()
+    return Order.getAll()
     .then(orders => {
       expect(orders).to.be.a('Array');
       expect(orders).to.have.length(0);
@@ -109,5 +105,19 @@ describe('Order controller', function() {
       cart: [{id: '1', qty: 0}]
     }))
     .to.rejectedWith('Validation error: Validation min failed');
+  });
+
+  it('get by userId', () => {
+    return db.model('Order').bulkCreate([
+      {UserId: 1, CartItems: [{ProductId: '1', qty: 1}]},
+      {UserId: 2, CartItems: [{ProductId: '1', qty: 1}]}
+    ], {
+      include: [db.model('CartItem')]
+    })
+    .then(() => Order.getByUser('1'))
+    .then(orders => {
+      expect(orders).to.have.length(1);
+      expect(orders[0]).to.have.property('user', '1');
+    })
   });
 });
