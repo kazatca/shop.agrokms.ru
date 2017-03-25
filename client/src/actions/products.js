@@ -8,7 +8,7 @@ export const set = products => {
 };
 
 export const fetch = () => 
-  (dispatch) => 
+  dispatch => 
     api.get('/product/all')
     .then(products => dispatch(set(products)));
 
