@@ -19,7 +19,8 @@ export default class Money extends Component {
   };
 
   format(){
-    return this.props.format.replace(/:money/, this.props.children);
+    let value = (this.props.children/100).toFixed(0);
+    return this.props.format.replace(/:money/, value);
   }
 
   render() {

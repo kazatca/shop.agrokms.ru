@@ -8,7 +8,7 @@ import {ConnectedRouter} from 'react-router-redux';
 
 import Cart from './Cart';
 import StoreFront from './StoreFront';
-
+import Order from './Order.jsx';
 
 const StoreFrontPage = props => {
   return (
@@ -33,10 +33,12 @@ const App = ({store, history}) => {
         <div>
           <NavLink to="/">StoreFront</NavLink>
           <NavLink to="/cart">Cart</NavLink>
+          <NavLink to="/order">Checkout</NavLink>
           <NavLink to="/about">About</NavLink>
           <Route exact path="/" component={StoreFrontPage} />
           <Route path="/cart" component={Cart} />
           <Route path="/about" component={AboutPage} />
+          <Route path="/order" component={Order} />
         </div>
       </ConnectedRouter>
     </Provider>

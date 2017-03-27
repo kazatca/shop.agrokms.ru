@@ -7,7 +7,7 @@ import Product from '../../src/components/Product';
 const coffee = {
   id: 1,
   name: 'Coffee',
-  price: 50,
+  price: 5000,
   image: '/coffee.png',
   addToCart: ()=>{}
 };

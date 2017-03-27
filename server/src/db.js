@@ -6,7 +6,7 @@ import userSchema from './models/User.js';
 import categorySchema from './models/Category.js';
 
 const ops = {};
-if(process.env.DB_LOGGING !== 'console'){
+if(process.env.DB_LOGGING != 'console'){
   ops.logging = false;
 }
 

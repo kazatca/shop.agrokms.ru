@@ -3,12 +3,12 @@
     "id": "1",
     "name": "Coffee",
     "image": "/coffee.png",
-    "price": 50
+    "price": 5000
   },
   {
     "id": "2",
     "name": "Burger",
     "image": "/burger.png",
-    "price": 130
+    "price": 13000
   }
 ]

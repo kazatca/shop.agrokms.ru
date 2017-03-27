@@ -38,7 +38,7 @@ const renderPage = path => {
 
     return tmpl
       .replace(/<!-- html -->/, html)
-      .replace(/\/\* init state \*\//, `window.__INIT_STATE__ = ${initState};`);
+      .replace(/\/\* init state \*\//, `window.__INIT_STATE__ = '${initState}';`);
   });
 };
 

@@ -4,13 +4,13 @@
     "name": "Coffee",
     "image": "/coffee.png",
     "qty": 10,
-    "price": 50
+    "price": 5000
   },
   {
     "id": "2",
     "name": "Burger",
     "image": "/burger.png",
     "qty": 2,
-    "price": 130
+    "price": 13000
   }
 ]

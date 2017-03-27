@@ -27,5 +27,9 @@ router.get('/my', (req, res) => {
   .then(orders => res.json(orders));
 });
 
+router.put('/', (req, res) => {
+  res.json({id: '1'});
+});
+
 
 export default router;

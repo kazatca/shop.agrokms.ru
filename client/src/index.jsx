@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 
 import createBrowserHistory from 'history/createBrowserHistory';
 
-import {fromJS} from 'transit-immutable-js';
+import {fromJSON} from 'transit-immutable-js';
 
 import reducer from './reducer';
 
@@ -18,13 +18,13 @@ const history = createBrowserHistory();
 
 let initState;
 if(window.__INIT_STATE__){
-  initState = fromJS(window.__INIT_STATE__);
+  initState = fromJSON(window.__INIT_STATE__);
 }
 
 const store = createStore(
   reducer, 
-  applyMiddleware(routerMiddleware(history), thunk),
-  initState
+  initState,
+  applyMiddleware(routerMiddleware(history), thunk)
 );  
 
 

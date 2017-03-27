@@ -6,13 +6,13 @@ import Money from '../../src/components/Money';
 
 describe('Money component', function() {
   it('basic', function() {
-    const money = mount(<Money format={':money р.'} >{50}</Money>);
+    const money = mount(<Money format={':money р.'} >{5000}</Money>);
 
     expect(money.find('.money').text()).to.eql('50 р.');
   });
 
   it('use default format', function() {
-    const money = mount(<Money>{50}</Money>);
+    const money = mount(<Money>{5000}</Money>);
     
     expect(money.find('.money').text()).to.eql('50 р.');
   });
@@ -28,7 +28,7 @@ describe('Money component', function() {
       Reflect.apply(error, console, [msg, ...args]);
     };
 
-    mount(<Money format={'wrong fromat'}>{50}</Money>);
+    mount(<Money format={'wrong fromat'}>{5000}</Money>);
 
     expect(failed).to.be.ok;
   });

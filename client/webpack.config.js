@@ -28,6 +28,16 @@ module.exports = {
   ],
   devServer: {
     contentBase: './dist',
-    hot: true
+    hot: true,
+    proxy: {
+      "/": {
+        target: "http://localhost:3000",
+        bypass: function(req, res) {
+          if(req.path == 'bundle.js'){
+            return '/bundle.js';
+          }
+        }
+      }
+    }
   }
 };

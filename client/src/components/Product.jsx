@@ -31,10 +31,10 @@ export default class Product extends PureComponent{
     return (
       <div className="product">
         <div className="thumbnail">
-          <img src={this.props.image} alt="no image"/>
+          <img src={this.props.image} alt={this.props.name} title={this.props.name}/>
         </div>
         <div>
-          <h1 className="name">{this.props.name}</h1>
+          <h2 className="name">{this.props.name}</h2>
           <Money className="price">{this.props.price}</Money>
           <button className="minus" 
             onClick={() => this.changeQty(this.state.qty*1 - 1)}>

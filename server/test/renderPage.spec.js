@@ -12,7 +12,7 @@ describe('renderPage func', function() {
     const $ = load(page);
     
     expect(page.match(/<!DOCTYPE html>/)).to.be.ok;
-    expect(page.match(/window\.__INIT_STATE__ = \["\~\#iM"/)).to.be.ok;
+    expect(page.match(/window\.__INIT_STATE__ = '\["\~\#iM"/)).to.be.ok;
     expect($('[data-reactroot]')).to.be.ok;
   }));
 

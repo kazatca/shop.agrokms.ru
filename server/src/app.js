@@ -5,6 +5,8 @@ import session from 'express-session';
 import storeFrontRouter from './routes/storeFront.js';
 import productRouter from './routes/product.js';
 import categoryRouter from './routes/category.js';
+import orderRouter from './routes/order.js';
+
 import renderPage from './renderPage';
 
 const app = express();
@@ -25,6 +27,7 @@ app.get('/status', (req, res) => res.send('ok'));
 app.use('/api/storefront', storeFrontRouter);
 app.use('/api/product', productRouter);
 app.use('/api/category', categoryRouter);
+app.use('/api/order', orderRouter);
 
 app.use((req, res, next) => 
   renderPage(req.path)
