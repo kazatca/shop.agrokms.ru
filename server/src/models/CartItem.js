@@ -18,6 +18,9 @@ export default sequelize =>
         isInt: true,
         min: 1
       }
+    },
+    price: {
+      type: Sequelize.INTEGER,
+      allowNull: false
     }
-
   });

@@ -29,9 +29,9 @@ db.model('Product').belongsTo(db.model('Category'), {
   constraints: false
 });
 
-// db.model('Order').hasOne(db.model('User'), {
-//   constraints: false
-// });
+db.model('Order').belongsTo(db.model('User'), {
+  constraints: false
+});
 
 
 export default db;

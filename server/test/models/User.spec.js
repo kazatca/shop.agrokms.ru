@@ -23,10 +23,19 @@ describe('User model', function() {
   it('unique phone', ()=>
     expect(
       db.model('User').bulkCreate([
-        {name: 'Joe',  phone: '+12223334455'},
+        {name: 'Joe', phone: '+12223334455'},
         {name: 'Dave', phone: '+12223334455'}
       ])
       .catch(err => {throw err.errors[0].message;})
     ).to.be.rejectedWith('phone must be unique')
   );
+
+  it('validate role', function() {
+    expect(db.model('User').create({
+      name: 'Joe', 
+      phone: '+12223334455',
+      role: 'wrongRole'
+    }))
+    .to.be.rejectedWith('wrong role');
+  });
 });

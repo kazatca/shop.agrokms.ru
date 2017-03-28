@@ -11,6 +11,14 @@ export default sequelize =>
       allowNull: false,
       unique: true
     },
-    password: Sequelize.STRING
+    password: Sequelize.STRING,
+    address: Sequelize.STRING,
+    role: {
+      type: Sequelize.STRING,
+      validate: {isIn: {msg: 'wrong role', args: [[
+        'admin', 
+        'customer'
+      ]]}}
+    }
   });
 

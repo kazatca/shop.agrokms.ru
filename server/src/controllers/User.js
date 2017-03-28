@@ -10,11 +10,11 @@ const userToPlain = user => {
   };
 };
 
-const genPassword = () => {
+export const genTmpPassword = () => {
   return Math.floor(Math.random()*1000000).toString();
 };
 
-export const create = ({name, phone}) => {
+export const create = user => {
   const password = genPassword();
   return db.model('User').create({
     name,
@@ -23,3 +23,22 @@ export const create = ({name, phone}) => {
   })
   .then(userToPlain);
 };
+
+export const login = (login, password) => 
+  db.model('User').findAll({where: {
+    phone: login
+  }});
+
+export const updateUser = user => 
+  db.model('User').findOne({where: {phone: user.phone}})
+  .then(instance => {
+    if(!instance){
+      return db.model('User').create(user);  
+    }
+    return instance.update(user, {fields: [
+      'name', 
+      'address'
+    ]})
+    .then(() => instance);
+  })
+  .then(instance => instance.get({plain: true}));
