@@ -5,7 +5,7 @@ import * as api from '../src/api.js';
 
 describe('Api methods', function() {
   it('get json', function() {
-    nock('https://localhost')
+    nock(/localhost/)
     .get('/api/json')
     .reply(200, {ok: true});
 
@@ -16,7 +16,7 @@ describe('Api methods', function() {
   });
 
   it('get 404', () => {
-    nock('https://localhost')
+    nock(/localhost/)
     .get('/api/404')
     .reply(404);
 

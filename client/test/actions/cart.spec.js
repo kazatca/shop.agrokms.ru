@@ -1,12 +1,12 @@
 import {expect} from 'chai';
 import {OrderedMap, Map} from 'immutable';
 
-import reducer from '../src/reducers/cart';
+import reducer from '../../src/reducers/cart';
 
 // const [coffee, burger] = require('./mocks/products.json');
 
 describe('Cart actions', function() {
-  it('add to cart empty cart', function() {
+  it('add to empty cart', function() {
     const state = OrderedMap();
 
     const action = {type: 'CART.ADD', id: 1, qty: 1 };

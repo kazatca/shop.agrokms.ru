@@ -21,6 +21,7 @@ export class OrderDummy extends Component {
         <Phone />
         <Address />
         <button 
+          className="submit"
           onClick={this.props.submit}>
           Оформить
         </button>
@@ -28,7 +29,6 @@ export class OrderDummy extends Component {
     );
   }
 }
-
 
 const mapDispatchToProps = dispatch => {
   return {

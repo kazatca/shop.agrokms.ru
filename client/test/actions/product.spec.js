@@ -15,7 +15,7 @@ describe('Product actions', function() {
       applyMiddleware(thunk)
     );
 
-    nock('https://localhost')
+    nock(/localhost/)
     .get('/api/product/all')
     .reply(200, [
       {id: '1', name: 'Coffee', price: 5000}
