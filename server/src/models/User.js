@@ -12,6 +12,7 @@ export default sequelize =>
       unique: true
     },
     password: Sequelize.STRING,
+    tmpPassword: Sequelize.STRING,
     address: Sequelize.STRING,
     role: {
       type: Sequelize.STRING,

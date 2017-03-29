@@ -8,8 +8,7 @@ const hasRole = (...roles) => {
     if(req.session && req.session.role in rolesMap){
       return next();
     }
-    res.writeHead(401);
-    res.end();
+    res.status(401).end();
   };
 };
 

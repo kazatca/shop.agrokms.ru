@@ -66,9 +66,7 @@ export const add = order =>
 
 export const getAll = () => {
   return db.model('Order').findAll({
-    include: [{
-      model: db.model('CartItem')
-    }]
+    include: [db.model('CartItem')]
   })
   .then(orders => orders.map(orderToPlain));
 };
