@@ -9,10 +9,11 @@ router.post('/login', (req, res) =>
     if(user){
       req.session.userId = user.id;
       req.session.role = user.role;
+      return res.json(user);
     }
-    return user;
+    res.status(401).end();
   })
-  .then(user => res.json(user))
+
 );
 
 router.get('/', (req, res) => {

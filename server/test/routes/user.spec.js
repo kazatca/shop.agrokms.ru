@@ -38,7 +38,8 @@ describe('User route', function() {
       password: hash
     }))
     .then(() => 
-      request(app).post({
+      request(app).post('/api/user/login')
+      .send({
         login: '+12223334455', 
         password: 'wrong password'
       })
@@ -54,7 +55,8 @@ describe('User route', function() {
       password: hash
     }))
     .then(() => 
-      request(app).post({
+      request(app).post('/api/user/login')
+      .send({
         login: '+122233344', 
         password: 'secret'
       })

@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import db from '../db.js';
 // import * as sms from '../sms.js';
 
