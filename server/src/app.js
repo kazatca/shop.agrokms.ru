@@ -8,7 +8,7 @@ import categoryRouter from './routes/category.js';
 import orderRouter from './routes/order.js';
 import userRouter from './routes/user.js';
 
-import renderPage from './renderPage';
+import renderPage from './renderPage.jsx';
 
 const app = express();
 

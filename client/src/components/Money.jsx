@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import css from '../scss/money.scss';
 
 export default class Money extends Component {
 

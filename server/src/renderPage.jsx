@@ -8,12 +8,12 @@ import {createStore, applyMiddleware} from 'redux';
 import {createMemoryHistory as createHistory} from 'history';
 import {routerMiddleware, push} from 'react-router-redux';
 
-import reducer from '../../client/src/reducer';
-import App from '../../client/src/components/App';
+import reducer from '../../client/src/reducer.js';
+import App from '../../client/src/components/App.jsx';
 
-import {getAll as getStoreFront} from './controllers/StoreFront';
+import {getAll as getStoreFront} from './controllers/StoreFront.js';
 
-import {set as setProducts} from '../../client/src/actions/products';
+import {set as setProducts} from '../../client/src/actions/products.js';
 
 const tmpl = readFileSync(`${__dirname}/../../client/dist/index.html`, 'utf-8');
 

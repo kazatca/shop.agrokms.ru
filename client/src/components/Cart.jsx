@@ -2,13 +2,10 @@ import React, {PureComponent, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {Helmet} from 'react-helmet';
 import {NavLink} from 'react-router-dom';
-import css from '../scss/cart.scss';
 
-console.log(css);
-
-import {changeQty, removeItem, removeAll} from '../actions/cart';
-import CartItem from './CartItem';
-import Money from './Money';
+import {changeQty, removeItem, removeAll} from '../actions/cart.js';
+import CartItem from './CartItem.jsx';
+import Money from './Money.jsx';
 
 
 class Total extends PureComponent {
@@ -36,6 +33,15 @@ class FilledCart extends PureComponent{
     removeAll: PropTypes.func.isRequired
   };
 
+  getTotal(){
+    return this.props.items.reduce((total, item) => {
+      return {
+        cost: total.cost + item.qty * item.price
+      };
+    }, 
+    {cost: 0});
+  }
+
   render(){
     return (
       <table className="cart">
@@ -61,7 +67,7 @@ class FilledCart extends PureComponent{
 class EmptyCart extends PureComponent {
   render() {
     return (
-      <div>
+      <div className="empty-cart">
         <div>Ваша корзина пуста</div>
         <NavLink exact to="/">вернуться в магазин</NavLink>
       </div>
@@ -83,20 +89,11 @@ export class CartDummy extends PureComponent{
     items: []
   };
 
-  getTotal(){
-    return this.props.items.reduce((total, item) => {
-      return {
-        cost: total.cost + item.qty * item.price
-      };
-    }, 
-    {cost: 0});
-  }
-
   render(){
     return (
       <div>
         <Helmet>
-          <title>Cart</title>
+          <title>Корзина</title>
         </Helmet>
         <div className="cart">
           {

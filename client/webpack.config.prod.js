@@ -1,6 +1,8 @@
 /* eslint-env node */
 var webpack = require('webpack');
 var path = require('path');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const extractCSS = new ExtractTextPlugin('style.css');
 
 module.exports = {
   entry: [
@@ -16,6 +18,12 @@ module.exports = {
       test: /\.jsx?$/,
       exclude: /node_modules/,
       loader: 'react-hot-loader!babel-loader'
+    }, {
+      test: /\.scss$/,
+      use: extractCSS.extract({
+        fallback: 'style-loader',
+        use: 'css-loader!sass-loader'
+      })
     }]
   },
   plugins: [
@@ -28,7 +36,8 @@ module.exports = {
       compress: {
         warnings: false
       }
-    })
+    }),
+    extractCSS
   ],
   resolve: {
     extensions: ['.js', '.jsx']

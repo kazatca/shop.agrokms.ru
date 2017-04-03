@@ -4,13 +4,9 @@ import {Route} from 'react-router';
 import {NavLink} from 'react-router-dom';
 import {ConnectedRouter} from 'react-router-redux';
 
-import Cart from './Cart';
-import StoreFront from './StoreFront';
+import Cart from './Cart.jsx';
+import StoreFront from './StoreFront.jsx';
 import Order from './Order.jsx';
-import '../scss/main.scss';
-import '../scss/header.scss';
-import '../scss/menu.scss';
-
 
 const StoreFrontPage = props => {
   return (

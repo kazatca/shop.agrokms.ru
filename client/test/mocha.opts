@@ -1,4 +1,5 @@
 --compilers js:../node_modules/babel-core/register 
 --compilers jsx:../node_modules/babel-core/register 
+--require ../node_modules/mocha-clean
 --require ./test/test_helper.js 
 ./test/**/*@(.js|.jsx)

@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+
 import {setName} from '../actions/user.js';
 
 export class UserNameDummy extends Component{

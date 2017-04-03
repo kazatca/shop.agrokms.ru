@@ -1,17 +1,13 @@
 import React from 'react';
 import {render} from 'react-dom';
-
 import {createStore, applyMiddleware} from 'redux';
 import {routerMiddleware} from 'react-router-redux';
 import thunk from 'redux-thunk';
-
 import createBrowserHistory from 'history/createBrowserHistory';
-
 import {fromJSON} from 'transit-immutable-js';
 
-import reducer from './reducer';
-
-import App from './components/App';
+import reducer from './reducer.js';
+import App from './components/App.jsx';
 
 
 const history = createBrowserHistory();
