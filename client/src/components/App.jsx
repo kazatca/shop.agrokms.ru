@@ -1,7 +1,5 @@
 import React, {PropTypes} from 'react';
-
 import {Provider} from 'react-redux';
-
 import {Route} from 'react-router';
 import {NavLink} from 'react-router-dom';
 import {ConnectedRouter} from 'react-router-redux';
@@ -9,11 +7,14 @@ import {ConnectedRouter} from 'react-router-redux';
 import Cart from './Cart';
 import StoreFront from './StoreFront';
 import Order from './Order.jsx';
+import '../scss/main.scss';
+import '../scss/header.scss';
+import '../scss/menu.scss';
+
 
 const StoreFrontPage = props => {
   return (
     <div>
-      <Cart />
       <StoreFront />
     </div>
   );
@@ -31,14 +32,22 @@ const App = ({store, history}) => {
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <div>
-          <NavLink to="/">StoreFront</NavLink>
-          <NavLink to="/cart">Cart</NavLink>
-          <NavLink to="/order">Checkout</NavLink>
-          <NavLink to="/about">About</NavLink>
-          <Route exact path="/" component={StoreFrontPage} />
-          <Route path="/cart" component={Cart} />
-          <Route path="/about" component={AboutPage} />
-          <Route path="/order" component={Order} />
+          <div className="header">
+            <div className="logo col-sm-3">LOGO</div>
+            <div className="menu col-sm-9">
+              <div>
+                <NavLink exact to="/">Магазин</NavLink>
+                <NavLink to="/cart">Корзина</NavLink>
+                <NavLink to="/about">Контакты</NavLink>
+              </div>
+            </div>
+          </div>
+          <div className="container">
+            <Route exact path="/" component={StoreFrontPage} />
+            <Route path="/cart" component={Cart} />
+            <Route path="/about" component={AboutPage} />
+            <Route path="/order" component={Order} />
+          </div>
         </div>
       </ConnectedRouter>
     </Provider>

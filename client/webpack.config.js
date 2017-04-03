@@ -1,12 +1,15 @@
 /* eslint-env node */
 var webpack = require('webpack');
 var path = require('path');
+// var ExtractTextPlugin = require('extract-text-webpack-plugin');
+// const extractCSS = new ExtractTextPlugin('style.css');
+
 
 module.exports = {
   entry: [
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
-    './src/index.jsx'
+    './src'
   ],
   output: {
     path: path.join(__dirname, 'dist'),
@@ -18,13 +21,21 @@ module.exports = {
       test: /\.jsx?$/,
       exclude: /node_modules/,
       loader: 'react-hot-loader!babel-loader'
+    }, {
+      test: /\.scss$/,
+      loader: 'style-loader!css-loader!sass-loader'
+      // use: extractCSS.extract({
+      //   fallback: 'style-loader',
+      //   use: 'css-loader!sass-loader'
+      // })
     }]
   },
   resolve: {
     extensions: ['.js', '.jsx']
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    // extractCSS
   ],
   devServer: {
     contentBase: './dist',

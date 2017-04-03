@@ -1,0 +1,14 @@
+.menu > div{
+  float: right;
+  
+}
+.menu a{
+  padding: 10px;
+  text-decoration: none;
+  line-height: 90px;
+}
+
+.menu .active{
+  // font-weight: bold;
+  color: #ad6f53;
+}
