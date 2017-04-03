@@ -21,7 +21,7 @@ app.use(session({
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 
-app.use(express.static('../../client/dist', {index: false}));
+app.use(express.static(`${__dirname}/../../client/dist`, {index: false}));
 
 app.get('/status', (req, res) => res.send('ok'));
 

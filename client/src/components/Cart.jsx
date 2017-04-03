@@ -1,5 +1,6 @@
 import React, {PureComponent, PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {Helmet} from 'react-helmet';
 
 import {changeQty, removeItem, removeAll} from '../actions/cart';
 import CartItem from './CartItem';
@@ -47,22 +48,27 @@ export class CartDummy extends PureComponent{
 
   render(){
     return (
-      <table className="cart">
-        <tbody>
-          {this.props.items.map(item => <CartItem 
-            {...item} 
-            key={item.id}
-            changeQty={(id, qty) => this.props.changeQty(id, qty)}
-            removeItem={id=> this.props.removeItem(id)}
-          />)}  
-          <Total {...this.getTotal()} />
-          <tr><td colSpan={5}>
-            <button className="removeAll"
-              onClick={() => this.props.removeAll()}
-            >Убрать все</button>
-          </td></tr>
-        </tbody>
-      </table>
+      <div>
+        <Helmet>
+          <title>Cart</title>
+        </Helmet>
+        <table className="cart">
+          <tbody>
+            {this.props.items.map(item => <CartItem 
+              {...item} 
+              key={item.id}
+              changeQty={(id, qty) => this.props.changeQty(id, qty)}
+              removeItem={id=> this.props.removeItem(id)}
+            />)}  
+            <Total {...this.getTotal()} />
+            <tr><td colSpan={5}>
+              <button className="removeAll"
+                onClick={() => this.props.removeAll()}
+              >Убрать все</button>
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
     );
   }
 }

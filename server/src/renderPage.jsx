@@ -3,7 +3,7 @@ import React from 'react';
 import {readFileSync} from 'fs';
 import {renderToString} from 'react-dom/server';
 import {toJSON} from 'transit-immutable-js';
-
+import {Helmet} from 'react-helmet';
 import {createStore, applyMiddleware} from 'redux';
 import {createMemoryHistory as createHistory} from 'history';
 import {routerMiddleware, push} from 'react-router-redux';
@@ -34,9 +34,13 @@ const renderPage = path => {
       store={store}
       history={history}
     />);
+    
+    const head = Helmet.renderStatic();
+
     const initState = toJSON(store.getState());
 
     return tmpl
+      .replace(/<!-- title -->/, head.title.toString())
       .replace(/<!-- html -->/, html)
       .replace(/\/\* init state \*\//, `window.__INIT_STATE__ = '${initState}';`);
   });

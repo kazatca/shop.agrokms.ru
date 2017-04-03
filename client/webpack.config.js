@@ -30,7 +30,7 @@ module.exports = {
     contentBase: './dist',
     hot: true,
     proxy: {
-      "/": {
+      "/api": {
         target: "http://localhost:3000",
         bypass: function(req, res) {
           if(req.path == 'bundle.js'){

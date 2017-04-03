@@ -6,7 +6,7 @@ import renderPage from '../src/renderPage';
 const [coffee, burger] = require('./mocks/products.json');
 
 describe('renderPage func', function() {
-  beforeEach(() => db.model('Product').sync({force: true}));
+  beforeEach(() => db.sync({force: true}));
 
   it('basic', () => renderPage('/').then(page => {
     const $ = load(page);
@@ -28,4 +28,10 @@ describe('renderPage func', function() {
       expect($('.product:nth-child(2) .name').text()).to.eql('Burger');
     });
   });
+
+  it('title', () => renderPage('/').then(page => {
+    const $ = load(page);
+    
+    expect($('title').text()).to.eql('Storefront');
+  }));
 });
