@@ -3,6 +3,7 @@ var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const extractCSS = new ExtractTextPlugin('style.css');
+var Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: [
@@ -37,7 +38,8 @@ module.exports = {
         warnings: false
       }
     }),
-    extractCSS
+    extractCSS,
+    new Dotenv()
   ],
   resolve: {
     extensions: ['.js', '.jsx']
