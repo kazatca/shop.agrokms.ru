@@ -8,7 +8,7 @@ import {fromJSON} from 'transit-immutable-js';
 
 import reducer from './reducer.js';
 import App from './components/App.jsx';
-
+import './scss/main.scss';
 
 const history = createBrowserHistory();
 

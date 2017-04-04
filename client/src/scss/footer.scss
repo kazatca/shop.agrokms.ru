@@ -1,0 +1,14 @@
+.footer{
+  position: absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  background-color: #f5e8bf;
+  box-shadow: 0 3px 3px rgba(0,0,0,0.05);
+  height: 70px;
+  text-align: center;
+  a{
+    text-decoration: none;
+    line-height: 70px;
+  }
+}

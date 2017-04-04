@@ -10,7 +10,7 @@ export default {
   format: 'cjs',
   plugins: [
     babel({
-      exclude: 'node_modules/**',
+      exclude: ['node_modules/**', '../client/src/scss/**'],
       babelrc: false,
       presets: [
         ["es2015", {modules: false}],

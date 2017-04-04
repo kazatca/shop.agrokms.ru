@@ -1,9 +1,7 @@
 /* eslint-env node */
 var webpack = require('webpack');
 var path = require('path');
-// var ExtractTextPlugin = require('extract-text-webpack-plugin');
-// const extractCSS = new ExtractTextPlugin('style.css');
-
+var Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: [
@@ -24,10 +22,6 @@ module.exports = {
     }, {
       test: /\.scss$/,
       loader: 'style-loader!css-loader!sass-loader'
-      // use: extractCSS.extract({
-      //   fallback: 'style-loader',
-      //   use: 'css-loader!sass-loader'
-      // })
     }]
   },
   resolve: {
@@ -35,7 +29,7 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    // extractCSS
+    new Dotenv()
   ],
   devServer: {
     contentBase: './dist',

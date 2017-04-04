@@ -1,12 +1,15 @@
 import React, {PropTypes} from 'react';
 import {Provider} from 'react-redux';
 import {Route} from 'react-router';
-import {NavLink} from 'react-router-dom';
+
 import {ConnectedRouter} from 'react-router-redux';
 
 import Cart from './Cart.jsx';
 import StoreFront from './StoreFront.jsx';
 import Order from './Order.jsx';
+import Header from './Header.jsx';
+import Footer from './Footer.jsx';
+import AboutPage from './AboutPage.jsx';
 
 const StoreFrontPage = props => {
   return (
@@ -16,34 +19,20 @@ const StoreFrontPage = props => {
   );
 };
 
-const AboutPage = () => {
-  return (
-    <div className="about">o.O</div>
-  );
-};
-
 
 const App = ({store, history}) => {
   return (
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <div>
-          <div className="header">
-            <div className="logo col-sm-3">LOGO</div>
-            <div className="menu col-sm-9">
-              <div>
-                <NavLink exact to="/">Магазин</NavLink>
-                <NavLink to="/cart">Корзина</NavLink>
-                <NavLink to="/about">Контакты</NavLink>
-              </div>
-            </div>
-          </div>
-          <div className="container">
+          <Header />
+          <div className="content container">
             <Route exact path="/" component={StoreFrontPage} />
             <Route path="/cart" component={Cart} />
             <Route path="/about" component={AboutPage} />
             <Route path="/order" component={Order} />
           </div>
+          <Footer />
         </div>
       </ConnectedRouter>
     </Provider>

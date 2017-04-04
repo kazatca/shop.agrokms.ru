@@ -3,6 +3,29 @@
   color: #54200b;
 
 }
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
 body{
+  position: relative;
+  padding-bottom: 75px;
+  min-height: 100%;
   background-color: #ffffdb;
 }
+
+.content{
+  padding-top: 10px;
+}
+
+@import "./header.scss";
+@import "./footer.scss";
+
+
+@import './about.scss';
