@@ -14,6 +14,7 @@ import App from '../../client/src/components/App.jsx';
 import {getAll as getStoreFront} from './controllers/StoreFront.js';
 
 import {set as setProducts} from '../../client/src/actions/products.js';
+import {setGMapKey} from '../../client/src/actions/creds.js';
 
 const tmpl = readFileSync(`${__dirname}/../../client/dist/index.html`, 'utf-8');
 
@@ -28,6 +29,7 @@ const renderPage = path => {
     );
 
     store.dispatch(push(path));
+    store.dispatch(setGMapKey(process.env.GMAP_KEY));
     store.dispatch(setProducts(storeFront.products));
 
     const html = renderToString(<App 
