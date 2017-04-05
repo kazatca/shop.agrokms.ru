@@ -1,19 +1,17 @@
 import {expect} from 'chai';
 
 import db from '../../src/db';
+import {init, truncate} from '../dbInit.js';
 import {getAll} from '../../src/controllers/StoreFront';
 
+const [coffee, burger] = require('../mocks/products.json');
+
 describe('StoreFront controller', function() {
-  beforeEach(() => Promise.all([
-    db.model('Product').sync({force: true}),
-    db.model('Category').sync({force: true})
-  ]));
+  before(init);
+  beforeEach(() => truncate('Product', 'Category'));
 
   it('basic', function() {
-    return db.model('Product').bulkCreate([
-      {name: 'Coffee', image: '/coffee.png', price: 5000},
-      {name: 'Burger', image: '/burger.png', price: 8000}
-    ])
+    return db.model('Product').bulkCreate([coffee, burger])
     .then(() => getAll())
     .then(store => {
       const {products} = store;
@@ -43,10 +41,10 @@ describe('StoreFront controller', function() {
   it('with categories', function() {
     return Promise.all([
       db.model('Product').create({
-        name: 'Coffee', price: 5000, CategoryId: 1
+        ...coffee, CategoryId: 1
       }),
       db.model('Category').create({
-        name: 'Drinks'
+        id: 1, name: 'Drinks'
       })
     ])
     .then(() => getAll())

@@ -2,19 +2,18 @@ import {expect} from 'chai';
 import request from 'supertest';
 
 import db from '../../src/db.js';
+import {init, truncate} from '../dbInit.js';
 import app from '../../src/app.js';
 
+const [coffee] = require('../mocks/products.json');
 const browse = () => request(app);
-const model = db.model('Product');
 
 describe('Product route', function() {
-  beforeEach(() => db.sync({force: true}));
+  before(init);
+  beforeEach(() => truncate('Product'));
 
   it('get all', () => 
-    model.create({
-      name: 'Coffee',
-      price: 5000
-    })
+    db.model('Product').create(coffee)
     .then(() => 
       browse()
       .get('/api/product/all')
@@ -22,6 +21,7 @@ describe('Product route', function() {
       .then(({body}) => {
         expect(body).to.have.length(1);
         expect(body[0]).to.have.property('id', '1');
+        expect(body[0]).to.have.property('name', 'Coffee');
         expect(body[0]).to.have.property('price', 5000);
       })
     )
@@ -32,9 +32,9 @@ describe('Product route', function() {
     .send({name: 'Coffee'})
     .expect(200)
     .then(({body}) => {
-      expect(body).to.have.property('id', '1');
+      expect(body).to.have.property('id');
     })
-    .then(() => model.findAll())
+    .then(() => db.model('Product').findAll())
     .then(products => {
       expect(products).to.have.length(1);
       expect(products[0].get({plain: true})).to.have.property('name', 'Coffee');
@@ -42,7 +42,7 @@ describe('Product route', function() {
   );
 
   it('change name of product', () => 
-    model.create({name: 'Coffee', price: 5000})
+    db.model('Product').create(coffee)
     .then(() => browse()
       .post('/api/product/1')
       .send({name: 'Burger'})
@@ -52,7 +52,7 @@ describe('Product route', function() {
         expect(body).to.have.property('name', 'Burger');
         expect(body).to.have.property('price', 5000);
       })
-      .then(() => model.findAll())
+      .then(() => db.model('Product').findAll())
       .then(products => {
         expect(products).to.have.length(1);
         expect(products[0].get({plain: true})).to.have.property('name', 'Burger');

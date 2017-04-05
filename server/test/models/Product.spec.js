@@ -1,16 +1,15 @@
 import {expect} from 'chai';
 import db from '../../src/db';
+import {init, truncate} from '../dbInit.js';
+
+const [coffee, burger] = require('../mocks/products.json');
 
 describe('Product model', function() {
-  beforeEach(() => Promise.all([
-    db.model('Category').sync({force: true}),
-    db.model('Product').sync({force: true})
-  ]));
+  before(init);
+  beforeEach(() => truncate('Product', 'Category'));
 
   it('basic', () =>
-    db.model('Product').create({
-      name: 'Coffee'
-    })
+    db.model('Product').create(coffee)
     .then(() => db.model('Product').findAndCountAll())
     .then(result => expect(result.count).to.eql(1))
   );
@@ -33,10 +32,7 @@ describe('Product model', function() {
   );
 
   it('fetching', ()=>
-    db.model('Product').bulkCreate([
-      {name: 'Coffee', price: 5000},
-      {name: 'Burger', price: 8000}
-    ])
+    db.model('Product').bulkCreate([coffee, burger])
     .then(() => db.model('Product').findAll())
     .then(products => products.map(product => 
       product.get({plain: true}) 
@@ -56,7 +52,7 @@ describe('Product model', function() {
 
   it('with category', ()=>{
     return db.model('Product').create({
-      name: 'Coffee',
+      ...coffee,
       CategoryId: 1
     }, {
       include: [db.model('Category')]

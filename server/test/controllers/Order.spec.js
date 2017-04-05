@@ -1,23 +1,25 @@
 import {expect} from 'chai';
 
 import db from '../../src/db.js';
+import {init, truncate} from '../dbInit.js';
+
 import * as Order from '../../src/controllers/Order.js';
 
+const [coffee, burger] = require('../mocks/products.json');
+
 describe('Order controller', function() {
-  beforeEach(() => Promise.all([
+  before(init);
+  
+  beforeEach(() => truncate(
+    'Product', 
     'Order', 
-    'User', 
-    'CartItem',
-    'Product'
-  ].map(model=> db.model(model).sync({force: true}))
+    'CartItem', 
+    'User'
   ));
 
   it('get', () => {
     return Promise.all([
-      db.model('Product').bulkCreate([
-        {name: 'Coffee'},
-        {name: 'Burger'}
-      ]),
+      db.model('Product').bulkCreate([coffee, burger]),
       db.model('Order').create({
         UserId: 1,
         CartItems: [
@@ -33,7 +35,7 @@ describe('Order controller', function() {
     })
     .then(orders => {
       const order = orders[0];
-      expect(order).to.have.property('id', '1');
+      expect(order).to.have.property('id');
       expect(order).to.have.property('user', '1');
       expect(order.cart).to.deep.have.members([
         {id: '1', qty: 1, price: 5000},
@@ -51,10 +53,7 @@ describe('Order controller', function() {
   });
 
   it('getProducts', ()=> 
-    db.model('Product').bulkCreate([
-      {name: 'Coffee', price: 5000},
-      {name: 'Burger', price: 8000}
-    ])
+    db.model('Product').bulkCreate([coffee, burger])
     .then(() => Order.getProducts([1, 2]))
     .then(products => {
       expect(products).to.have.property('1');
@@ -68,10 +67,7 @@ describe('Order controller', function() {
   );
 
   it('add order', function() {
-    return db.model('Product').bulkCreate([
-      {name: 'Coffee', price: 5000},
-      {name: 'Burger', price: 8000}
-    ])
+    return db.model('Product').bulkCreate([coffee, burger])
     .then(() => Order.add({
       status: 'Delivered',
       user: {
@@ -94,7 +90,7 @@ describe('Order controller', function() {
     .then(order => {
       expect(order).to.have.property('status', 'Delivered');
 
-      expect(order).to.have.property('UserId', 1);
+      expect(order).to.have.property('UserId');
       expect(order).to.have.property('CartItems');
 
       expect(order.CartItems).to.have.length(2);
@@ -105,7 +101,7 @@ describe('Order controller', function() {
       expect(order.CartItems[1]).to.have.property('qty', 1);
       expect(order.CartItems[1]).to.have.property('price', 8000);
 
-      expect(order.User).to.have.property('id', 1);
+      expect(order.User).to.have.property('id');
       expect(order.User).to.have.property('name', 'Joe');
       expect(order.User).to.have.property('phone', '+12223334455');
       expect(order.User).to.have.property('address', 'Lenina, 1');
@@ -113,8 +109,7 @@ describe('Order controller', function() {
   });
 
   it('default status is Pending', ()=>
-    db.model('Product')
-    .create({name: 'Coffee', price: 5000})
+    db.model('Product').create(coffee)
     .then(() => Order.add({
       user: {
         name: 'Joe',
@@ -154,10 +149,7 @@ describe('Order controller', function() {
   });
 
   it('throw on wrong qty in cart', ()=>
-    db.model('Product').bulkCreate([
-      {name: 'Coffee', price: 5000},
-      {name: 'Burger', price: 8000}
-    ])
+    db.model('Product').bulkCreate([coffee, burger])
     .then(() => expect(Order.add({
       user: {
         name: 'Joe',
@@ -170,10 +162,7 @@ describe('Order controller', function() {
   );
 
   it('get by userId', () => 
-    db.model('Product').bulkCreate([
-      {name: 'Coffee', price: 5000},
-      {name: 'Burger', price: 8000}
-    ])
+    db.model('Product').bulkCreate([coffee, burger])
     .then(() => db.model('Order').bulkCreate([
       {UserId: 1, CartItems: [{ProductId: '1', qty: 1, price: 5000}]},
       {UserId: 2, CartItems: [{ProductId: '1', qty: 1, price: 8000}]}
@@ -188,10 +177,7 @@ describe('Order controller', function() {
   );
 
   it('change username and address on second order', () => 
-    db.model('Product').create({
-      name: 'Coffee', 
-      price: 5000
-    })
+    db.model('Product').create(coffee)
     .then(() => db.model('User').create({
       name: 'Joe', 
       phone: '+12223334455', 

@@ -2,17 +2,19 @@ import {expect} from 'chai';
 import request from 'supertest';
 
 import db from '../../src/db.js';
+import {init, truncate} from '../dbInit.js';
 import app from '../../src/app.js';
 
 const browse = () => request(app);
 
 describe('StoreFront route', function() {
-  beforeEach(() => db.sync({force: true}));
+  before(init);
+  beforeEach(() => truncate('Product', 'Category'));
 
   it('get /', () => 
     Promise.all([
-      db.model('Product').create({name: 'Coffee'}),
-      db.model('Category').create({name: 'Drinks'})
+      db.model('Product').create({id: 1, name: 'Coffee'}),
+      db.model('Category').create({id: 1, name: 'Drinks'})
     ])
     .then(() => browse()
       .get('/api/storefront')

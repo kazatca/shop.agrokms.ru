@@ -1,8 +1,10 @@
 import {expect} from 'chai';
 import db from '../../src/db';
+import {init, truncate} from '../dbInit.js';
 
 describe('Category model', function() {
-  beforeEach(() => db.model('Category').sync({force: true}));
+  before(init);
+  beforeEach(() => truncate('Category'));
 
   it('basic', () =>
     db.model('Category').create({

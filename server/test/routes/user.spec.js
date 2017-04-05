@@ -2,15 +2,18 @@ import {expect} from 'chai';
 import request from 'supertest';
 
 import db from '../../src/db.js';
+import {init, truncate} from '../dbInit.js';
 import app from '../../src/app.js';
 import {getHash} from '../../src/controllers/User.js'; 
 
 describe('User route', function() {
-  beforeEach(() => db.model('User').sync({force: true}));
+  before(init);
+  beforeEach(() => truncate('User'));
 
   it('login', () => 
     getHash('secret')
     .then(hash => db.model('User').create({
+      id: 1,
       name: 'Joe',
       phone: '+12223334455',
       password: hash
@@ -67,6 +70,7 @@ describe('User route', function() {
   it('get user info', ()=> 
     getHash('secret')
     .then(hash => db.model('User').create({
+      id: 1,
       name: 'Joe',
       phone: '+12223334455',
       password: hash
