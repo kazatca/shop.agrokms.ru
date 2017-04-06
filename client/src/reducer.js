@@ -5,6 +5,7 @@ import {Map} from 'immutable';
 import cartReducer from './reducers/cart';
 import productsReducer from './reducers/products';
 import userReducer from './reducers/user.js';
+import credsReducer from './reducers/creds.js';
 
 import {routerReducer} from 'react-router-redux';
 
@@ -21,6 +22,7 @@ const reducer = combineReducers({
   cart: cartReducer,
   products: productsReducer,
   user: userReducer,
+  creds: credsReducer,
   router: routerReducer
 });
 

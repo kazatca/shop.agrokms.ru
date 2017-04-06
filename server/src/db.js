@@ -33,5 +33,4 @@ db.model('Order').belongsTo(db.model('User'), {
   constraints: false
 });
 
-
 export default db;

@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import GoogleMap from 'google-map-react';
+import {connect} from 'react-redux';
 
 const Marker = ({text}) => <p className="marker">{text}</p>;
 Marker.propTypes = {
@@ -25,7 +26,7 @@ function createMapOptions(maps) {
   };
 }
 
-class GMap extends Component {
+class GMapDummy extends Component {
   static propTypes = {
     center: PropTypes.shape({
       lat: PropTypes.number,
@@ -50,9 +51,7 @@ class GMap extends Component {
       <div className="map">
         <GoogleMap
           bootstrapURLKeys={{
-            /* eslint-disable */
-            key: process.env.GMAP_KEY,
-            /* eslint-enable */
+            key: this.props.apiKey,
             language: 'ru'    
           }}
           center={this.props.center}
@@ -65,5 +64,14 @@ class GMap extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  console.log(state.getIn(['creds', 'google_map']));
+  return {
+    apiKey: state.getIn(['creds', 'google_map'])
+  };
+};
+
+const GMap = connect(mapStateToProps)(GMapDummy);
 
 export default GMap;
