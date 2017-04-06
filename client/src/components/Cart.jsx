@@ -1,9 +1,11 @@
 import React, {PureComponent, PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {Helmet} from 'react-helmet';
+import {NavLink} from 'react-router-dom';
 
-import {changeQty, removeItem, removeAll} from '../actions/cart';
-import CartItem from './CartItem';
-import Money from './Money';
+import {changeQty, removeItem, removeAll} from '../actions/cart.js';
+import CartItem from './CartItem.jsx';
+import Money from './Money.jsx';
 
 
 class Total extends PureComponent {
@@ -23,17 +25,12 @@ class Total extends PureComponent {
   }
 }
 
-export class CartDummy extends PureComponent{
-
+class FilledCart extends PureComponent{
   static propTypes = {
     items: PropTypes.array,
     changeQty: PropTypes.func.isRequired,
     removeItem: PropTypes.func.isRequired,
     removeAll: PropTypes.func.isRequired
-  };
-
-  static defaultProps = {
-    items: []
   };
 
   getTotal(){
@@ -57,12 +54,55 @@ export class CartDummy extends PureComponent{
           />)}  
           <Total {...this.getTotal()} />
           <tr><td colSpan={5}>
-            <button className="removeAll"
+            <button className={'remove-all'}
               onClick={() => this.props.removeAll()}
             >Убрать все</button>
           </td></tr>
         </tbody>
       </table>
+    );
+  }  
+}
+
+class EmptyCart extends PureComponent {
+  render() {
+    return (
+      <div className="empty-cart">
+        <div>Ваша корзина пуста</div>
+        <NavLink exact to="/">вернуться в магазин</NavLink>
+      </div>
+    );
+  }
+}
+
+
+export class CartDummy extends PureComponent{
+
+  static propTypes = {
+    items: PropTypes.array,
+    changeQty: PropTypes.func.isRequired,
+    removeItem: PropTypes.func.isRequired,
+    removeAll: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    items: []
+  };
+
+  render(){
+    return (
+      <div>
+        <Helmet>
+          <title>Корзина</title>
+        </Helmet>
+        <div className="cart">
+          {
+            this.props.items.length?
+            <FilledCart {...this.props}/> :
+            <EmptyCart /> 
+          }
+        </div>
+      </div>
     );
   }
 }

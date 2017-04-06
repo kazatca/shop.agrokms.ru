@@ -1,5 +1,5 @@
 import React, {PureComponent, PropTypes} from 'react';
-import Money from './Money';
+import Money from './Money.jsx';
 
 export default class Product extends PureComponent{
 

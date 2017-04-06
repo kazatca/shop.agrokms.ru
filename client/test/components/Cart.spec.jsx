@@ -4,6 +4,8 @@ import {fromJS} from 'immutable';
 import {mount} from 'enzyme';
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
+import {ConnectedRouter} from 'react-router-redux';
+import {createMemoryHistory} from 'history';
 
 import {set as setProducts} from '../../src/actions/products';
 import {
@@ -43,7 +45,15 @@ describe('Cart component', function() {
   });
 
   it('empty cart', ()=>{
-    mount(<CartDummy {...dispatch} />);
+    const history = createMemoryHistory();
+    const store = createStore(reducer);
+    
+    const cart = mount(<Provider store={store}>
+      <ConnectedRouter history={history}>
+        <CartDummy {...dispatch} />
+      </ConnectedRouter>
+    </Provider>);
+    expect(cart.find('.empty-cart')).to.be.ok;
   });
 
   it('total', function() {
@@ -89,9 +99,13 @@ describe('Cart component', function() {
   });
 
   it('add to cart', ()=>{
+    const history = createMemoryHistory();
     const store = createStore(reducer);
+
     const cart = mount(<Provider store={store}>
-      <Cart />
+      <ConnectedRouter history={history}>
+        <Cart />
+      </ConnectedRouter>
     </Provider>);
 
     store.dispatch(setProducts([coffee, burger]));
@@ -134,9 +148,12 @@ describe('Cart component', function() {
   });
 
   it('change qty', () => {
+    const history = createMemoryHistory();
     const store = createStore(reducer);
     const cart = mount(<Provider store={store}>
-      <Cart />
+      <ConnectedRouter history={history}>
+        <Cart />
+      </ConnectedRouter>
     </Provider>);
 
     store.dispatch(setProducts([coffee, burger]));
@@ -152,9 +169,12 @@ describe('Cart component', function() {
   });
 
   it('remove item', ()=>{
+    const history = createMemoryHistory();
     const store = createStore(reducer);
     const cart = mount(<Provider store={store}>
-      <Cart />
+      <ConnectedRouter history={history}>
+        <Cart />
+      </ConnectedRouter>
     </Provider>);
 
     store.dispatch(setProducts([coffee, burger]));
@@ -168,9 +188,12 @@ describe('Cart component', function() {
   });
 
   it('remove all', ()=>{
+    const history = createMemoryHistory();
     const store = createStore(reducer);
     const cart = mount(<Provider store={store}>
-      <Cart />
+      <ConnectedRouter history={history}>
+        <Cart />
+      </ConnectedRouter>
     </Provider>);
 
     store.dispatch(setProducts([coffee, burger]));
@@ -184,29 +207,31 @@ describe('Cart component', function() {
   });
 
   it('total', ()=>{
+    const history = createMemoryHistory();
     const store = createStore(reducer);
     const cart = mount(<Provider store={store}>
-      <Cart />
+      <ConnectedRouter history={history}>
+        <Cart />
+      </ConnectedRouter>
     </Provider>);
-    const total = cart.find('.total .cost');
 
     store.dispatch(setProducts([coffee, burger]));
 
-    expect(total.text()).to.eql('0 р.');
+    expect(cart.find('.total .cost')).to.have.length(0);
 
     store.dispatch(addToCart('1', 1));
-    expect(total.text()).to.eql('50 р.');
+    expect(cart.find('.total .cost').text()).to.eql('50 р.');
 
     store.dispatch(addToCart('2', 1));
-    expect(total.text()).to.eql('180 р.');
+    expect(cart.find('.total .cost').text()).to.eql('180 р.');
 
     store.dispatch(changeQty('1', 2));
-    expect(total.text()).to.eql('230 р.');
+    expect(cart.find('.total .cost').text()).to.eql('230 р.');
 
     store.dispatch(removeItem('1'));
-    expect(total.text()).to.eql('130 р.');
+    expect(cart.find('.total .cost').text()).to.eql('130 р.');
 
     store.dispatch(removeAll());
-    expect(total.text()).to.eql('0 р.');
+    expect(cart.find('.total .cost')).to.have.length(0);
   });
 });

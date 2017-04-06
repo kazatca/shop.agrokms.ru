@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import Money from './Money';
+import Money from './Money.jsx';
 
 export default class CartItem extends Component {
 

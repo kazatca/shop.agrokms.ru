@@ -1,8 +1,9 @@
 import React, {PureComponent, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {add as addToCart} from '../actions/cart';
+import {Helmet} from 'react-helmet';
 
-import Product from './Product';
+import {add as addToCart} from '../actions/cart.js';
+import Product from './Product.jsx';
 
 export class StoreFrontDummy extends PureComponent {
   static propTypes = {
@@ -13,6 +14,9 @@ export class StoreFrontDummy extends PureComponent {
   render() {
     return (
       <div>
+        <Helmet>
+          <title>Storefront</title>
+        </Helmet>
         {this.props.products.map(product => <Product 
           {...product}
           key={product.id}

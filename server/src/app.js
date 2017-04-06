@@ -8,7 +8,7 @@ import categoryRouter from './routes/category.js';
 import orderRouter from './routes/order.js';
 import userRouter from './routes/user.js';
 
-import renderPage from './renderPage';
+import renderPage from './renderPage.jsx';
 
 const app = express();
 
@@ -21,7 +21,7 @@ app.use(session({
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 
-app.use(express.static('../../client/dist', {index: false}));
+app.use(express.static(`${__dirname}/../../client/dist`, {index: false}));
 
 app.get('/status', (req, res) => res.send('ok'));
 

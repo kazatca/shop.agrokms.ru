@@ -3,17 +3,17 @@ import React from 'react';
 import {readFileSync} from 'fs';
 import {renderToString} from 'react-dom/server';
 import {toJSON} from 'transit-immutable-js';
-
+import {Helmet} from 'react-helmet';
 import {createStore, applyMiddleware} from 'redux';
 import {createMemoryHistory as createHistory} from 'history';
 import {routerMiddleware, push} from 'react-router-redux';
 
-import reducer from '../../client/src/reducer';
-import App from '../../client/src/components/App';
+import reducer from '../../client/src/reducer.js';
+import App from '../../client/src/components/App.jsx';
 
-import {getAll as getStoreFront} from './controllers/StoreFront';
+import {getAll as getStoreFront} from './controllers/StoreFront.js';
 
-import {set as setProducts} from '../../client/src/actions/products';
+import {set as setProducts} from '../../client/src/actions/products.js';
 
 const tmpl = readFileSync(`${__dirname}/../../client/dist/index.html`, 'utf-8');
 
@@ -34,9 +34,13 @@ const renderPage = path => {
       store={store}
       history={history}
     />);
+    
+    const head = Helmet.renderStatic();
+
     const initState = toJSON(store.getState());
 
     return tmpl
+      .replace(/<!-- title -->/, head.title.toString())
       .replace(/<!-- html -->/, html)
       .replace(/\/\* init state \*\//, `window.__INIT_STATE__ = '${initState}';`);
   });
