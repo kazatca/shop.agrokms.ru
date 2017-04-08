@@ -82,8 +82,9 @@
     "sequelize": "^3.30.2",
     "transit-immutable-js": "^0.7.0",
     "transit-js": "^0.8.846"
-  },
+  }, 
   "engines": {
-    "node": "6.10.0"
-  }  
+    "node": "6.10.0",
+    "npm": "3.10.10"
+  }
 }
