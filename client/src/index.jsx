@@ -23,7 +23,6 @@ const store = createStore(
   applyMiddleware(routerMiddleware(history), thunk)
 );  
 
-
 render(
   <App store={store} history={history} />,
   document.getElementById('app')
