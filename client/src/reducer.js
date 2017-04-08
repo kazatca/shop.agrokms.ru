@@ -6,6 +6,7 @@ import cartReducer from './reducers/cart';
 import productsReducer from './reducers/products';
 import userReducer from './reducers/user.js';
 import credsReducer from './reducers/creds.js';
+import storesReducer from './reducers/stores.js';
 
 import {routerReducer} from 'react-router-redux';
 
@@ -23,6 +24,7 @@ const reducer = combineReducers({
   products: productsReducer,
   user: userReducer,
   creds: credsReducer,
+  stores: storesReducer,
   router: routerReducer
 });
 
