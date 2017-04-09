@@ -5,5 +5,6 @@ make prod
 popd
 pushd server
 make build
-sequelize db:migrate --url $DB_URL #dont work with query string
+#remove querystring because sequelize-cli incorrect parse db_url (qs attaching to db_name)
+sequelize db:migrate --url=$(echo $DB_URL | cut -d '?' -f 1)
 popd
