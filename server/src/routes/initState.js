@@ -10,5 +10,4 @@ router.get('/', (req, res) =>
   .then(({store, history}) => res.send(toJSON(store.getState())))
 );
 
-
 export default router;
