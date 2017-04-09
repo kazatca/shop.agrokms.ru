@@ -10,7 +10,7 @@ module.exports = {
     './src/index.jsx'
   ],
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'dist/asset'),
     publicPath: '/',
     filename: 'bundle.js'
   },
@@ -37,6 +37,13 @@ module.exports = {
     proxy: {
       "/api": {
         target: "http://localhost:3000"
+      },
+      "/**": {
+        bypass: function(req, res){
+          if(!/asset/.test(req.path)){
+            return '/index.html';
+          }
+        }
       }
     }
   }
