@@ -8,22 +8,33 @@ import {fromJSON} from 'transit-immutable-js';
 
 import reducer from './reducer.js';
 import App from './components/App.jsx';
+import * as api from './api.js';
+
 import './scss/main.scss';
 
-const history = createBrowserHistory();
 
-let initState;
-if(window.__INIT_STATE__){
-  initState = fromJSON(window.__INIT_STATE__);
-}
+const getInitState = () => {
+  if(window.__INIT_STATE__){
+    return fromJSON(window.__INIT_STATE__);
+  }
+  return api.get('/init-state')
+  .then(resp => fromJSON(resp))
+  .catch(() => undefined);
+};
 
-const store = createStore(
-  reducer, 
-  initState,
-  applyMiddleware(routerMiddleware(history), thunk)
-);  
+Promise.resolve()
+.then(() => getInitState())
+.then(initState => {
+  const history = createBrowserHistory();
 
-render(
-  <App store={store} history={history} />,
-  document.getElementById('app')
-);
+  const store = createStore(
+    reducer, 
+    initState,
+    applyMiddleware(routerMiddleware(history), thunk)
+  );
+
+  render(
+    <App store={store} history={history} />,
+    document.getElementById('app')
+  );
+});

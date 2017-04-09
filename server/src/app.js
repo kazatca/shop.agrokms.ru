@@ -7,6 +7,7 @@ import productRouter from './routes/product.js';
 import categoryRouter from './routes/category.js';
 import orderRouter from './routes/order.js';
 import userRouter from './routes/user.js';
+import initStateRouter from './routes/initState.js';
 
 import renderPage from './renderPage.jsx';
 
@@ -30,6 +31,7 @@ app.use('/api/product', productRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/order', orderRouter);
 app.use('/api/user', userRouter);
+app.use('/api/init-state', initStateRouter);
 
 app.use((req, res, next) => 
   renderPage(req.path)

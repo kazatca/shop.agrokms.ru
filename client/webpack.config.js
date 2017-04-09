@@ -7,7 +7,7 @@ module.exports = {
   entry: [
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
-    './src'
+    './src/index.jsx'
   ],
   output: {
     path: path.join(__dirname, 'dist'),
@@ -36,12 +36,7 @@ module.exports = {
     hot: true,
     proxy: {
       "/api": {
-        target: "http://localhost:3000",
-        bypass: function(req, res) {
-          if(req.path == 'bundle.js'){
-            return '/bundle.js';
-          }
-        }
+        target: "http://localhost:3000"
       }
     }
   }

@@ -1,31 +1,25 @@
 import {Map} from 'immutable';
 
-// import {combineReducers} from 'redux';
+import cart from './reducers/cart';
+import products from './reducers/products';
+import user from './reducers/user.js';
+import creds from './reducers/creds.js';
+import stores from './reducers/stores.js';
 
-import cartReducer from './reducers/cart';
-import productsReducer from './reducers/products';
-import userReducer from './reducers/user.js';
-import credsReducer from './reducers/creds.js';
-import storesReducer from './reducers/stores.js';
+import {routerReducer as router} from 'react-router-redux';
 
-import {routerReducer} from 'react-router-redux';
-
-export const combineReducers = reducers => {
-  return (state = Map(), action) => {
-    return Map(Object.keys(reducers).reduce((result, key) => {
-      return {...result, [key]: reducers[key](state.get(key), action)};
-    }, {}));
-  };
-};
+export const combineReducers = reducers => (state = Map(), action) =>
+  Object.keys(reducers).reduce((newState, key) => 
+    newState.set(key, reducers[key](newState.get(key), action)), state);
 
 
 const reducer = combineReducers({
-  cart: cartReducer,
-  products: productsReducer,
-  user: userReducer,
-  creds: credsReducer,
-  stores: storesReducer,
-  router: routerReducer
+  cart,
+  products,
+  user,
+  creds,
+  stores,
+  router
 });
 
 export default reducer;

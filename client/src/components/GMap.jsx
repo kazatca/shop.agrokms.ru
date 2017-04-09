@@ -77,7 +77,7 @@ const mapStateToProps = state => {
         lat,
         lng 
       };
-    })
+    }).toJS()
   };
 };
 
