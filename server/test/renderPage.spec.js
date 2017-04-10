@@ -34,6 +34,6 @@ describe('renderPage func', function() {
   it('title', () => renderPage('/').then(page => {
     const $ = load(page);
     
-    expect($('title').text()).to.eql('Storefront');
+    expect($('title').text()).to.eql('Магазин');
   }));
 });
