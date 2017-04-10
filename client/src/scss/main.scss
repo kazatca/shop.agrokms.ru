@@ -23,9 +23,13 @@ body{
 .content{
   padding-top: 10px;
 }
-
 @import "./header.scss";
 @import "./footer.scss";
 
 
 @import './about.scss';
+
+@import "../../../node_modules/react-dd-menu/src/scss/react-dd-menu.scss";
+.dd-menu .dd-menu-items {
+  margin: 0;
+}

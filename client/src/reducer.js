@@ -2,6 +2,7 @@ import {Map} from 'immutable';
 
 import cart from './reducers/cart';
 import products from './reducers/products';
+import categories from './reducers/categories';
 import user from './reducers/user.js';
 import creds from './reducers/creds.js';
 import stores from './reducers/stores.js';
@@ -16,6 +17,7 @@ export const combineReducers = reducers => (state = Map(), action) =>
 const reducer = combineReducers({
   cart,
   products,
+  categories,
   user,
   creds,
   stores,
