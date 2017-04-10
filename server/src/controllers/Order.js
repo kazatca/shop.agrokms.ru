@@ -47,17 +47,36 @@ export const getProducts = ids =>
     }, {})
   );
   
+/*
+  transform cart from {1: 5} to 
+  [{id: 1, qty: 5, price: <price from db>}]
+*/
+export const extendCart = cart => {
+  const cartIds = Object.keys(cart);
+
+  return getProducts(cartIds)
+  .then(products => {
+    if(Object.keys(products).length != cartIds.length){
+      const notFound = cartIds.filter(id => !(id in products));
+      throw new Error(`Product id not found: ${notFound.join(', ')}`);
+    }
+    return products;
+  })
+  .then(products => cartIds.map(id => {
+    return {
+      id,
+      qty: cart[id],
+      price: products[id].price
+    };
+  }));
+};
+
 export const add = order => 
   updateUser(order.user)
   .then(user => {order.user = user.id;})
   //fix price
-  .then(() => getProducts(order.cart.map(cartItem => cartItem.id)))
-  .then(products => order.cart.forEach(cartItem => {
-    if(!products[cartItem.id]){
-      throw new Error('Product not found');
-    }
-    cartItem.price = products[cartItem.id].price;
-  }))
+  .then(() => extendCart(order.cart))
+  .then(cart => {order.cart = cart;})
   //add to db
   .then(() => db.model('Order').create(orderToModel(order), {
     include: [db.model('CartItem')]

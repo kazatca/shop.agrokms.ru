@@ -53,7 +53,7 @@ export default class Product extends PureComponent{
           </button>
           <button className="buy"
             onClick={() => this.addToCart()}>
-            Buy
+            В корзину
           </button>
         </div>
       </div>            

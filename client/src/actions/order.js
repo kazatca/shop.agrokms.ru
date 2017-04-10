@@ -1,6 +1,7 @@
 import * as api from '../api.js';
 
 import {removeAll} from './cart.js';
+import {push} from 'react-router-redux';
 
 export const send = () => 
   (dispatch, getState) => 
@@ -10,5 +11,6 @@ export const send = () =>
     })
     .then(res => {
       dispatch(removeAll());
+      dispatch(push('/thanks'));
       return res;
     });

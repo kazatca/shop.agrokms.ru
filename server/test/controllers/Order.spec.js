@@ -66,6 +66,22 @@ describe('Order controller', function() {
     })
   );
 
+  it('extendCart', () => 
+    db.model('Product').bulkCreate([coffee, burger])
+    .then(() => Order.extendCart({1: 1, 2: 5}))
+    .then(cart => {
+      expect(cart).to.have.length(2);
+
+      expect(cart[0]).to.have.property('id', '1');
+      expect(cart[0]).to.have.property('qty', 1);
+      expect(cart[0]).to.have.property('price', 5000);
+
+      expect(cart[1]).to.have.property('id', '2');
+      expect(cart[1]).to.have.property('qty', 5);
+      expect(cart[1]).to.have.property('price', 8000);
+    })
+  );
+
   it('add order', function() {
     return db.model('Product').bulkCreate([coffee, burger])
     .then(() => Order.add({
@@ -75,10 +91,7 @@ describe('Order controller', function() {
         phone: '+12223334455',
         address: 'Lenina, 1'
       },
-      cart: [
-        {id: '1', qty: 1}, 
-        {id: '2', qty: 1}
-      ]
+      cart: {1: 1, 2: 1}
     }))
     .then(() => db.model('Order')
       .findOne({include: [
@@ -116,25 +129,13 @@ describe('Order controller', function() {
         phone: '+12223334455',
         address: 'Lenina, 1'
       },
-      cart: [{id: '1', qty: 2}]
+      cart: {1: 1}
     }))
     .then(() => db.model('Order').findOne())
     .then(order => {
       expect(order).to.have.property('status', 'Pending');
     })
   );
-
-  it('throw on empty position id in cart', ()=>{
-    return expect(Order.add({
-      user: {
-        name: 'Joe',
-        phone: '+12223334455',
-        address: 'Lenina, 1'
-      },
-      cart: [{qty: 1, price: 5000}]
-    }))
-    .to.rejectedWith('Product not found');
-  });
 
   it('throw on wrong position id in cart', ()=>{
     return expect(Order.add({
@@ -143,9 +144,9 @@ describe('Order controller', function() {
         phone: '+12223334455',
         address: 'Lenina, 1'
       },
-      cart: [{id: '1', qty: 1, price: 5000}]
+      cart: {1: 1}
     }))
-    .to.rejectedWith('Product not found');
+    .to.rejectedWith('Product id not found: 1');
   });
 
   it('throw on wrong qty in cart', ()=>
@@ -156,7 +157,7 @@ describe('Order controller', function() {
         phone: '+12223334455',
         address: 'Lenina, 1'
       },
-      cart: [{id: '1', qty: 0}]
+      cart: {1: 0}
     }))
     .to.rejectedWith('Validation error: Validation min failed'))
   );
@@ -190,7 +191,7 @@ describe('Order controller', function() {
         phone: '+12223334455',
         address: 'Marksa, 2'
       },
-      cart: [{id: '1', qty: 1}]
+      cart: {1: 1}
     }))
     .then(() => db.model('User').findAll())
     .then(users => users.map(user => user.get({plain: true})))

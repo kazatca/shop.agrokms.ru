@@ -60,7 +60,7 @@ export default class CartItem extends Component {
           <button 
             className="remove" 
             onClick={() => this.removeItem()}
-          >remove</button>
+          >Убрать</button>
         </td>
       </tr>
     );

@@ -4,12 +4,12 @@ import {Route} from 'react-router';
 
 import {ConnectedRouter} from 'react-router-redux';
 
-import Cart from './Cart.jsx';
+import CheckoutPage from './CheckoutPage.jsx';
 import StoreFront from './StoreFront.jsx';
-import Order from './Order.jsx';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import AboutPage from './AboutPage.jsx';
+import ThanksPage from './ThanksPage.jsx';
 
 const StoreFrontPage = props => {
   return (
@@ -28,9 +28,9 @@ const App = ({store, history}) => {
           <Header />
           <div className="content container">
             <Route exact path="/" component={StoreFrontPage} />
-            <Route path="/cart" component={Cart} />
+            <Route path="/cart" component={CheckoutPage} />
             <Route path="/about" component={AboutPage} />
-            <Route path="/order" component={Order} />
+            <Route path='/thanks' component={ThanksPage} />
           </div>
           <Footer />
         </div>
