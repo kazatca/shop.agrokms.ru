@@ -13,7 +13,7 @@ export class StoreFrontDummy extends PureComponent {
 
   render() {
     return (
-      <div>
+      <div className="storefront">
         <Helmet>
           <title>Магазин</title>
         </Helmet>

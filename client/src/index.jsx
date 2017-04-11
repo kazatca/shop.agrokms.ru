@@ -33,6 +33,12 @@ Promise.resolve()
     applyMiddleware(routerMiddleware(history), thunk)
   );
 
+  /* eslint-disable */
+  if(process.env.NODE_ENV = 'development'){
+    window.store = store; 
+  }
+  /* eslint-enable */
+
   render(
     <App store={store} history={history} />,
     document.getElementById('app')

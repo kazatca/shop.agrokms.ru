@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {Provider} from 'react-redux';
-import {Route} from 'react-router';
+import {Route, Redirect} from 'react-router';
 
 import {ConnectedRouter} from 'react-router-redux';
 
@@ -32,7 +32,8 @@ const App = ({store, history}) => {
             <Route path="/category/:id" component={Category} />
             <Route path="/cart" component={CheckoutPage} />
             <Route path="/about" component={AboutPage} />
-            <Route path='/thanks' component={ThanksPage} />
+            <Route path="/thanks" component={ThanksPage} />
+            <Redirect from="*" to="/" />
           </div>
           <Footer />
         </div>
