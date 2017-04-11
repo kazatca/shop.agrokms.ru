@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {NavLink} from 'react-router-dom';
 import {Helmet} from 'react-helmet';
 
-import FilledCart from './FilledCart.jsx';
+import Checkout from './Checkout.jsx';
 
 class EmptyCart extends Component {
   render() {
@@ -16,21 +16,18 @@ class EmptyCart extends Component {
   }
 }
 
-class CheckoutPageDummy extends Component {
+export class CheckoutPageDummy extends Component {
   static propTypes = {
     cartIsEmpty: PropTypes.bool.isRequired
   };
 
   render() {
-    if(this.props.cartIsEmpty){
-      return <EmptyCart />;
-    }
     return (
       <div>
         <Helmet>
           <title>Корзина</title>
         </Helmet>
-        {this.props.cartIsEmpty? <EmptyCart />: <FilledCart />}
+        {this.props.cartIsEmpty? <EmptyCart />: <Checkout />}
       </div>
     );
   }

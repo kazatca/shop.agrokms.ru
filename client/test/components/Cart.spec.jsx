@@ -44,17 +44,6 @@ describe('Cart component', function() {
     expect(cart.find('.total .cost').text()).to.eql('500 р.');
   });
 
-  it('empty cart', ()=>{
-    const history = createMemoryHistory();
-    const store = createStore(reducer);
-    
-    const cart = mount(<Provider store={store}>
-      <ConnectedRouter history={history}>
-        <CartDummy {...dispatch} />
-      </ConnectedRouter>
-    </Provider>);
-    expect(cart.find('.empty-cart')).to.be.ok;
-  });
 
   it('total', function() {
     const cart = mount(<CartDummy
@@ -206,7 +195,7 @@ describe('Cart component', function() {
     expect(cart.find('.cart-item').length).to.eql(0);
   });
 
-  it('total', ()=>{
+  it('total changing', ()=>{
     const history = createMemoryHistory();
     const store = createStore(reducer);
     const cart = mount(<Provider store={store}>
@@ -217,7 +206,7 @@ describe('Cart component', function() {
 
     store.dispatch(setProducts([coffee, burger]));
 
-    expect(cart.find('.total .cost')).to.have.length(0);
+    expect(cart.find('.total .cost').text()).to.eql('0 р.');
 
     store.dispatch(addToCart('1', 1));
     expect(cart.find('.total .cost').text()).to.eql('50 р.');
@@ -232,6 +221,6 @@ describe('Cart component', function() {
     expect(cart.find('.total .cost').text()).to.eql('130 р.');
 
     store.dispatch(removeAll());
-    expect(cart.find('.total .cost')).to.have.length(0);
+    expect(cart.find('.total .cost').text()).to.eql('0 р.');
   });
 });

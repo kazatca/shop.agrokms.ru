@@ -8,19 +8,7 @@ import Address from './Address.jsx';
 
 import {send as sendOrder} from '../actions/order.js';
 
-class UserCreds extends Component{
-  render(){
-    return (
-      <div>
-        <UserName />
-        <Phone />
-        <Address />
-      </div> 
-    );
-  }
-}
-
-class FilledCartDummy extends Component{
+export class CheckoutDummy extends Component{
   static propTypes = {
     submit: PropTypes.func.isRequired
   };
@@ -29,7 +17,11 @@ class FilledCartDummy extends Component{
     return (
       <div>
         <Cart />
-        <UserCreds />
+        <div>
+          <UserName />
+          <Phone />
+          <Address />
+        </div> 
         <button 
           className="submit-order" 
           onClick={() => this.props.submit()}>
@@ -45,5 +37,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const FilledCart = connect(null, mapDispatchToProps)(FilledCartDummy);
-export default FilledCart;
+const Checkout = connect(null, mapDispatchToProps)(CheckoutDummy);
+export default Checkout;
