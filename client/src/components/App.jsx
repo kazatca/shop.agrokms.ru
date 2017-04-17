@@ -12,6 +12,7 @@ import Footer from './Footer.jsx';
 import AboutPage from './AboutPage.jsx';
 import ThanksPage from './ThanksPage.jsx';
 import LoginPage from './LoginPage.jsx';
+import OrdersPage from './OrdersPage.jsx';
 
 const StoreFrontPage = props => {
   return (
@@ -35,6 +36,8 @@ const App = ({store, history}) => {
             <Route path="/about" component={AboutPage} />
             <Route path="/thanks" component={ThanksPage} />
             <Route path="/login" component={LoginPage} />
+            <Route path="/orders" component={OrdersPage} />
+
             <Redirect from="*" to="/" />
           </div>
           <Footer />

@@ -32,6 +32,7 @@ class HoverMenu extends Component{
         onMouseLeave={() => this.close()}
       >
         <DropdownMenu 
+          align="right"
           close={() => this.close()}
           isOpen={this.state.isOpen}
           toggle={this.props.toggle}

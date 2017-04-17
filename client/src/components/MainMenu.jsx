@@ -3,6 +3,8 @@ import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 import HoverMenu from './HoverMenu.jsx';
 
+import {logout} from '../actions/user.js';
+
 const MenuItem = props => 
   (<NavLink {...props} 
     className={`menu-item ${props.className || ''}`}
@@ -19,7 +21,8 @@ MenuItem.propTypes = {
 class MainMenuDummy extends Component{
   static propTypes = {
     categories: PropTypes.array,
-    loggedIn: PropTypes.bool
+    loggedIn: PropTypes.bool,
+    logout: PropTypes.func
   };
 
   render(){
@@ -39,9 +42,19 @@ class MainMenuDummy extends Component{
         <MenuItem to="/cart">Корзина</MenuItem>
         <MenuItem to="/about">Контакты</MenuItem>
         {
-          this.props.loggedIn?
-          <MenuItem to="/login">Вход</MenuItem>:
-          null
+          !this.props.loggedIn?
+          <MenuItem to="/login">Войти</MenuItem>:
+          
+          <HoverMenu 
+            toggle={<MenuItem to="/orders">Мои заказы</MenuItem>}
+          >
+              <li>
+                <NavLink to="change-password">Сменить пароль</NavLink>
+              </li>
+              <li>
+                <a href="" onClick={() => this.props.logout()}>Выйти</a>
+              </li>
+          </HoverMenu>
         }
       </div>
     );
@@ -51,9 +64,15 @@ class MainMenuDummy extends Component{
 const mapStateToProps = state => {
   return {
     categories: state.get('categories').toJS(),
-    loggedIn: state.getIn(['user', 'loggedBy', '']) != ''
+    loggedIn: state.hasIn(['user', 'id'])
   };
 };
 
-const MainMenu = connect(mapStateToProps)(MainMenuDummy);
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => dispatch(logout())
+  };
+};
+
+const MainMenu = connect(mapStateToProps, mapDispatchToProps)(MainMenuDummy);
 export default MainMenu;

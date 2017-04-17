@@ -16,10 +16,11 @@ const orderToModel = ({status, user, cart}) => {
 };
 
 const orderToPlain = order => {
-  const {id, status, UserId, CartItems} = order.get({plain: true});
+  const {id, status, UserId, CartItems, createdAt} = order.get({plain: true});
   return {
     id: `${id}`,
     status,
+    createdAt,
     user: `${UserId}`,
     cart: CartItems.map(({ProductId, qty, price}) => {
       return {

@@ -3,18 +3,13 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import morgan from 'morgan';
 
-import storeFrontRouter from './routes/storeFront.js';
-import productRouter from './routes/product.js';
-import categoryRouter from './routes/category.js';
-import orderRouter from './routes/order.js';
-import userRouter from './routes/user.js';
-import initStateRouter from './routes/initState.js';
-
+import router from './router.js';
 import renderPage from './renderPage.jsx';
 
 const app = express();
 
 app.use(bodyParser.json());
+
 if(process.env.NODE_ENV == 'development'){
   app.use(morgan('tiny'));
   app.use((req, res, next) => {
@@ -37,12 +32,7 @@ app.use(express.static(`${__dirname}/../../client/dist`, {index: false}));
 
 app.get('/status', (req, res) => res.send('ok'));
 
-app.use('/api/storefront', storeFrontRouter);
-app.use('/api/product', productRouter);
-app.use('/api/category', categoryRouter);
-app.use('/api/order', orderRouter);
-app.use('/api/user', userRouter);
-app.use('/api/init-state', initStateRouter);
+app.use('/api', router);
 
 app.use((req, res, next) => 
   renderPage(req.path)
@@ -54,7 +44,7 @@ app.use((err, req, res, next) => {
   if(err){
     res.writeHead(500);
     res.end();
-    console.error('[!]Error:', err);
+    console.error(err);
   }
 });
 

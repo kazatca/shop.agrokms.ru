@@ -14,3 +14,20 @@ export const send = () =>
       dispatch(push('/thanks'));
       return res;
     });
+
+export const set = orders => {
+  return {
+    type: 'ORDERS.SET',
+    orders
+  };
+};
+
+export const getAll = () => 
+  (dispatch, getState) => {
+    const role = getState().getIn(['user', 'role'], '');
+    
+    return api.get(`/order/${role == 'admin'? 'all' : 'my'}`)
+    .then(orders => {
+      dispatch(set(orders));
+    });
+  };

@@ -94,3 +94,12 @@ export const setTmpPassword = phone =>
     return user.update({tmpPassword: genTmpPassword()});
   });
 
+export const setPassword = (id, password) => 
+  db.model('User').findById(id)
+  .then(user => {
+    if(!user){
+      throw 'not found';
+    }
+    return getHash(password)
+    .then(hash => user.update({password: hash}));
+  });

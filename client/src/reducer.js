@@ -6,6 +6,7 @@ import categories from './reducers/categories';
 import user from './reducers/user.js';
 import creds from './reducers/creds.js';
 import stores from './reducers/stores.js';
+import orders from './reducers/orders.js';
 
 import {routerReducer as router} from 'react-router-redux';
 
@@ -21,6 +22,7 @@ const reducer = combineReducers({
   user,
   creds,
   stores,
+  orders,
   router
 });
 

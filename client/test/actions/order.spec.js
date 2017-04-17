@@ -1,19 +1,46 @@
 import {expect} from 'chai';
-import {OrderedMap} from 'immutable';
+import {OrderedMap, fromJS} from 'immutable';
 import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import nock from 'nock';
 
 import {add as addToCart} from '../../src/actions/cart.js'; 
-import {send as sendOrder} from '../../src/actions/order.js'; 
+import {send as sendOrder, getAll as getOrders} from '../../src/actions/order.js'; 
 import {set as setProducts} from '../../src/actions/products.js';
-import {setName, setPhone, setAddress} from '../../src/actions/user.js';
+import {setName, setPhone, setAddress, set as setUser} from '../../src/actions/user.js';
 
 import reducer from '../../src/reducer.js';
 
 const [coffee, burger] = require('../mocks/products.json');
 
 describe('Order actions', function() {
+  it('get orders', () => {
+    nock(/localhost/)
+    .get('/api/order/my')
+    .reply(200, [{
+      id: '1', 
+      status: 'Pending',
+      user: '1',
+      cart: [{id: '1', qty: 10, price: 5000}],
+      date: '2010-01-01'
+    }]);
+
+    const store = createStore(reducer, applyMiddleware(thunk));
+    store.dispatch(setUser({
+      role: 'customer'
+    }));
+    return store.dispatch(getOrders())
+    .then(() => {
+      expect(store.getState().get('orders')).to.eql(fromJS([{
+        id: '1', 
+        status: 'Pending',
+        user: '1',
+        cart: [{id: '1', qty: 10, price: 5000}],
+        date: '2010-01-01'
+      }]));
+    });
+  });
+
   it('clean cart after order sending', function() {
     const store = createStore(reducer, applyMiddleware(thunk));
     store.dispatch(addToCart(1, 1));

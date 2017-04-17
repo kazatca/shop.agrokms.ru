@@ -4,7 +4,7 @@ import request from 'supertest';
 import db from '../../src/db.js';
 import {init, truncate} from '../dbInit.js';
 import app from '../../src/app.js';
-import {getHash} from '../../src/controllers/User.js'; 
+import {getHash, compareHash} from '../../src/controllers/User.js'; 
 
 describe('User route', function() {
   before(init);
@@ -126,4 +126,60 @@ describe('User route', function() {
       );
     })
   );
+
+  it('reset password', () => 
+    db.model('User').create({
+      id: 1,
+      name: 'Joe',
+      phone: '+12223334455'
+    })
+    .then(() => {
+      return request(app)
+      .post('/api/user/reset-password')
+      .send({login: '+12223334455'})
+      .expect(200);
+    })
+    .then(() => db.model('User').findAll())
+    .then(users => {
+      expect(users).to.have.length(1);
+      expect(users[0]).to.have.property('tmpPassword');
+      expect(users[0].tmpPassword).match(/\d{6,}/);
+    })
+  );
+
+  it('change password', () => {
+    const agent = request.agent(app);
+
+    return db.model('User').create({
+      id: 1,
+      name: 'Joe',
+      phone: '+12223334455',
+      tmpPassword: '123'
+    })
+    .then(() => {
+      return agent.post('/api/user/login')
+      .send({
+        login: '+12223334455',
+        password: '123'
+      })
+      .expect(200);
+    })
+    .then(() => {
+      return agent.post('/api/user/password')
+      .send({password: 'secret'})
+      .expect(200);
+    })
+    .then(() => db.model('User').findAll())
+    .then(users => {
+      expect(users).to.have.length(1);
+      expect(users[0]).to.have.property('password');
+      return expect(compareHash('secret', users[0].password)).to.not.rejected;
+    });
+  });
+
+  it('got 401 on change password without session', () => {
+    return request(app).post('/api/user/password')
+    .send({password: 'secret'})
+    .expect(401);
+  });
 });

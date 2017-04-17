@@ -1,4 +1,5 @@
 import * as api from '../api.js';
+import {push} from 'react-router-redux';
 
 export const set = user => {
   return {
@@ -41,6 +42,12 @@ export const cleanPassword = () => {
   };
 };
 
+export const cleanId = () => {
+  return {
+    type: 'USER.CLEAN_ID'
+  };
+};
+
 export const login = () => (dispatch, getState) => {
   const user = getState().get('user');
   return api.post('/user/login', {
@@ -56,4 +63,10 @@ export const login = () => (dispatch, getState) => {
       dispatch(set(user));
     }
   });
+};
+
+export const logout = () => (dispatch, getState) => {
+  return api.post('/user/logout')
+  .then(dispatch(cleanId()))
+  .then(dispatch(push('/')));
 };

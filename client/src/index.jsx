@@ -33,11 +33,9 @@ Promise.resolve()
     applyMiddleware(routerMiddleware(history), thunk)
   );
 
-  /* eslint-disable */
-  if(process.env.NODE_ENV = 'development'){
+  if(process.env.NODE_ENV = 'development'){ // eslint-disable-line 
     window.store = store; 
   }
-  /* eslint-enable */
 
   render(
     <App store={store} history={history} />,
