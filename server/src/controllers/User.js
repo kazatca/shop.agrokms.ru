@@ -4,11 +4,12 @@ import db from '../db.js';
 
 
 const userToPlain = user => {
-  const {id, name, phone, role} = user.get({plain: true});
+  const {id, name, phone, address, role} = user.get({plain: true});
   return {
     id: `${id}`,
     name,
     phone,
+    address,
     role
   };
 };

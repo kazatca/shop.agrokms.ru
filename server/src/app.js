@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
+import morgan from 'morgan';
 
 import storeFrontRouter from './routes/storeFront.js';
 import productRouter from './routes/product.js';
@@ -14,6 +15,16 @@ import renderPage from './renderPage.jsx';
 const app = express();
 
 app.use(bodyParser.json());
+if(process.env.NODE_ENV == 'development'){
+  app.use(morgan('tiny'));
+  app.use((req, res, next) => {
+    console.log('body', req.body);
+    next();
+  });
+} 
+if(process.env.NODE_ENV == 'production'){
+  app.use(morgan('combined'));
+}
 
 app.use(session({
   secret: process.env.SECRET,

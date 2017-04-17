@@ -48,6 +48,7 @@ describe('User controller', function() {
       name: 'Joe',
       phone: '+12223334455',
       password: hash,
+      address: 'Lenina, 1',
       role: 'admin'
     }))
     .then(() => User.login('+12223334455', 'secret'))
@@ -56,6 +57,7 @@ describe('User controller', function() {
       expect(user).to.have.property('id');
       expect(user).to.have.property('name', 'Joe');
       expect(user).to.have.property('phone', '+12223334455');
+      expect(user).to.have.property('address', 'Lenina, 1');
       expect(user).to.have.property('role', 'admin');
       expect(user).to.have.property('loggedBy', 'password');
 

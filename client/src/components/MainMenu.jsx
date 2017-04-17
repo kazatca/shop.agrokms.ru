@@ -18,7 +18,8 @@ MenuItem.propTypes = {
 
 class MainMenuDummy extends Component{
   static propTypes = {
-    categories: PropTypes.array
+    categories: PropTypes.array,
+    loggedIn: PropTypes.bool
   };
 
   render(){
@@ -37,6 +38,11 @@ class MainMenuDummy extends Component{
         </HoverMenu>
         <MenuItem to="/cart">Корзина</MenuItem>
         <MenuItem to="/about">Контакты</MenuItem>
+        {
+          this.props.loggedIn?
+          <MenuItem to="/login">Вход</MenuItem>:
+          null
+        }
       </div>
     );
   }
@@ -44,7 +50,8 @@ class MainMenuDummy extends Component{
 
 const mapStateToProps = state => {
   return {
-    categories: state.get('categories').toJS()
+    categories: state.get('categories').toJS(),
+    loggedIn: state.getIn(['user', 'loggedBy', '']) != ''
   };
 };
 

@@ -62,7 +62,8 @@ describe('Order actions', function() {
         user: {
           name: 'John',
           phone: '+12223334455',
-          address: 'Lenina, 1'
+          address: 'Lenina, 1',
+          password: ''
         }
       });
     });
