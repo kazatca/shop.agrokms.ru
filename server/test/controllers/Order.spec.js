@@ -1,23 +1,25 @@
 import {expect} from 'chai';
 
 import db from '../../src/db.js';
+import {init, truncate} from '../dbInit.js';
+
 import * as Order from '../../src/controllers/Order.js';
 
+const [coffee, burger] = require('../mocks/products.json');
+
 describe('Order controller', function() {
-  beforeEach(() => Promise.all([
+  before(init);
+  
+  beforeEach(() => truncate(
+    'Product', 
     'Order', 
-    'User', 
-    'CartItem',
-    'Product'
-  ].map(model=> db.model(model).sync({force: true}))
+    'CartItem', 
+    'User'
   ));
 
   it('get', () => {
     return Promise.all([
-      db.model('Product').bulkCreate([
-        {name: 'Coffee'},
-        {name: 'Burger'}
-      ]),
+      db.model('Product').bulkCreate([coffee, burger]),
       db.model('Order').create({
         UserId: 1,
         CartItems: [
@@ -33,7 +35,7 @@ describe('Order controller', function() {
     })
     .then(orders => {
       const order = orders[0];
-      expect(order).to.have.property('id', '1');
+      expect(order).to.have.property('id');
       expect(order).to.have.property('user', '1');
       expect(order.cart).to.deep.have.members([
         {id: '1', qty: 1, price: 5000},
@@ -51,10 +53,7 @@ describe('Order controller', function() {
   });
 
   it('getProducts', ()=> 
-    db.model('Product').bulkCreate([
-      {name: 'Coffee', price: 5000},
-      {name: 'Burger', price: 8000}
-    ])
+    db.model('Product').bulkCreate([coffee, burger])
     .then(() => Order.getProducts([1, 2]))
     .then(products => {
       expect(products).to.have.property('1');
@@ -67,11 +66,24 @@ describe('Order controller', function() {
     })
   );
 
+  it('extendCart', () => 
+    db.model('Product').bulkCreate([coffee, burger])
+    .then(() => Order.extendCart({1: 1, 2: 5}))
+    .then(cart => {
+      expect(cart).to.have.length(2);
+
+      expect(cart[0]).to.have.property('id', '1');
+      expect(cart[0]).to.have.property('qty', 1);
+      expect(cart[0]).to.have.property('price', 5000);
+
+      expect(cart[1]).to.have.property('id', '2');
+      expect(cart[1]).to.have.property('qty', 5);
+      expect(cart[1]).to.have.property('price', 8000);
+    })
+  );
+
   it('add order', function() {
-    return db.model('Product').bulkCreate([
-      {name: 'Coffee', price: 5000},
-      {name: 'Burger', price: 8000}
-    ])
+    return db.model('Product').bulkCreate([coffee, burger])
     .then(() => Order.add({
       status: 'Delivered',
       user: {
@@ -79,10 +91,7 @@ describe('Order controller', function() {
         phone: '+12223334455',
         address: 'Lenina, 1'
       },
-      cart: [
-        {id: '1', qty: 1}, 
-        {id: '2', qty: 1}
-      ]
+      cart: {1: 1, 2: 1}
     }))
     .then(() => db.model('Order')
       .findOne({include: [
@@ -94,7 +103,7 @@ describe('Order controller', function() {
     .then(order => {
       expect(order).to.have.property('status', 'Delivered');
 
-      expect(order).to.have.property('UserId', 1);
+      expect(order).to.have.property('UserId');
       expect(order).to.have.property('CartItems');
 
       expect(order.CartItems).to.have.length(2);
@@ -105,7 +114,7 @@ describe('Order controller', function() {
       expect(order.CartItems[1]).to.have.property('qty', 1);
       expect(order.CartItems[1]).to.have.property('price', 8000);
 
-      expect(order.User).to.have.property('id', 1);
+      expect(order.User).to.have.property('id');
       expect(order.User).to.have.property('name', 'Joe');
       expect(order.User).to.have.property('phone', '+12223334455');
       expect(order.User).to.have.property('address', 'Lenina, 1');
@@ -113,33 +122,20 @@ describe('Order controller', function() {
   });
 
   it('default status is Pending', ()=>
-    db.model('Product')
-    .create({name: 'Coffee', price: 5000})
+    db.model('Product').create(coffee)
     .then(() => Order.add({
       user: {
         name: 'Joe',
         phone: '+12223334455',
         address: 'Lenina, 1'
       },
-      cart: [{id: '1', qty: 2}]
+      cart: {1: 1}
     }))
     .then(() => db.model('Order').findOne())
     .then(order => {
       expect(order).to.have.property('status', 'Pending');
     })
   );
-
-  it('throw on empty position id in cart', ()=>{
-    return expect(Order.add({
-      user: {
-        name: 'Joe',
-        phone: '+12223334455',
-        address: 'Lenina, 1'
-      },
-      cart: [{qty: 1, price: 5000}]
-    }))
-    .to.rejectedWith('Product not found');
-  });
 
   it('throw on wrong position id in cart', ()=>{
     return expect(Order.add({
@@ -148,32 +144,26 @@ describe('Order controller', function() {
         phone: '+12223334455',
         address: 'Lenina, 1'
       },
-      cart: [{id: '1', qty: 1, price: 5000}]
+      cart: {1: 1}
     }))
-    .to.rejectedWith('Product not found');
+    .to.rejectedWith('Product id not found: 1');
   });
 
   it('throw on wrong qty in cart', ()=>
-    db.model('Product').bulkCreate([
-      {name: 'Coffee', price: 5000},
-      {name: 'Burger', price: 8000}
-    ])
+    db.model('Product').bulkCreate([coffee, burger])
     .then(() => expect(Order.add({
       user: {
         name: 'Joe',
         phone: '+12223334455',
         address: 'Lenina, 1'
       },
-      cart: [{id: '1', qty: 0}]
+      cart: {1: 0}
     }))
     .to.rejectedWith('Validation error: Validation min failed'))
   );
 
   it('get by userId', () => 
-    db.model('Product').bulkCreate([
-      {name: 'Coffee', price: 5000},
-      {name: 'Burger', price: 8000}
-    ])
+    db.model('Product').bulkCreate([coffee, burger])
     .then(() => db.model('Order').bulkCreate([
       {UserId: 1, CartItems: [{ProductId: '1', qty: 1, price: 5000}]},
       {UserId: 2, CartItems: [{ProductId: '1', qty: 1, price: 8000}]}
@@ -188,10 +178,7 @@ describe('Order controller', function() {
   );
 
   it('change username and address on second order', () => 
-    db.model('Product').create({
-      name: 'Coffee', 
-      price: 5000
-    })
+    db.model('Product').create(coffee)
     .then(() => db.model('User').create({
       name: 'Joe', 
       phone: '+12223334455', 
@@ -204,7 +191,7 @@ describe('Order controller', function() {
         phone: '+12223334455',
         address: 'Marksa, 2'
       },
-      cart: [{id: '1', qty: 1}]
+      cart: {1: 1}
     }))
     .then(() => db.model('User').findAll())
     .then(users => users.map(user => user.get({plain: true})))

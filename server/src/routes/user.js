@@ -30,4 +30,23 @@ router.post('/logout', (req, res) => {
   res.end();
 });
 
+router.post('/reset-password', (req, res) => 
+  User.setTmpPassword(req.body.login)
+  .then(() => res.send())
+);
+
+router.post('/password', (req, res) => {
+  if(!req.session || !req.session.userId){
+    return res.status(401).end();
+  }
+  return User.setPassword(req.session.userId, req.body.password)
+  .then(() => res.end())
+  .catch(err => {
+    if(err == 'not found'){
+      return res.status(404).end();
+    }
+    throw err;
+  });
+});
+
 export default router;

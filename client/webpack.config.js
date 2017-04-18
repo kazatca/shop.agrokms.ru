@@ -7,11 +7,11 @@ module.exports = {
   entry: [
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
-    './src'
+    './src/index.jsx'
   ],
   output: {
-    path: path.join(__dirname, 'dist'),
-    publicPath: '/',
+    path: path.join(__dirname, 'dist/asset'),
+    publicPath: '/asset',
     filename: 'bundle.js'
   },
   module: {
@@ -36,10 +36,12 @@ module.exports = {
     hot: true,
     proxy: {
       "/api": {
-        target: "http://localhost:3000",
-        bypass: function(req, res) {
-          if(req.path == 'bundle.js'){
-            return '/bundle.js';
+        target: "http://localhost:3000"
+      },
+      "/**": {
+        bypass: function(req, res){
+          if(!/asset/.test(req.path)){
+            return '/index.html';
           }
         }
       }

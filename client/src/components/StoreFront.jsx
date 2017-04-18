@@ -13,9 +13,9 @@ export class StoreFrontDummy extends PureComponent {
 
   render() {
     return (
-      <div>
+      <div className="storefront">
         <Helmet>
-          <title>Storefront</title>
+          <title>Магазин</title>
         </Helmet>
         {this.props.products.map(product => <Product 
           {...product}

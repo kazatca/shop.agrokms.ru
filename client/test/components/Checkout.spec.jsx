@@ -6,24 +6,31 @@ import {Provider} from 'react-redux';
 import {ConnectedRouter} from 'react-router-redux';
 import {createMemoryHistory} from 'history';
 
-import Order, {OrderDummy} from '../../src/components/Order.jsx';
+import Checkout, {CheckoutDummy} from '../../src/components/Checkout.jsx';
 import reducer from '../../src/reducer';
+import {set as setProducts} from '../../src/actions/products.js';
+import {add as addToCart} from '../../src/actions/cart.js';
 
-describe('Order component', function() {
+const [coffee] = require('../mocks/products.json');
+
+describe('Checkout component', function() {
   it('basic', function() {
     const history = createMemoryHistory();
     const store = createStore(reducer);
     const order = mount(<Provider store={store}>
       <ConnectedRouter history={history}>
-        <Order />
+        <Checkout />
       </ConnectedRouter>
     </Provider>);
+
+    store.dispatch(setProducts([coffee]));
+    store.dispatch(addToCart('1', 1));
 
     expect(order.find('.cart')).to.have.length(1);
     expect(order.find('.username')).to.have.length(1);
     expect(order.find('.phone')).to.have.length(1);
     expect(order.find('.address')).to.have.length(1);
-    expect(order.find('.submit')).to.have.length(1);
+    expect(order.find('.submit-order')).to.have.length(1);
   });
 
   it('submit', function() {
@@ -32,13 +39,13 @@ describe('Order component', function() {
     const store = createStore(reducer);
     const order = mount(<Provider store={store}>
       <ConnectedRouter history={history}>
-        <OrderDummy
+        <CheckoutDummy
           submit={() => {submitted = true;}}
         />
       </ConnectedRouter>
     </Provider>);
 
-    order.find('.submit').simulate('click');
+    order.find('.submit-order').simulate('click');
     expect(submitted).to.be.ok;
   });
 });

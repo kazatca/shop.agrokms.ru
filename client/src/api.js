@@ -14,7 +14,13 @@ const request = (url, ops) =>
     }
     return resp;
   })
-  .then(resp => resp.json());
+  .then(resp => {
+    const contentType = resp.headers.get("content-type");
+    if(/json/.test(contentType)){ 
+      return resp.json();
+    }
+    return resp.text();
+  });
 
 export const get = (url, ops) => 
   request(url, ops);

@@ -3,9 +3,10 @@ import {expect} from 'chai';
 
 import app from '../../src/app.js';
 import db from '../../src/db.js';
+import {init} from '../dbInit.js';
 
 describe('route /', () => {
-  beforeEach(() => db.sync({force: true}));
+  beforeEach(init);
 
   it('renderPage called', function() {
     return request(app)

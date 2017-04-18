@@ -2,7 +2,7 @@
   float: right;
   
 }
-.menu a{
+.menu .menu-item{
   padding: 10px;
   text-decoration: none;
   line-height: 70px;
@@ -12,3 +12,10 @@
   // font-weight: bold;
   color: #ad6f53;
 }
+
+.menu .dd-menu .dd-menu-items ul{
+  background-color: #f5e8bf;
+  box-shadow: 0 3px 3px rgba(0,0,0,0.05);
+}
+
+$dd-transition-in: ease-in !default;

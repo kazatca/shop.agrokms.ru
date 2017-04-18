@@ -2,14 +2,17 @@ import {expect} from 'chai';
 import request from 'supertest';
 
 import db from '../../src/db.js';
+import {init, truncate} from '../dbInit.js';
 import app from '../../src/app.js';
 
 const browse = () => request(app);
 
 const {secret} = require('../mocks/hashs.json');
+const [coffee] = require('../mocks/products.json');
 
 describe('Order route', function() {
-  beforeEach(() => db.sync({force: true}));
+  before(init);  
+  beforeEach(() => truncate('User', 'Product', 'Order', 'CartItem'));
   
   it('got 401 on /all', () => 
     browse()
@@ -20,17 +23,20 @@ describe('Order route', function() {
   it('got /all after admin login', () => 
     Promise.all([
       db.model('User').bulkCreate([{
+        id: 1,
         name: 'Joe',
         phone: '+12223334455',
         password: secret,
         role: 'admin'
       }, {
+        id: 2,
         name: 'Dave',
         phone: '+12223334466',
         role: 'customer'
       }]),
-      db.model('Product').create({name: 'Coffee', price: 5000}),
+      db.model('Product').create(coffee),
       db.model('Order').create({
+        id: 1,
         UserId: 2,
         CartItems: [{ProductId: 1, qty: 1, price: 5000}]
       }, {include: [db.model('CartItem')]})

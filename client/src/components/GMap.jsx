@@ -51,7 +51,9 @@ class GMapDummy extends Component {
       <div className="map">
         <GoogleMap
           bootstrapURLKeys={{
+            /* eslint-disable */
             key: this.props.apiKey,
+            /* eslint-enable */
             language: 'ru'    
           }}
           center={this.props.center}
@@ -66,9 +68,16 @@ class GMapDummy extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state.getIn(['creds', 'google_map']));
   return {
-    apiKey: state.getIn(['creds', 'google_map'])
+    apiKey: state.get('creds').get('google_map'),
+    markers: state.get('stores').map(store => {
+      const [lat, lng] = store.coords.split(',').map(x => x.trim()*1);
+      return {
+        text: store.address,
+        lat,
+        lng 
+      };
+    }).toJS()
   };
 };
 

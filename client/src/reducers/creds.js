@@ -1,8 +1,8 @@
 import {Map} from 'immutable';
 
 const reducers = {
-  'GMAP_KEY.SET': (creds, action) => 
-    creds.set('google_map', action.key)  
+  'GOOGLE_MAP_KEY.SET': (creds, action) => 
+    creds.set('google_map', action.key)
 };
 
 export default (creds = Map(), action) => {

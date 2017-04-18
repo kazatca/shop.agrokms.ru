@@ -4,11 +4,12 @@ import db from '../db.js';
 
 
 const userToPlain = user => {
-  const {id, name, phone, role} = user.get({plain: true});
+  const {id, name, phone, address, role} = user.get({plain: true});
   return {
     id: `${id}`,
     name,
     phone,
+    address,
     role
   };
 };
@@ -93,3 +94,12 @@ export const setTmpPassword = phone =>
     return user.update({tmpPassword: genTmpPassword()});
   });
 
+export const setPassword = (id, password) => 
+  db.model('User').findById(id)
+  .then(user => {
+    if(!user){
+      throw 'not found';
+    }
+    return getHash(password)
+    .then(hash => user.update({password: hash}));
+  });

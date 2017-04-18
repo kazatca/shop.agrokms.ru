@@ -1,12 +1,14 @@
 import {expect} from 'chai';
 import {load} from 'cheerio';
 import db from '../src/db';
+import {init} from './dbInit.js';
+
 import renderPage from '../src/renderPage';
 
 const [coffee, burger] = require('./mocks/products.json');
 
 describe('renderPage func', function() {
-  beforeEach(() => db.sync({force: true}));
+  beforeEach(init);
 
   it('basic', () => renderPage('/').then(page => {
     const $ = load(page);
@@ -32,6 +34,6 @@ describe('renderPage func', function() {
   it('title', () => renderPage('/').then(page => {
     const $ = load(page);
     
-    expect($('title').text()).to.eql('Storefront');
+    expect($('title').text()).to.eql('Магазин');
   }));
 });

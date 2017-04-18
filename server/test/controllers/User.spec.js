@@ -1,10 +1,13 @@
 import {expect} from 'chai';
 
 import db from '../../src/db';
+import {init, truncate} from '../dbInit.js';
+
 import * as User from '../../src/controllers/User.js';
 
 describe('User controller', function() {
-  beforeEach(() => db.model('User').sync({force: true}));
+  before(init);
+  beforeEach(() => truncate('User'));
 
   it('create without password', ()=> 
     User.create({
@@ -45,14 +48,16 @@ describe('User controller', function() {
       name: 'Joe',
       phone: '+12223334455',
       password: hash,
+      address: 'Lenina, 1',
       role: 'admin'
     }))
     .then(() => User.login('+12223334455', 'secret'))
     .then(user => {
       expect(user).to.be.ok;
-      expect(user).to.have.property('id', '1');
+      expect(user).to.have.property('id');
       expect(user).to.have.property('name', 'Joe');
       expect(user).to.have.property('phone', '+12223334455');
+      expect(user).to.have.property('address', 'Lenina, 1');
       expect(user).to.have.property('role', 'admin');
       expect(user).to.have.property('loggedBy', 'password');
 
@@ -113,7 +118,7 @@ describe('User controller', function() {
     .then(() => User.login('+12223334455', '123123'))
     .then(user => {
       expect(user).to.be.ok;
-      expect(user).to.have.property('id', '1');
+      expect(user).to.have.property('id');
       expect(user).to.have.property('name', 'Joe');
       expect(user).to.have.property('phone', '+12223334455');
       expect(user).to.have.property('role', 'customer');
@@ -140,6 +145,7 @@ describe('User controller', function() {
 
   it('get user by id', () => 
     db.model('User').create({
+      id: 1,
       name: 'Joe',
       phone: '+12223334455',
       role: 'customer'
