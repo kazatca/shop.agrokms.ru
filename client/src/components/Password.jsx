@@ -4,7 +4,8 @@ import {setPassword} from '../actions/user.js';
 
 export class PasswordDummy extends Component {
   static propTypes = {
-    
+    password: PropTypes.string,
+    setPassword: PropTypes.func
   };
 
   render() {

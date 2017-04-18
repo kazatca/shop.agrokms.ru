@@ -25,12 +25,13 @@ describe('initState', function() {
     })
   );
 
-  it('creds stored', () => 
-    getInitState('/')
+  it('creds stored', () => {
+    process.env.GMAP_KEY='google_map_key';
+    return getInitState('/')
     .then(({store, history}) => {
       expect(store.getState().getIn(['creds', 'google_map'])).to.eql('google_map_key');
     })
-  );
+  });
 
   it('products stored', () =>
     db.model('Product').create(coffee)

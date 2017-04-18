@@ -10,7 +10,8 @@ import {
   setPhone,
   setAddress,
   setPassword,
-  login
+  login,
+  changePassword
 } from '../../src/actions/user.js';
 
 describe('User actions', function() {
@@ -130,6 +131,36 @@ describe('User actions', function() {
     .then(() => {
       const user = store.getState().get('user').toJS();
       expect(user).to.have.property('phone', '+12223334455');
+    });
+  });
+
+  it('change password', () => {
+    var request;
+
+    nock(/localhost/)
+    .post('/api/user/password')
+    .reply(200, (uri, body) => {
+      request = body;
+    });
+
+    const store = createStore(reducer, applyMiddleware(thunk));
+    store.dispatch(setPassword('secret'));
+    return store.dispatch(changePassword())
+    .then(() => {
+      expect(request).to.have.property('password', 'secret');
+    });
+  });
+
+  it('clean password after change', () => {
+    nock(/localhost/)
+    .post('/api/user/password')
+    .reply(200);
+
+    const store = createStore(reducer, applyMiddleware(thunk));
+    store.dispatch(setPassword('secret'));
+    return store.dispatch(changePassword())
+    .then(() => {
+      expect(store.getState().getIn(['user', 'password'])).to.not.ok;
     });
   });
 });
