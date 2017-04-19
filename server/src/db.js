@@ -7,7 +7,7 @@ import categorySchema from './models/Category.js';
 import storeSchema from './models/Store.js';
 
 const ops = {};
-if(process.env.DB_LOGGING != 'console'){
+if(process.env.NODE_ENV != 'development'){
   ops.logging = false;
 }
 
