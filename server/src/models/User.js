@@ -16,6 +16,7 @@ export default sequelize =>
     address: Sequelize.STRING,
     role: {
       type: Sequelize.STRING,
+      defaultValue: 'customer',
       validate: {isIn: {msg: 'wrong role', args: [[
         'admin', 
         'customer'
