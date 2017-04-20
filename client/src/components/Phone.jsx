@@ -6,17 +6,18 @@ import {setPhone} from '../actions/user.js';
 export class PhoneDummy extends Component {
   static propTypes = {
     phone: PropTypes.string.isRequired,
-    setPhone: PropTypes.func.isRequired
+    setPhone: PropTypes.func.isRequired,
+    mask: PropTypes.string,
+    maskChar: PropTypes.string
   };
 
   render() {
     return (
       <InputMask
-        {...this.props}
         type="text"
         className="phone"
-        mask="+7(999)999-99-99"
-        maskChar="_"
+        mask={this.props.mask}
+        maskChar={this.props.maskChar}
         value={this.props.phone} 
         onChange={e => this.props.setPhone(e.target.value)} />    
     );
@@ -25,7 +26,9 @@ export class PhoneDummy extends Component {
 
 const mapStateToProps = state => {
   return {
-    phone: state.get('user').get('phone')
+    phone: state.get('user').get('phone'),
+    mask: state.getIn(['settings', 'phone', 'mask'], ''),
+    maskChar: state.getIn(['settings', 'phone', 'maskChar'], '_')
   };
 };
 
