@@ -9,7 +9,7 @@ import {getAll as getStores} from './controllers/Store.js';
 import {getAll as getCategories} from './controllers/Category.js';
 
 import {set as setProducts} from '../../client/src/actions/products.js';
-import {setGMapKey} from '../../client/src/actions/creds.js';
+import {setGMapKey, setDadataKey} from '../../client/src/actions/creds.js';
 import {setStores} from '../../client/src/actions/stores.js';
 import {setCategories} from '../../client/src/actions/categories.js';
 
@@ -24,6 +24,7 @@ export const getInitState = path => {
 
   store.dispatch(push(path));
   store.dispatch(setGMapKey(process.env.GMAP_KEY));
+  store.dispatch(setDadataKey(process.env.DADATA_KEY));
 
   return Promise.all([
     getStoreFront().then(storeFront => 
