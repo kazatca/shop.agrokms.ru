@@ -5,6 +5,8 @@ import {routerMiddleware} from 'react-router-redux';
 import thunk from 'redux-thunk';
 import createBrowserHistory from 'history/createBrowserHistory';
 import {fromJSON} from 'transit-immutable-js';
+import {setGMapKey} from './actions/creds.js';
+
 
 import reducer from './reducer.js';
 import App from './components/App.jsx';

@@ -14,6 +14,13 @@ export default class AboutPage extends Component {
           <title>Контакты</title>
         </Helmet>
         <GMap 
+        />
+      </div>
+    );
+  }
+}
+
+/*
           center={{
             lat: 50.570747, 
             lng: 137.016390
@@ -27,8 +34,5 @@ export default class AboutPage extends Component {
             lng: 137.001833,
             text: 'Северное шоссе, 6'
           }]}
-        />
-      </div>
-    );
-  }
-}
+
+*/

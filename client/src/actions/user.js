@@ -70,3 +70,12 @@ export const logout = () => (dispatch, getState) => {
   .then(dispatch(cleanId()))
   .then(dispatch(push('/')));
 };
+
+export const changePassword = () => (dispatch, getState) => {
+  const password = getState().getIn(['user', 'password']);
+  if(!password){
+    return;
+  }
+  return api.post('/user/password', {password})
+  .then(() => dispatch(cleanPassword()));
+};

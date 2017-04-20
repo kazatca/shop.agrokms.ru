@@ -5,3 +5,4 @@ server/dist/*
 .env
 server/test/learning
 client/test/learning
+npm-debug.log
