@@ -2,6 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 import morgan from 'morgan';
+import db from './db.js';
+import SessionStore from 'express-session-sequelize';
 
 import router from './router.js';
 import renderPage from './renderPage.jsx';
@@ -21,11 +23,14 @@ if(process.env.NODE_ENV == 'production'){
   app.use(morgan('combined'));
 }
 
+const sessionStore = new (SessionStore(session.Store))({db});
+
 app.use(session({
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: false,
-  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  maxAge: 24 * 60 * 60 * 1000, // 24 hours
+  store: sessionStore
 }));
 
 app.use(express.static(`${__dirname}/../../client/dist`, {index: false}));
@@ -35,7 +40,7 @@ app.get('/status', (req, res) => res.send('ok'));
 app.use('/api', router);
 
 app.use((req, res, next) => 
-  renderPage(req.path)
+  renderPage(req.path, req.session)
   .then(page => res.send(page))
   .catch(next)
 );

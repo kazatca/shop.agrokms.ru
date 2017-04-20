@@ -11,8 +11,8 @@ import {getInitState} from './initState.js';
 
 const tmpl = readFileSync(`${__dirname}/../../client/dist/index.html`, 'utf-8');
 
-const renderPage = path => {
-  return getInitState(path)
+const renderPage = (path, session) => {
+  return getInitState(path, session)
   .then(({store, history}) => {
     const html = renderToString(<App store={store} history={history} />);
     const head = Helmet.renderStatic();

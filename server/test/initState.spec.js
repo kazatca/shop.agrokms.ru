@@ -8,7 +8,7 @@ const [coffee] = require('./mocks/products.json');
 describe('initState', function() {
   before(() => init());
 
-  beforeEach(() => truncate('Product', 'Store', 'Category'));
+  beforeEach(() => truncate('Product', 'Store', 'Category', 'User'));
   
   it('basic', () => 
     getInitState('/')
@@ -55,6 +55,23 @@ describe('initState', function() {
     .then(() => getInitState('/'))
     .then(({store, history}) => {
       expect(store.getState().getIn(['categories', 0, 'name'])).to.eql('Drinks');
+    })
+  );
+
+  it('user stored', () => 
+    db.model('User').create({
+      id: 1,
+      name: 'Joe',
+      phone: '+12223334455',
+      address: 'Lenina, 1'
+    })
+    .then(() => getInitState('/', {userId: '1'}))
+    .then(({store, history}) => {
+      const state = store.getState().get('user');
+      expect(state.get('id')).to.eql('1');
+      expect(state.get('phone')).to.eql('+12223334455');
+      expect(state.get('name')).to.eql('Joe');
+      expect(state.get('address')).to.eql('Lenina, 1');
     })
   );
 });

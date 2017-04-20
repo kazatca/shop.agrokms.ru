@@ -6,7 +6,7 @@ import {toJSON} from 'transit-immutable-js';
 const router = Router();
 
 router.get('/', (req, res) => 
-  getInitState('/')
+  getInitState('/', req.session)
   .then(({store, history}) => res.send(toJSON(store.getState())))
 );
 
