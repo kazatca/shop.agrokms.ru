@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import InputMask from 'react-input-mask';
 import {connect} from 'react-redux';
 import {setPhone} from '../actions/user.js';
 
@@ -10,9 +11,12 @@ export class PhoneDummy extends Component {
 
   render() {
     return (
-      <input 
+      <InputMask
+        {...this.props}
         type="text"
         className="phone"
+        mask="+7(999)999-99-99"
+        maskChar="_"
         value={this.props.phone} 
         onChange={e => this.props.setPhone(e.target.value)} />    
     );

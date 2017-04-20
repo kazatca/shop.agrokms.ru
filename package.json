@@ -54,7 +54,6 @@
     "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
-    "webpack": "^2.2.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.1",
     "es6-promise": "^4.1.0",
@@ -72,6 +71,7 @@
     "react-dd-menu": "^2.0.0",
     "react-dom": "^15.4.2",
     "react-helmet": "^5.0.2",
+    "react-input-mask": "^0.8.0",
     "react-redux": "^5.0.3",
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",
@@ -80,9 +80,10 @@
     "redux-thunk": "^2.2.0",
     "sequelize": "^3.30.2",
     "transit-immutable-js": "^0.7.0",
-    "transit-js": "^0.8.846"
+    "transit-js": "^0.8.846",
+    "webpack": "^2.2.1"
   },
   "engines": {
     "node": "6.10.0"
-  }  
+  }
 }
