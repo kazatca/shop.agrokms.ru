@@ -5,6 +5,7 @@ import cartItemSchema from './models/CartItem.js';
 import userSchema from './models/User.js';
 import categorySchema from './models/Category.js';
 import storeSchema from './models/Store.js';
+import settingSchema from './models/Setting.js';
 
 const ops = {};
 if(process.env.NODE_ENV != 'development'){
@@ -18,6 +19,7 @@ cartItemSchema(db);
 userSchema(db);
 categorySchema(db);
 storeSchema(db);
+settingSchema(db);
 
 db.model('Order').hasMany(db.model('CartItem'), {
   constraints: false

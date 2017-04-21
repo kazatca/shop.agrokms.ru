@@ -23,7 +23,10 @@ if(process.env.NODE_ENV == 'production'){
   app.use(morgan('combined'));
 }
 
-const sessionStore = new (SessionStore(session.Store))({db});
+let sessionStore = null;
+if(process.env.NODE_ENV != 'test'){
+  sessionStore = new (SessionStore(session.Store))({db});
+}
 
 app.use(session({
   secret: process.env.SECRET,

@@ -8,13 +8,14 @@ import {getAll as getStoreFront} from './controllers/StoreFront.js';
 import {getAll as getStores} from './controllers/Store.js';
 import {getAll as getCategories} from './controllers/Category.js';
 import {get as getUser} from './controllers/User.js';
+import {getAll as getAllSettings} from './controllers/Setting.js';
 
 import {set as setProducts} from '../../client/src/actions/products.js';
 import {setGMapKey, setDadataKey} from '../../client/src/actions/creds.js';
 import {setStores} from '../../client/src/actions/stores.js';
 import {setCategories} from '../../client/src/actions/categories.js';
 import {set as setUser} from '../../client/src/actions/user.js';
-
+import {setAll as setAllSettings} from '../../client/src/actions/settings.js';
 
 const passStoreFront = store => 
   getStoreFront().then(storeFront => 
@@ -27,6 +28,10 @@ const passStores = store =>
 const passCategories = store => 
   getCategories().then(categories => 
     store.dispatch(setCategories(categories)));
+
+const passSettings = store => 
+  getAllSettings().then(settings => 
+    store.dispatch(setAllSettings(settings)));
 
 const passUser = (store, session) => {
   if(!session || !session.userId){
@@ -54,6 +59,7 @@ export const getInitState = (path, session) => {
     passStoreFront(store),
     passStores(store),
     passCategories(store),
+    passSettings(store),
     passUser(store, session)
   ])
   .then(() => {
