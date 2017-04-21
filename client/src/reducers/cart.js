@@ -26,4 +26,4 @@ const reducers = {
 
 export default (cart = OrderedMap(), action) => {
   return action.type in reducers ? reducers[action.type](cart, action) : cart;
-}
+};
