@@ -1,7 +1,6 @@
 /* eslint-env node */
 var webpack = require('webpack');
 var path = require('path');
-var Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: [
@@ -28,8 +27,7 @@ module.exports = {
     extensions: ['.js', '.jsx']
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new Dotenv()
+    new webpack.HotModuleReplacementPlugin()
   ],
   devServer: {
     contentBase: './dist',
