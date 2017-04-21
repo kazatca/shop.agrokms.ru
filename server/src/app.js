@@ -30,7 +30,8 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   maxAge: 24 * 60 * 60 * 1000, // 24 hours
-  store: sessionStore
+  store: sessionStore,
+  unset: 'destroy'
 }));
 
 app.use(express.static(`${__dirname}/../../client/dist`, {index: false}));

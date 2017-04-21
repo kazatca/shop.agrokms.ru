@@ -26,8 +26,8 @@ router.get('/', (req, res) => {
 });
 
 router.post('/logout', (req, res) => {
-  req.session.destroy();
-  res.end();
+  req.session.destroy(() => res.end());
+  // res.end();
 });
 
 router.post('/reset-password', (req, res) => 
