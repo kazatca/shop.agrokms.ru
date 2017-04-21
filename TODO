@@ -1,0 +1,3 @@
+[ ] fix client production code config
+[ ] reduce suggested address line (replace region)
+[ ] clean phone number before save to db
