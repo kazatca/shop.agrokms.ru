@@ -13,6 +13,7 @@ import AboutPage from './AboutPage.jsx';
 import ThanksPage from './ThanksPage.jsx';
 import LoginPage from './LoginPage.jsx';
 import OrdersPage from './OrdersPage.jsx';
+import ChangePasswordPage from './ChangePasswordPage.jsx';
 
 const StoreFrontPage = props => {
   return (
@@ -37,6 +38,7 @@ const App = ({store, history}) => {
             <Route path="/thanks" component={ThanksPage} />
             <Route path="/login" component={LoginPage} />
             <Route path="/orders" component={OrdersPage} />
+            <Route path="/change-password" component={ChangePasswordPage} />
 
             <Redirect from="*" to="/" />
           </div>

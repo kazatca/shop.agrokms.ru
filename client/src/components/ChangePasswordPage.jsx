@@ -21,7 +21,7 @@ export class ChangePasswordPageDummy extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changePassword: dispatch(changePassword())
+    changePassword: () => dispatch(changePassword())
   };
 };
 
