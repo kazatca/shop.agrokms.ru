@@ -4,7 +4,8 @@ import {connect} from 'react-redux';
 import Cart from './Cart.jsx';
 import UserName from './UserName.jsx';
 import Phone from './Phone.jsx';
-import Address from './Address.jsx';
+// import Address from './Address.jsx';
+import Address from './AddressDadata.jsx';
 
 import {send as sendOrder} from '../actions/order.js';
 

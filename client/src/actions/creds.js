@@ -4,3 +4,10 @@ export const setGMapKey = key => {
     key
   };
 };
+
+export const setDadataKey = key => {
+  return {
+    type: 'DADATA_KEY.SET',
+    key
+  };
+};

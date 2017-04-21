@@ -2,7 +2,7 @@ run:
 	@node -r babel-core/register -r dotenv/config src/index.js
 
 build:
-	@rollup -c
+	@webpak --progress
 
 run-prod:
 	@node -r dotenv/config dist/bundle.js
