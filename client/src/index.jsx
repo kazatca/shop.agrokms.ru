@@ -1,7 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 import {createStore, applyMiddleware} from 'redux';
-import {routerMiddleware} from 'react-router-redux';
+import {routerMiddleware, push} from 'react-router-redux';
 import thunk from 'redux-thunk';
 import createBrowserHistory from 'history/createBrowserHistory';
 import {fromJSON} from 'transit-immutable-js';
@@ -20,7 +20,7 @@ const getInitState = () => {
 
 getInitState()
 .then(initState => {
-  const history = createBrowserHistory();
+  const history = createBrowserHistory({forceRefresh: false});
 
   const store = createStore(
     reducer, 
@@ -30,6 +30,7 @@ getInitState()
 
   if(process.env.NODE_ENV == 'development'){ // eslint-disable-line no-undef
     window.store = store; 
+    window.__push = push;
   }
 
   render(

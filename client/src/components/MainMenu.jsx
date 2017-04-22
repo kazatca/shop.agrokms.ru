@@ -52,7 +52,7 @@ class MainMenuDummy extends Component{
                 <NavLink to="change-password">Сменить пароль</NavLink>
               </li>
               <li>
-                <a href="" onClick={() => this.props.logout()}>Выйти</a>
+                <a href="" onClick={e => this.props.logout(e)}>Выйти</a>
               </li>
           </HoverMenu>
         }
@@ -70,7 +70,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    logout: () => dispatch(logout())
+    logout: (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dispatch(logout());
+    }
   };
 };
 

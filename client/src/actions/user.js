@@ -65,7 +65,7 @@ export const login = () => (dispatch, getState) => {
   });
 };
 
-export const logout = () => (dispatch, getState) => {
+export const logout = () => dispatch => {
   return api.post('/user/logout')
   .then(dispatch(cleanId()))
   .then(dispatch(push('/')));
