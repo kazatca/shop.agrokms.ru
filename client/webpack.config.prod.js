@@ -3,7 +3,6 @@ var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const extractCSS = new ExtractTextPlugin('style.css');
-var Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: [
@@ -18,7 +17,7 @@ module.exports = {
     loaders: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      loader: 'react-hot-loader!babel-loader'
+      loader: 'babel-loader'
     }, {
       test: /\.scss$/,
       use: extractCSS.extract({
@@ -28,18 +27,15 @@ module.exports = {
     }]
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
-    }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
+      },
+      output: {
+        comments: false
       }
     }),
-    extractCSS,
-    new Dotenv()
+    extractCSS
   ],
   resolve: {
     extensions: ['.js', '.jsx']

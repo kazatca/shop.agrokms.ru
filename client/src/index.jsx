@@ -5,27 +5,20 @@ import {routerMiddleware} from 'react-router-redux';
 import thunk from 'redux-thunk';
 import createBrowserHistory from 'history/createBrowserHistory';
 import {fromJSON} from 'transit-immutable-js';
-import {setGMapKey} from './actions/creds.js';
-
 
 import reducer from './reducer.js';
 import App from './components/App.jsx';
-import * as api from './api.js';
+import {get} from './api.js';
 
 import './scss/main.scss';
 
-
 const getInitState = () => {
-  if(window.__INIT_STATE__){
-    return fromJSON(window.__INIT_STATE__);
-  }
-  return api.get('/init-state')
-  .then(resp => fromJSON(resp))
+  return Promise.resolve(window.__INIT_STATE__ || get('/init-state'))
+  .then(data => fromJSON(data))
   .catch(() => undefined);
 };
 
-Promise.resolve()
-.then(() => getInitState())
+getInitState()
 .then(initState => {
   const history = createBrowserHistory();
 
@@ -35,7 +28,7 @@ Promise.resolve()
     applyMiddleware(routerMiddleware(history), thunk)
   );
 
-  if(process.env.NODE_ENV = 'development'){ // eslint-disable-line 
+  if(process.env.NODE_ENV == 'development'){ // eslint-disable-line no-undef
     window.store = store; 
   }
 
