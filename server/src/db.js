@@ -7,7 +7,9 @@ import categorySchema from './models/Category.js';
 import storeSchema from './models/Store.js';
 import settingSchema from './models/Setting.js';
 
-const ops = {};
+const ops = {
+  charset: 'UTF8'
+};
 if(process.env.NODE_ENV != 'development'){
   ops.logging = false;
 }
