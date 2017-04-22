@@ -14,11 +14,19 @@ export class AddressDadataDummy extends Component{
     $(this.refs.address).suggestions({
       token: this.props.dadata_key,
       type: 'ADDRESS',
-      constraints: {
-        locations: { kladr_id: "2701000000000" },
-        deletable: false
-      },
-      restrict_value: false,
+      constraints: [
+        {
+          label: '',
+          locations: { city: 'Комсомольск-на-Амуре'},
+          deletable: false
+        },
+        {
+          label: '',
+          locations: { region: 'Хабаровский', area: 'Комсомольский'},
+          deletable: false
+        }
+      ],
+      restrict_value: true,
       count: 5,
       onSelect: res => console.log(res)
     });

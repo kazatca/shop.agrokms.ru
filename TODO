@@ -1,3 +1,4 @@
 [x] fix client production code config
 [ ] reduce suggested address line (replace region)
 [ ] clean phone number before save to db
+[ ] move constraints of address suggestions to db 
