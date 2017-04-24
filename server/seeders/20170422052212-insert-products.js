@@ -4,10 +4,14 @@ module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.bulkInsert('Products', [{
       name: 'Coffee',
-      price: 5000
+      price: 5000,
+      createdAt: new Date(),
+      updatedAt: new Date()
     }, {
       name: 'Burger',
-      price: 13000
+      price: 13000,
+      createdAt: new Date(),
+      updatedAt: new Date()
     }], {});
   },
 
