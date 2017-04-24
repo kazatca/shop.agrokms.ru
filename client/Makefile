@@ -1,5 +1,8 @@
 test:
-	@node ../node_modules/mocha/bin/mocha
+	@mocha
+
+int-test: 
+	@mocha --opts ./test/mocha.opts
 
 dev:
 	@webpack-dev-server -d

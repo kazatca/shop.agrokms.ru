@@ -7,6 +7,7 @@ config({
   path: './test/.env'
 });
 
+process.env.NODE_ENV = 'test';
 
 chai.use(chaiImmutable);
 chai.use(chaiAsPromised);

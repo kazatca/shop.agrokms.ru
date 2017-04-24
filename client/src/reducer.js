@@ -8,6 +8,7 @@ import creds from './reducers/creds.js';
 import stores from './reducers/stores.js';
 import orders from './reducers/orders.js';
 import settings from './reducers/settings.js';
+import suggestions from './reducers/suggestions.js';
 
 import {routerReducer as router} from 'react-router-redux';
 
@@ -25,6 +26,7 @@ const reducer = combineReducers({
   stores,
   orders,
   settings,
+  suggestions,
   router
 });
 
