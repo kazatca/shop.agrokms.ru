@@ -2,7 +2,7 @@ test:
 	@mocha
 
 int-test: 
-	@mocha --opts ./test/mocha.opts
+	@mocha --opts ./int-test/mocha.opts
 
 dev:
 	@webpack-dev-server -d
