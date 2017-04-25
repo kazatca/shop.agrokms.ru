@@ -10,4 +10,4 @@ dev:
 prod:
 	@webpack -p --config webpack.config.prod.js --progress
 
-.PHONY:	test
+.PHONY:	test int-test
