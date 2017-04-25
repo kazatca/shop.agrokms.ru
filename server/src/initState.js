@@ -16,7 +16,6 @@ import {setStores} from '../../client/src/actions/stores.js';
 import {setCategories} from '../../client/src/actions/categories.js';
 import {set as setUser} from '../../client/src/actions/user.js';
 import {setAll as setAllSettings} from '../../client/src/actions/settings.js';
-import {setApiKey as setSuggestionsApiKey} from '../../client/src/actions/suggestions.js';
 
 const passStoreFront = store => 
   getStoreFront().then(storeFront => 
@@ -54,7 +53,6 @@ export const getInitState = (path, session) => {
 
   store.dispatch(push(path));
   store.dispatch(setGMapKey(process.env.GMAP_KEY));
-  store.dispatch(setSuggestionsApiKey(process.env.DADATA_KEY));
 
   return Promise.all([
     passStoreFront(store),

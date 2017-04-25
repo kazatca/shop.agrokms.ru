@@ -13,7 +13,10 @@ export default sequelize =>
     },
     password: Sequelize.STRING,
     tmpPassword: Sequelize.STRING,
-    address: Sequelize.STRING,
+    address: {
+      type: Sequelize.STRING,
+      defaultValue: ''
+    },
     role: {
       type: Sequelize.STRING,
       defaultValue: 'customer',
