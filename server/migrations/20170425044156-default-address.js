@@ -2,14 +2,14 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    queryInterface.changeColumn('Users', 'role', {
+    queryInterface.changeColumn('Users', 'address', {
       type: Sequelize.STRING,
-      defaultValue: 'customer'
+      defaultValue: ''
     });
   },
 
   down: function (queryInterface, Sequelize) {
-    queryInterface.changeColumn('Users', 'role', {
+    queryInterface.changeColumn('Users', 'address', {
       type: Sequelize.STRING
     });
   }
