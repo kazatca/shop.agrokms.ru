@@ -19,6 +19,9 @@ var data = {
       ],
       unwantedWords: ['Хабаровский край', 'Комсомольский р-н']
     }
+  },
+  gmap: {
+    apiKey: process.env.GMAP_KEY
   }
 };
 

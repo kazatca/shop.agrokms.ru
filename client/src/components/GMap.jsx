@@ -69,7 +69,7 @@ class GMapDummy extends Component {
 
 const mapStateToProps = state => {
   return {
-    apiKey: state.get('creds').get('google_map'),
+    apiKey: state.getIn(['settings', 'gmap', 'apiKey']),
     markers: state.get('stores').map(store => {
       const [lat, lng] = store.coords.split(',').map(x => x.trim()*1);
       return {
