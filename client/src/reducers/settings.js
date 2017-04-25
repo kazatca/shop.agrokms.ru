@@ -4,7 +4,7 @@ const reducers = {
   'SETTINGS.SET_VALUE': (settings, {key, value}) => 
     settings.setIn(key, value),
   'SETTINGS.SET': (_, {settings}) => settings.reduce((result, {key, value}) => 
-    result.setIn(key.split('.'), value), Map())
+    result.setIn(key.split('.'), JSON.parse(value)), Map())
 };
 
 export default (settings = Map(), action) => {

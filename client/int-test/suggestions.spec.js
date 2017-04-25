@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 
-import {setApiKey, getAddresses} from '../src/actions/suggestions.js';
+import {setApiKey, getAddresses, stripSuggestions} from '../src/actions/suggestions.js';
 import reducer from '../src/reducer.js';
 
 describe('Suggestions service', function() {

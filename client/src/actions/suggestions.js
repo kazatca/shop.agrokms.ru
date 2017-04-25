@@ -1,12 +1,5 @@
 import fetch from 'isomorphic-fetch';
 
-export const setApiKey = key => {
-  return {
-    type: 'SUGGESTIONS.SET_API_KEY',
-    key
-  };
-};
-
 export const setAddresses = addresses => {
   return {
     type: 'SUGGESTIONS.SET_ADDRESSES',
@@ -14,11 +7,36 @@ export const setAddresses = addresses => {
   };
 };
 
+export const stripSuggestions = (patterns = [], resp) => {
+  resp.suggestions = resp.suggestions.map(item => {
+    item.value = patterns.reduce((result, pattern) => result.replace(pattern, ''), item.value)
+    .replace(/^[\s,]+/, ''); //replace ', , '  from head
+    return item;
+  });
+  return resp;  
+};
+
+
 export const getAddresses = query => (dispatch, getState) => {
-  const apiKey = getState().getIn(['suggestions', 'apiKey']);
+  const getSetting = key => 
+    getState().getIn(['settings', 'suggestions', 'address', key]);
+
+  const apiKey = getSetting('apiKey');
   if(!apiKey){
     return Promise.reject('DaData api key not set');
   }
+
+  const request = {
+    query,
+    count: getSetting('count') || 5
+  };
+
+  const locations = getSetting('locations');
+  if(locations){
+    request.locations = locations;
+    request.restrict_value = true;
+  }
+
   return fetch('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address', {
     method: 'POST',
     headers: {
@@ -26,9 +44,13 @@ export const getAddresses = query => (dispatch, getState) => {
       'Accept': 'application/json',
       'Authorization': `Token ${apiKey}` 
     },
-    body: JSON.stringify({query, count: 5})
+    body: JSON.stringify(request)
   })
   .then(resp => resp.json())
+  .then(resp => stripSuggestions(getSetting('unwantedWords'), resp))
   .then(resp => dispatch(setAddresses(resp.suggestions)));
 };
 
+export const clear = () => ({
+  type: 'SUGGESTIONS.CLEAR'
+});
