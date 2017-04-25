@@ -13,9 +13,11 @@ export class LoginPageDummy extends Component {
   render() {
     return (
       <div>
-        <Phone />
-        <Password />
-        <button onClick={() => this.props.login()}>Войти</button>
+        <form onSubmit={(e) => this.props.login(e)}>
+          <Phone />
+          <Password />
+          <input type="submit" value="Войти" />
+        </form>
       </div>
     );
   }
@@ -23,7 +25,11 @@ export class LoginPageDummy extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    login: () => dispatch(login())
+    login: (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      return dispatch(login());
+    }
   };
 };
 
