@@ -2,3 +2,4 @@
 [x] reduce suggested address line (replace region)
 [ ] clean phone number before save to db
 [x] move constraints of address suggestions to db 
+[ ] move mailgun and OTP tests to /int-test

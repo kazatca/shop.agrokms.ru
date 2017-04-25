@@ -5,7 +5,7 @@ import {mount} from 'enzyme';
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 
-import {set as setProducts} from '../../src/actions/products';
+import {setAll as setProducts} from '../../src/actions/products';
 
 import reducer from '../../src/reducer';
 import StoreFront, {StoreFrontDummy} from '../../src/components/StoreFront';

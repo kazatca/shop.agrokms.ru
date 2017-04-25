@@ -1,4 +1,4 @@
-export const setStores = stores => {
+export const setAll = stores => {
   return {
     type: 'STORES.SET',
     stores

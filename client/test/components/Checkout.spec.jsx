@@ -8,7 +8,7 @@ import {createMemoryHistory} from 'history';
 
 import Checkout, {CheckoutDummy} from '../../src/components/Checkout.jsx';
 import reducer from '../../src/reducer';
-import {set as setProducts} from '../../src/actions/products.js';
+import {setAll as setProducts} from '../../src/actions/products.js';
 import {add as addToCart} from '../../src/actions/cart.js';
 
 const [coffee] = require('../mocks/products.json');
