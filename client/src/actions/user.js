@@ -62,6 +62,7 @@ export const login = () => (dispatch, getState) => {
     if(user){
       dispatch(set(user));
     }
+    dispatch(push('/'));
   });
 };
 
