@@ -1,4 +1,5 @@
 [x] fix client production code config
 [x] reduce suggested address line (replace region)
-[ ] clean phone number before save to db
+[x] clean phone number before save to db
 [x] move constraints of address suggestions to db 
+[ ] make new (more accurate) baloon tips on gmap
