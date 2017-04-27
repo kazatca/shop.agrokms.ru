@@ -6,7 +6,7 @@ import nock from 'nock';
 
 import {add as addToCart} from '../../src/actions/cart.js'; 
 import {send as sendOrder, getAll as getOrders} from '../../src/actions/order.js'; 
-import {set as setProducts} from '../../src/actions/products.js';
+import {setAll as setProducts} from '../../src/actions/products.js';
 import {setName, setPhone, setAddress, set as setUser} from '../../src/actions/user.js';
 
 import reducer from '../../src/reducer.js';

@@ -3,3 +3,6 @@
 [x] clean phone number before save to db
 [x] move constraints of address suggestions to db 
 [ ] make new (more accurate) baloon tips on gmap
+[ ] move mailgun and OTP tests to /int-test
+[ ] direct request /order returns 500
+[ ] direct request /{cart, about, ...} leads to /

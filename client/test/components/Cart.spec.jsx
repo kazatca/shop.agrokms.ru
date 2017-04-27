@@ -7,7 +7,7 @@ import {Provider} from 'react-redux';
 import {ConnectedRouter} from 'react-router-redux';
 import {createMemoryHistory} from 'history';
 
-import {set as setProducts} from '../../src/actions/products';
+import {setAll as setProducts} from '../../src/actions/products';
 import {
   add as addToCart, 
   changeQty, 

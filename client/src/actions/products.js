@@ -1,6 +1,6 @@
 import * as api from '../api.js';
 
-export const set = products => {
+export const setAll = products => {
   return {
     type: 'PRODUCTS.SET',
     products
@@ -10,6 +10,6 @@ export const set = products => {
 export const fetch = () => 
   dispatch => 
     api.get('/product/all')
-    .then(products => dispatch(set(products)));
+    .then(products => dispatch(setAll(products)));
 
 

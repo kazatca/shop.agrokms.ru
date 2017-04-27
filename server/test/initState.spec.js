@@ -8,7 +8,7 @@ const [coffee] = require('./mocks/products.json');
 describe('initState', function() {
   before(() => init());
 
-  beforeEach(() => truncate('Product', 'Store', 'Category', 'User'));
+  beforeEach(() => truncate('Product', 'Store', 'Category', 'User', 'Setting'));
   
   it('basic', () => 
     getInitState('/')
@@ -25,13 +25,13 @@ describe('initState', function() {
     })
   );
 
-  it('creds stored', () => {
-    process.env.GMAP_KEY='google_map_key';
-    return getInitState('/')
+  it('settings stored', () =>
+    db.model('Setting').create({key: 'gmap.apiKey', value: '"google_map_key"'})
+    .then(() => getInitState('/'))
     .then(({store, history}) => {
-      expect(store.getState().getIn(['creds', 'google_map'])).to.eql('google_map_key');
+      expect(store.getState().getIn(['settings', 'gmap', 'apiKey'])).to.eql('google_map_key');
     })
-  });
+  );
 
   it('products stored', () =>
     db.model('Product').create(coffee)
