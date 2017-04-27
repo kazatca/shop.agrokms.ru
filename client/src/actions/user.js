@@ -1,5 +1,6 @@
 import * as api from '../api.js';
 import {push} from 'react-router-redux';
+import {set as setMessage, clear as clearMessage} from './messages.js';
 
 export const set = user => {
   return {
@@ -61,8 +62,12 @@ export const login = () => (dispatch, getState) => {
     dispatch(cleanPassword());
     if(user){
       dispatch(set(user));
+      dispatch(clearMessage('loginError'));
+      dispatch(push('/'));
     }
-    dispatch(push('/'));
+    else{
+      dispatch(setMessage('loginError', 'Неверный телефон или пароль'));
+    }
   });
 };
 

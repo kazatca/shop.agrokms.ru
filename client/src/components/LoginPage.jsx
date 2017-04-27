@@ -7,12 +7,18 @@ import {login} from '../actions/user.js';
 
 export class LoginPageDummy extends Component {
   static propTypes = {
-    login: PropTypes.func.isRequired
+    login: PropTypes.func.isRequired,
+    error: PropTypes.string
   };
 
   render() {
     return (
       <div>
+        {
+          this.props.error?
+          <div className="error">{this.props.error}</div>:
+          null
+        }
         <form onSubmit={(e) => this.props.login(e)}>
           <Phone />
           <Password />
@@ -22,6 +28,10 @@ export class LoginPageDummy extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  error: state.getIn(['messages', 'loginError'])
+});
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -33,5 +43,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const LoginPage = connect(null, mapDispatchToProps)(LoginPageDummy);
+const LoginPage = connect(mapStateToProps, mapDispatchToProps)(LoginPageDummy);
 export default LoginPage;
