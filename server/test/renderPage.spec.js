@@ -10,19 +10,21 @@ const [coffee, burger] = require('./mocks/products.json');
 describe('renderPage func', function() {
   beforeEach(init);
 
-  it('basic', () => renderPage('/').then(page => {
-    const $ = load(page);
+  it('basic', () => renderPage('/').then(({status, body}) => {
+    expect(status).to.eql(200);
+
+    const $ = load(body);
     
-    expect(page.match(/<!DOCTYPE html>/)).to.be.ok;
-    expect(page.match(/window\.__INIT_STATE__ = '\["\~\#iM"/)).to.be.ok;
+    expect(body.match(/<!DOCTYPE html>/)).to.be.ok;
+    expect(body.match(/window\.__INIT_STATE__ = '\["\~\#iM"/)).to.be.ok;
     expect($('[data-reactroot]')).to.be.ok;
   }));
 
   it('storefront at /', ()=> {
     return db.model('Product').bulkCreate([coffee, burger])
     .then(() => renderPage('/'))
-    .then(page => {
-      const $ = load(page);
+    .then(({body}) => {
+      const $ = load(body);
       
       expect($('[data-reactroot]')).to.be.ok;
       expect($('.product').length).to.eql(2);
@@ -31,9 +33,14 @@ describe('renderPage func', function() {
     });
   });
 
-  it('title', () => renderPage('/').then(page => {
-    const $ = load(page);
+  it('title', () => renderPage('/').then(({body}) => {
+    const $ = load(body);
     
     expect($('title').text()).to.eql('Магазин');
+  }));
+
+  it('got 404', () => renderPage('/life-on-mars').then(({status, body}) => {
+    expect(body).to.not.ok;
+    expect(status).to.eql(404);
   }));
 });

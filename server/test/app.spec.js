@@ -7,7 +7,7 @@ import app from '../src/app.js';
 
 const browse = () => request(app);
 
-describe('cookie', function() {
+describe('App', function() {
   it('basic', () => browse()
     .get('/status')
     .expect(200)

@@ -10,6 +10,7 @@ import orders from './reducers/orders.js';
 import settings from './reducers/settings.js';
 import suggestions from './reducers/suggestions.js';
 import messages from './reducers/messages.js';
+import status from './reducers/status.js';
 
 import {routerReducer as router} from 'react-router-redux';
 
@@ -29,6 +30,7 @@ const reducer = combineReducers({
   settings,
   suggestions,
   messages,
+  status,
   router
 });
 

@@ -15,13 +15,18 @@ const renderPage = (path, session) => {
   return getInitState(path, session)
   .then(({store, history}) => {
     const html = renderToString(<App store={store} history={history} />);
+    const status = store.getState().get('status');
+    if([404].indexOf(status) != -1){
+      return {status};
+    }
     const head = Helmet.renderStatic();
     const initState = toJSON(store.getState());
 
-    return tmpl
+    return {status, body: tmpl
       .replace(/<!-- title -->/, head.title.toString())
       .replace(/<!-- html -->/, html)
-      .replace(/\/\* init state \*\//, `window.__INIT_STATE__ = '${initState}';`);
+      .replace(/\/\* init state \*\//, `window.__INIT_STATE__ = '${initState}';`)
+    };
   });
 };
 

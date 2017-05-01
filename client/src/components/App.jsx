@@ -1,9 +1,10 @@
 import React, {PropTypes} from 'react';
 import {Provider} from 'react-redux';
-import {Route, Redirect} from 'react-router';
+import {Route, Switch} from 'react-router';
 
 import {ConnectedRouter} from 'react-router-redux';
 
+import NotFound from './NotFound.jsx';
 import CheckoutPage from './CheckoutPage.jsx';
 import StoreFront from './StoreFront.jsx';
 import Category from './Category.jsx';
@@ -31,6 +32,7 @@ const App = ({store, history}) => {
         <div>
           <Header />
           <div className="content container">
+          <Switch>
             <Route exact path="/" component={StoreFrontPage} />
             <Route path="/category/:id" component={Category} />
             <Route path="/cart" component={CheckoutPage} />
@@ -39,8 +41,9 @@ const App = ({store, history}) => {
             <Route path="/login" component={LoginPage} />
             <Route path="/orders" component={OrdersPage} />
             <Route path="/change-password" component={ChangePasswordPage} />
-
-            <Redirect from="*" to="/" />
+            
+            <Route path="*" component={NotFound} />
+          </Switch>
           </div>
           <Footer />
         </div>

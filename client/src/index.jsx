@@ -18,6 +18,16 @@ const getInitState = () => {
   .catch(() => undefined);
 };
 
+
+const getMiddleware = (history) => {
+  const middleware = applyMiddleware(routerMiddleware(history), thunk);
+  
+  if(process.env.NODE_ENV == 'development' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__){ // eslint-disable-line no-undef
+    return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(middleware);
+  }
+  return middleware;
+};
+
 getInitState()
 .then(initState => {
   const history = createBrowserHistory({forceRefresh: false});
@@ -25,7 +35,7 @@ getInitState()
   const store = createStore(
     reducer, 
     initState,
-    applyMiddleware(routerMiddleware(history), thunk)
+    getMiddleware(history)
   );
 
   if(process.env.NODE_ENV == 'development'){ // eslint-disable-line no-undef

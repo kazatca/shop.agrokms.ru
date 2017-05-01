@@ -45,7 +45,9 @@ app.use('/api', router);
 
 app.use((req, res, next) => 
   renderPage(req.path, req.session)
-  .then(page => res.send(page))
+  .then(({status, body}) => {
+    res.status(status).send(body);
+  })
   .catch(next)
 );
 
