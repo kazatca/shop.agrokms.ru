@@ -1,17 +1,16 @@
 import React, {Component, PropTypes} from 'react';
-import Money from './Money.jsx';
+import {connect} from 'react-redux';
 
-export default class CartItem extends Component {
+import Money from './Money.jsx';
+import {changeQty, removeItem} from '../actions/cart.js';
+
+export class CartItemDummy extends Component {
 
   static propTypes = {
-    id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
-    qty: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string
-    ]).isRequired,
     price: PropTypes.number.isRequired,
+    qty: PropTypes.number,
     changeQty: PropTypes.func.isRequired,
     removeItem: PropTypes.func.isRequired
   };
@@ -20,11 +19,7 @@ export default class CartItem extends Component {
     if(qty < 0){
       return;
     }
-    this.props.changeQty(this.props.id, qty);
-  }
-
-  removeItem(){
-    this.props.removeItem(this.props.id);
+    this.props.changeQty(qty);
   }
 
   render() {
@@ -59,7 +54,7 @@ export default class CartItem extends Component {
         <td>
           <button 
             className="remove" 
-            onClick={() => this.removeItem()}
+            onClick={this.props.removeItem}
           >Убрать</button>
         </td>
       </tr>
@@ -67,3 +62,21 @@ export default class CartItem extends Component {
   }
 }
 
+const mapStateToProps = (state, {productId}) => {
+  const product = state.get('products').get(productId);
+  const qty = state.get('cart').get(productId);
+  return {
+    name: product.get('name'),
+    image: product.get('image'),
+    price: product.get('price'),
+    qty: qty*1
+  };
+};
+
+const mapDispatchToProps = (dispatch, {productId}) => ({
+  changeQty: qty => dispatch(changeQty(productId, qty)),
+  removeItem: () => dispatch(removeItem(productId))
+});
+
+const CartItem = connect(mapStateToProps, mapDispatchToProps)(CartItemDummy);
+export default CartItem;

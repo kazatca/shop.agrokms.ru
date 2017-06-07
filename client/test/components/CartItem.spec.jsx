@@ -1,16 +1,17 @@
 import React from 'react';
 import {expect} from 'chai';
 import {mount} from 'enzyme';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+
+import reducer from '../../src/reducer';
+import {setAll as setProducts} from '../../src/actions/products';
+import {add as addToCart, changeQty} from '../../src/actions/cart';
 
 import CartItem from '../../src/components/CartItem';
 
-let [coffee] = require('../mocks/cart-items.json');
+const [coffee] = require('../mocks/cart-items.json');
 
-coffee = {
-  ...coffee,
-  changeQty: ()=>{},
-  removeItem: ()=>{}
-};
 // avoid react warning "<div> cannot appear as a child of <tr>"
 const Cart = props => {
   return (
@@ -23,58 +24,52 @@ const Cart = props => {
 };
 
 describe('CartItem component', function() {
-  it('basic', function() {
-    const cartItem = mount(<Cart><CartItem {...coffee} /></Cart>);
+  var store, cartItem;
 
-    expect(cartItem.find('.name').text()).to.eql('Coffee');
-    expect(cartItem.find('.image img').prop('src')).to.eql('/coffee.png');
-    expect(cartItem.find('.qty input').prop('value')).to.eql(10);
-    expect(cartItem.find('.price').text()).to.eql('50 р.');
-    expect(cartItem.find('.cost').text()).to.eql('500 р.');
+  beforeEach(() => {
+    store = createStore(reducer);
+    store.dispatch(setProducts([coffee]));
+    store.dispatch(addToCart('1', 10));
+
+    cartItem = mount(<Provider store={store}>
+      <Cart>
+        <CartItem productId={'1'}/>
+      </Cart>
+    </Provider>);
   });
 
   it('change qty by buttons', ()=>{
-    let qty = 10;
-    const changeQty = (id, newQty) => {qty = newQty;};
-    const cartItem = mount(<Cart><CartItem {...coffee}
-      qty={qty}
-      changeQty={changeQty}
-    /></Cart>);
-
     const minusBtn = cartItem.find('.minus');    
     const plusBtn = cartItem.find('.plus');
+    const getQty = () => store.getState().get('cart').get('1');
 
     plusBtn.simulate('click');
-    expect(qty).to.eql(11);
+    expect(getQty()).to.eql(11);
 
     minusBtn.simulate('click');
-    expect(qty).to.eql(9);
+    minusBtn.simulate('click');
+    expect(getQty()).to.eql(9);
   });
 
   it('change qty by direct input', function() {
-    let qty = 10;
-    const changeQty = (id, newQty) => {qty = newQty;};
-    const cartItem = mount(<Cart><CartItem {...coffee}
-      qty={qty}
-      changeQty={changeQty}
-    /></Cart>);
-
     const qtyInput = cartItem.find('.qty input');
+    const getQty = () => store.getState().get('cart').get('1');
 
     qtyInput.simulate('change', { target: { value: 20 } });
-    expect(qty).to.eql(20);
+    expect(getQty()).to.eql(20);
   });
 
   it('remove button', ()=>{
-    let removed;
-    const removeItem = (id) => {removed = id;};
-    const cartItem = mount(<Cart><CartItem {...coffee}
-      removeItem={removeItem}
-    /></Cart>);
-
     const removeBtn = cartItem.find('.remove');
 
     removeBtn.simulate('click');
-    expect(removed).to.eql('1');
+    expect(store.getState().get('cart').size).to.eql(0);
+  });
+
+  it('price changing', () => {
+    store.dispatch(changeQty('1', 5));
+
+    expect(cartItem.find('.qty input').prop('value')).to.eql(5);
+    expect(cartItem.find('.cost').text()).to.eql('250 р.');
   });
 }); 
