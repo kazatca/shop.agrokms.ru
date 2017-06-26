@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import Money from './Money.jsx';
+import {getCost} from '../selectors/cart.js';
 
 const CartTotal = ({cost}) =>
   <tr>
@@ -16,12 +17,8 @@ CartTotal.propTypes = {
   cost: PropTypes.number.isRequired
 };  
 
-//todo: make selector
-const mapStateToProps = state => {
-  const products = state.get('products');
-  return {
-    cost: state.get('cart').reduce((result, qty, id) => result + qty * products.get(id).get('price'), 0)
-  };
-};
+const mapStateToProps = state => ({
+  cost: getCost(state)
+});
 
 export default connect(mapStateToProps)(CartTotal);
