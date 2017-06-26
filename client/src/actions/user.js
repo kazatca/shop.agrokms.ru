@@ -1,53 +1,45 @@
 import * as api from '../api.js';
 import {push} from 'react-router-redux';
 import {set as setMessage, clear as clearMessage} from './messages.js';
+import {getAddresses} from './suggestions.js';
 
-export const set = user => {
-  return {
-    type: 'USER.SET',
-    ...user
-  };
+export const set = user => ({
+  type: 'USER.SET',
+  ...user
+});
+
+export const setName = name => ({
+  type: 'USER.SET_NAME',
+  name
+});
+
+export const setPhone = phone => ({
+  type: 'USER.SET_PHONE',
+  phone
+});
+
+// export const setAddress = address => ({
+//   type: 'USER.SET_ADDRESS',
+//   address
+// });
+
+export const setAddress = address => dispatch => {
+  dispatch({type: 'USER.SET_ADDRESS', address});
+  return dispatch(getAddresses(address));
 };
 
-export const setName = name => {
-  return {
-    type: 'USER.SET_NAME',
-    name
-  };
-};
+export const setPassword = password => ({
+  type: 'USER.SET_PASSWORD',
+  password
+});
 
-export const setPhone = phone => {
-  return {
-    type: 'USER.SET_PHONE',
-    phone
-  };
-};
+export const cleanPassword = () => ({
+  type: 'USER.CLEAN_PASSWORD'
+});
 
-export const setAddress = address => {
-  return {
-    type: 'USER.SET_ADDRESS',
-    address
-  };
-};
-
-export const setPassword = password => {
-  return {
-    type: 'USER.SET_PASSWORD',
-    password
-  };
-};
-
-export const cleanPassword = () => {
-  return {
-    type: 'USER.CLEAN_PASSWORD'
-  };
-};
-
-export const cleanId = () => {
-  return {
-    type: 'USER.CLEAN_ID'
-  };
-};
+export const cleanId = () => ({
+  type: 'USER.CLEAN_ID'
+});
 
 export const login = () => (dispatch, getState) => {
   const user = getState().get('user');

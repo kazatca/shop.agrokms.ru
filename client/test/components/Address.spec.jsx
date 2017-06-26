@@ -1,8 +1,9 @@
 import React from 'react';
 import {expect} from 'chai';
 import {mount} from 'enzyme';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
+import thunk from 'redux-thunk';
 
 import Address from '../../src/components/Address.jsx';
 import reducer from '../../src/reducer';
@@ -11,7 +12,7 @@ import {setAddress} from '../../src/actions/user.js';
 describe('Address component', function() {
   let store, address;
   beforeEach(() => {
-    store = createStore(reducer);
+    store = createStore(reducer, applyMiddleware(thunk));
     address = mount(<Provider store={store}><Address /></Provider>);
   });
 

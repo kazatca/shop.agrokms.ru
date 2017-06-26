@@ -15,7 +15,7 @@ const autosuggestProps = {
 };
 
 //todo: use store.subscribe or something better for loadSuggestions call
-const Address = props =>
+export const Address = props =>
   <Autosuggest 
     {...autosuggestProps}
     suggestions={props.suggestions}
@@ -29,7 +29,7 @@ const Address = props =>
           return;
         }
         if(method == 'type'){
-          props.loadSuggestions(newValue);
+          // props.loadSuggestions(newValue);
         }
         props.setAddress(newValue);
       }
@@ -38,6 +38,7 @@ const Address = props =>
 Address.propTypes = {
   address: PropTypes.string.isRequired,
   setAddress: PropTypes.func.isRequired,
+  suggestions: PropTypes.array,
   suggestedAddresses: PropTypes.array,
   loadSuggestions: PropTypes.func,
   clearSuggestions: PropTypes.func

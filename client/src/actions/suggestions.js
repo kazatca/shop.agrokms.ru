@@ -1,56 +1,36 @@
-import fetch from 'isomorphic-fetch';
+import request from '../services/dadata.js';
+import {getSettings} from '../selectors/settings.js';
 
-export const setAddresses = addresses => {
-  return {
-    type: 'SUGGESTIONS.SET_ADDRESSES',
-    addresses
-  };
+export const setAddresses = addresses => dispatch => {
+  dispatch({type: 'SUGGESTIONS.SET_ADDRESSES', addresses});
+  dispatch({type: 'SUGGESTIONS.RESET_CURSOR'});
 };
-
-export const stripSuggestions = (patterns = [], resp) => {
-  resp.suggestions = resp.suggestions.map(item => {
-    item.value = patterns.reduce((result, pattern) => result.replace(pattern, ''), item.value)
-    .replace(/^[\s,]+/, ''); //replace ', , '  from head
-    return item;
-  });
-  return resp;  
-};
-
 
 export const getAddresses = query => (dispatch, getState) => {
-  const getSetting = key => 
-    getState().getIn(['settings', 'suggestions', 'address', key]);
+  if(getState().getIn(['user', 'address']) == query) return;
+  
+  const settings = getSettings(getState(), ['suggestions', 'address']);
 
-  const apiKey = getSetting('apiKey');
-  if(!apiKey){
-    return Promise.reject('DaData api key not set');
-  }
+  if(!settings || !settings.apiKey) return;
 
-  const request = {
-    query,
-    count: getSetting('count') || 5
-  };
-
-  const locations = getSetting('locations');
-  if(locations){
-    request.locations = locations;
-    request.restrict_value = true;
-  }
-
-  return fetch('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': `Token ${apiKey}` 
-    },
-    body: JSON.stringify(request)
-  })
-  .then(resp => resp.json())
-  .then(resp => stripSuggestions(getSetting('unwantedWords'), resp))
-  .then(resp => dispatch(setAddresses(resp.suggestions)));
+  return request(query, settings)
+    .then(addresses => addresses.map(({value}) => value))
+    .then(addresses => dispatch(setAddresses(addresses)));
 };
 
-export const clear = () => ({
-  type: 'SUGGESTIONS.CLEAR'
-});
+export const clear = () => dispatch => {
+  dispatch({type: 'SUGGESTIONS.CLEAR'});
+  dispatch({type: 'SUGGESTIONS.RESET_CURSOR'});
+};
+
+export const moveCursor = dir => (dispatch, getState) => {
+  const dirs = {up: -1, down: 1};
+  
+  dispatch({type: 'SUGGESTIONS.MOVE_CURSOR', dir: dirs[dir]});
+
+  const cursor = getState().getIn(['suggestions', 'cursor']);
+  const addresses = getState().getIn(['suggestions', 'addresses']);
+  if(addresses && addresses.length && cursor >= 0 && cursor < addresses.length){
+    dispatch({type: 'USER.SET_ADDRESS', address: addresses[cursor]});
+  }
+};

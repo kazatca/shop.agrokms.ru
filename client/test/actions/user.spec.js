@@ -38,7 +38,7 @@ describe('User actions', function() {
   });
 
   it('set address', function() {
-    const store = createStore(reducer);
+    const store = createStore(reducer, applyMiddleware(thunk));
     store.dispatch(setAddress('Lenina, 1'));
     expect(store.getState().get('user').get('address')).to.eql('Lenina, 1');
   });

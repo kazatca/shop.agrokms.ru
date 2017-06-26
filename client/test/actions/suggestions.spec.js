@@ -44,8 +44,8 @@ describe('Suggestion actions', function() {
     return store.dispatch(getAddresses('Мира'))
     .then(resp => {
       expect(store.getState().getIn(['suggestions', 'addresses'])).to.eql([
-        {value: 'г. Комсомольск-на-Амуре, ул. Мира, д 1'},
-        {value: 'село Верхняя Эконь, ул. Мира, д 1'}
+        'г. Комсомольск-на-Амуре, ул. Мира, д 1',
+        'село Верхняя Эконь, ул. Мира, д 1'
       ]);
     });
   });
