@@ -1,25 +1,22 @@
-import React, {PureComponent, PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import Money from './Money.jsx';
 
-export class CartTotalDummy extends PureComponent {
-  static propTypes = {
-    cost: PropTypes.number.isRequired
-  };  
+const CartTotal = ({cost}) =>
+  <tr>
+    <td colSpan={5} className="total">
+      <div>Итого:</div>
+      <Money className="cost">{cost}</Money>
+    </td>
+  </tr>;
 
-  render() {
-    return (
-      <tr>
-        <td colSpan={5} className="total">
-          <div>Итого:</div>
-          <Money className="cost">{this.props.cost}</Money>
-        </td>
-      </tr>
-    );
-  }
-}
+CartTotal.propTypes = {
+  cost: PropTypes.number.isRequired
+};  
 
+//todo: make selector
 const mapStateToProps = state => {
   const products = state.get('products');
   return {
@@ -27,7 +24,4 @@ const mapStateToProps = state => {
   };
 };
 
-const CartTotal = connect(mapStateToProps)(CartTotalDummy);
-export default CartTotal;
-
-
+export default connect(mapStateToProps)(CartTotal);

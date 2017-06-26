@@ -1,52 +1,23 @@
-import React, {PureComponent, PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Helmet} from 'react-helmet';
 
-import {add as addToCart} from '../actions/cart.js';
+import {getProductIds} from '../selectors/products.js';
+import DocumentTitle from './DocumentTitle.jsx';
 import Product from './Product.jsx';
 
-export class StoreFrontDummy extends PureComponent {
-  static propTypes = {
-    products: PropTypes.array.isRequired,
-    addToCart: PropTypes.func.isRequired
-  };
+export const StoreFront = ({productIds}) => 
+  <div className="storefront">
+    <DocumentTitle>Магазин</DocumentTitle>
+    {productIds.map(id => <Product key={id} id={id} />)}
+  </div>;
 
-  render() {
-    return (
-      <div className="storefront">
-        <Helmet>
-          <title>Магазин</title>
-        </Helmet>
-        {this.props.products.map(product => <Product 
-          {...product}
-          key={product.id}
-          addToCart={this.props.addToCart.bind(this)}
-        />)}
-      </div>
-    );
-  }
-}
-
-const getProducts = products => 
-  products
-    .toArray()
-    .map(product => product.toJS());
-
-const mapStateToProps = state => {
-  return {
-    products: getProducts(state.get('products'))
-  };
+StoreFront.propTypes = {
+  productIds: PropTypes.array.isRequired
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addToCart: (id, qty) => dispatch(addToCart(id, qty))
-  };
-};
+const mapStateToProps = state => ({
+  productIds: getProductIds(state)
+});
 
-const StoreFront = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(StoreFrontDummy);
-
-export default StoreFront;
+export default connect(mapStateToProps)(StoreFront);

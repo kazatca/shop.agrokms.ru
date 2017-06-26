@@ -1,9 +1,10 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {set as setStatus} from '../actions/status.js';
 
-export class NotFoundDummy extends Component {
+class NotFound extends Component {
   static propTypes = {
     setStatus: PropTypes.func.isRequired
   };
@@ -17,9 +18,9 @@ export class NotFoundDummy extends Component {
     return (<div>not found</div>);
   }
 }
+
 const mapDispatchToProps = dispatch => ({
   setStatus: () => dispatch(setStatus(404))
 });
 
-const NotFound = connect(null, mapDispatchToProps)(NotFoundDummy);
-export default NotFound;
+export default connect(null, mapDispatchToProps)(NotFound);

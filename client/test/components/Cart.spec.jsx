@@ -7,28 +7,18 @@ import {Provider} from 'react-redux';
 import {setAll as setProducts} from '../../src/actions/products';
 import {
   add as addToCart, 
-  changeQty, 
-  removeItem, 
   removeAll
 } from '../../src/actions/cart';
 
 import reducer from '../../src/reducer';
-import Cart, {CartDummy} from '../../src/components/Cart';
-
-const [coffee, burger] = require('../mocks/cart-items.json');
-
-const dispatch = {
-  changeQty: ()=>{},
-  removeItem: ()=>{},
-  removeAll: ()=>{}
-};
+import Cart from '../../src/components/Cart';
 
 describe('Cart component', function() {
-  var store, cart;
+  let store, cart;
 
   beforeEach(() => {
     store = createStore(reducer);
-    store.dispatch(setProducts([coffee, burger]));
+    store.dispatch(setProducts(require('../mocks/cart-items.json')));
 
     cart = mount(<Provider store={store}>
       <Cart />
@@ -38,10 +28,10 @@ describe('Cart component', function() {
   it('add to cart', ()=>{
     store.dispatch(addToCart('1', 10));
 
-    expect(cart.find('.cart')).to.be.ok;
+    expect(cart.find('.cart')).to.have.length(1);
 
     let cartItem = cart.find('.cart-item');
-    expect(cartItem.length).to.eql(1);
+    expect(cartItem).to.have.length(1);
 
     expect(cartItem.find('.name').text()).to.eql('Coffee');
     expect(cartItem.find('.image img').prop('src')).to.eql('/coffee.png');
@@ -52,7 +42,7 @@ describe('Cart component', function() {
     store.dispatch(addToCart('1', 1));
 
     cartItem = cart.find('.cart-item');
-    expect(cartItem.length).to.eql(1);
+    expect(cartItem).to.have.length(1);
 
     expect(cartItem.find('.name').text()).to.eql('Coffee');
     expect(cartItem.find('.qty input').prop('value')).to.eql(11);
@@ -61,7 +51,7 @@ describe('Cart component', function() {
     store.dispatch(addToCart('2', 1));
 
     cartItem = cart.find('.cart-item');
-    expect(cartItem.length).to.eql(2);
+    expect(cartItem).to.have.length(2);
 
 
     expect(cartItem.first().find('.name').text()).to.eql('Coffee');
@@ -77,9 +67,9 @@ describe('Cart component', function() {
     store.dispatch(addToCart('1', 10));
     store.dispatch(addToCart('2', 10));
 
-    expect(cart.find('.cart-item').length).to.eql(2);
+    expect(cart.find('.cart-item')).to.have.length(2);
 
     store.dispatch(removeAll());
-    expect(cart.find('.cart-item').length).to.eql(0);
+    expect(cart.find('.cart-item')).to.have.length(0);
   });
 });

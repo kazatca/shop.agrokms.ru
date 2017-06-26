@@ -1,16 +1,9 @@
-import React, {Component, PropTypes} from 'react';
+import React from 'react';
 import {NavLink} from 'react-router-dom';
 
-export default class Footer extends Component {
-  static propTypes = {
-    
-  };
+const Footer = () =>
+  <div className="footer">
+    <NavLink to="/about">Мы тут</NavLink>          
+  </div>;
 
-  render() {
-    return (
-      <div className="footer">
-        <NavLink to='/about'>Мы тут</NavLink>          
-      </div>
-    );
-  }
-}
+export default Footer;

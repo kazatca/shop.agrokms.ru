@@ -1,29 +1,22 @@
-import React, {Component, PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import Password from './Password.jsx';
 import {changePassword} from '../actions/user.js';
 
-export class ChangePasswordPageDummy extends Component {
-  static propTypes = {
-    changePassword: PropTypes.func
-  };
+const ChangePasswordPage =({changePassword}) =>
+  <div>
+    <Password />
+    <button onClick={changePassword}>Изменить пароль</button>
+  </div>;
 
-  render(){
-    return (
-      <div>
-        <Password />
-        <button onClick={() => this.props.changePassword()}>Изменить пароль</button>
-      </div>
-    );
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    changePassword: () => dispatch(changePassword())
-  };
+ChangePasswordPage.propTypes = {
+  changePassword: PropTypes.func.isRequired
 };
 
-const ChangePasswordPage = connect(null, mapDispatchToProps)(ChangePasswordPageDummy);
-export default ChangePasswordPage;
+const mapDispatchToProps = dispatch => ({
+  changePassword: () => dispatch(changePassword())
+});
+
+export default connect(null, mapDispatchToProps)(ChangePasswordPage);

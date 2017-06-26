@@ -1,37 +1,28 @@
-import React, {Component, PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {setName} from '../actions/user.js';
 
-export class UserNameDummy extends Component{
-  static propTypes = {
-    name: PropTypes.string.isRequired,
-    setName: PropTypes.func.isRequired
-  };
+export const UserName = ({name, setName}) =>
+  <input 
+    type="text"
+    className="username"
+    value={name} 
+    onChange={({target}) => setName(target.value)} />;
 
-  render(){
-    return (
-      <input 
-        type="text"
-        className="username"
-        value={this.props.name} 
-        onChange={e => this.props.setName(e.target.value)} />
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    name: state.get('user').get('name')
-  };
+UserName.propTypes = {
+  name: PropTypes.string.isRequired,
+  setName: PropTypes.func.isRequired
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setName: name => dispatch(setName(name))
-  };
-};
+const mapStateToProps = state => ({
+  name: state.getIn(['user', 'name'])
+});
 
-const UserName = connect(mapStateToProps, mapDispatchToProps)(UserNameDummy);
-export default UserName;
+const mapDispatchToProps = dispatch => ({
+  setName: name => dispatch(setName(name))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserName);
 

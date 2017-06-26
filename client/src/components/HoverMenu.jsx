@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import DropdownMenu from 'react-dd-menu';
 
 class HoverMenu extends Component{
@@ -28,12 +29,12 @@ class HoverMenu extends Component{
     return (
       <span 
         className="hover-menu"
-        onMouseEnter={() => this.open()}
-        onMouseLeave={() => this.close()}
+        onMouseEnter={this.open}
+        onMouseLeave={this.close}
       >
         <DropdownMenu 
           align="right"
-          close={() => this.close()}
+          close={this.close}
           isOpen={this.state.isOpen}
           toggle={this.props.toggle}
         >

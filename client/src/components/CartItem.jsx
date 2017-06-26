@@ -1,11 +1,11 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import Money from './Money.jsx';
 import {changeQty, removeItem} from '../actions/cart.js';
 
-export class CartItemDummy extends Component {
-
+export class CartItem extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
@@ -78,5 +78,4 @@ const mapDispatchToProps = (dispatch, {productId}) => ({
   removeItem: () => dispatch(removeItem(productId))
 });
 
-const CartItem = connect(mapStateToProps, mapDispatchToProps)(CartItemDummy);
-export default CartItem;
+export default connect(mapStateToProps, mapDispatchToProps)(CartItem);

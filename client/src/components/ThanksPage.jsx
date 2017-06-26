@@ -1,21 +1,14 @@
-import React, {Component, PropTypes} from 'react';
-import {Helmet} from 'react-helmet';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-export default class ThanksPage extends Component {
-  static propTypes = {
-    
-  };
+import DocumentTitle from './DocumentTitle.jsx';
 
-  render() {
-    return (
-      <div>
-        <Helmet>
-          <title>Спасибо за покупку</title>
-        </Helmet>  
-        <div>
-          Спасибо за покупку. Мы свяжемся с вами в ближайшее время.
-        </div>
-      </div>
-    );
-  }
-}
+const ThanksPage = () =>
+  <div>
+    <DocumentTitle>Спасибо за покупку</DocumentTitle>  
+    <div>
+      Спасибо за покупку. Мы свяжемся с вами в ближайшее время.
+    </div>
+  </div>;
+
+export default ThanksPage;

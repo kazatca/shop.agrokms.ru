@@ -1,44 +1,29 @@
-import React, {Component, PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {NavLink} from 'react-router-dom';
-import {Helmet} from 'react-helmet';
 
+import DocumentTitle from './DocumentTitle.jsx';
 import Checkout from './Checkout.jsx';
 
-class EmptyCart extends Component {
-  render() {
-    return (
-      <div className="empty-cart">
-        <div>Ваша корзина пуста</div>
-        <NavLink exact to="/">вернуться в магазин</NavLink>
-      </div>
-    );
-  }
-}
+const EmptyCart = () =>
+  <div className="empty-cart">
+    <div>Ваша корзина пуста</div>
+    <NavLink exact to="/">вернуться в магазин</NavLink>
+  </div>;
 
-export class CheckoutPageDummy extends Component {
-  static propTypes = {
-    cartIsEmpty: PropTypes.bool.isRequired
-  };
+const CheckoutPage = ({cartIsEmpty}) => 
+  <div>
+    <DocumentTitle>Корзина</DocumentTitle>
+    {cartIsEmpty? <EmptyCart />: <Checkout />}
+  </div>;
 
-  render() {
-    return (
-      <div>
-        <Helmet>
-          <title>Корзина</title>
-        </Helmet>
-        {this.props.cartIsEmpty? <EmptyCart />: <Checkout />}
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    cartIsEmpty: state.get('cart').size == 0
-  };
+CheckoutPage.propTypes = {
+  cartIsEmpty: PropTypes.bool.isRequired
 };
 
+const mapStateToProps = state => ({
+  cartIsEmpty: state.get('cart').size == 0
+});
 
-const CheckoutPage = connect(mapStateToProps)(CheckoutPageDummy);
-export default CheckoutPage;
+export default connect(mapStateToProps)(CheckoutPage);

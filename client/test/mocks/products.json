@@ -3,12 +3,14 @@
     "id": "1",
     "name": "Coffee",
     "image": "/coffee.png",
-    "price": 5000
+    "price": 5000,
+    "category": "1"
   },
   {
     "id": "2",
     "name": "Burger",
     "image": "/burger.png",
-    "price": 13000
+    "price": 13000,
+    "category": "2"
   }
 ]

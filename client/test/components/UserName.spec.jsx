@@ -4,45 +4,27 @@ import {mount} from 'enzyme';
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 
-import UserName, {UserNameDummy} from '../../src/components/UserName.jsx';
+import UserName from '../../src/components/UserName.jsx';
 import reducer from '../../src/reducer';
 import {setName} from '../../src/actions/user.js';
 
 describe('UserName component', function() {
-  it('basic', function() {
-    const comp = mount(<UserNameDummy 
-      name={'Joe'}
-      setName={()=>{}}
-    />);
+  let store, username;
 
-    expect(comp.find('.username').prop('value')).to.eql('Joe');
+  beforeEach(() => {
+    store = createStore(reducer);
+    username = mount(<Provider store={store}><UserName /></Provider>);
+  });
+
+  it('basic', () => {
+    store.dispatch(setName('Joe'));
+    expect(username.find('.username').prop('value')).to.eql('Joe');
   });
 
   it('change', function() {
-    var newName;
-    const changeName = name => {newName = name;};
-    const comp = mount(<UserNameDummy 
-      name={name}
-      setName={name => changeName(name)}
-    />);
+    const value = 'Dave';
+    username.find('.username').simulate('change', {target: {value}});
 
-    comp.find('.username').simulate('change', {target: {value: 'Dave'}});
-    expect(newName).to.eql('Dave');
-  });
-
-  it('name from state', () => {
-    const store = createStore(reducer);
-    const comp = mount(<Provider store={store}><UserName /></Provider>);
-    store.dispatch(setName('Joe'));
-
-    expect(comp.find('.username').prop('value')).to.eql('Joe');
-  });
-
-  it('name to state', function() {
-    const store = createStore(reducer);
-    const comp = mount(<Provider store={store}><UserName /></Provider>);
-    comp.find('.username').simulate('change', {target: {value: 'Dave'}});
-
-    expect(store.getState().getIn(['user', 'name'])).to.eql('Dave');
+    expect(store.getState().getIn(['user', 'name'])).to.eql(value);
   });
 });

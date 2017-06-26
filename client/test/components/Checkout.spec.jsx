@@ -6,7 +6,7 @@ import {Provider} from 'react-redux';
 import {ConnectedRouter} from 'react-router-redux';
 import {createMemoryHistory} from 'history';
 
-import Checkout, {CheckoutDummy} from '../../src/components/Checkout.jsx';
+import Checkout, {Checkout as CheckoutDummy} from '../../src/components/Checkout.jsx';
 import reducer from '../../src/reducer';
 import {setAll as setProducts} from '../../src/actions/products.js';
 import {add as addToCart} from '../../src/actions/cart.js';

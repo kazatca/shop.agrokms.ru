@@ -1,34 +1,27 @@
-import React, {Component, PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-export default class Money extends Component {
+const format = (formatString, value) => formatString.replace(/:money/, (value/100).toFixed(0));
 
-  static propTypes = {
-    validate: (props) => {
-      if (props.format && !/:money/.test(props.format)) {
-        return new Error('Invalid money format');
-      }
-    },
-    format: PropTypes.string,
-    children: PropTypes.number.isRequired,
-    className: PropTypes.string
-  };
+const Money = ({formatString, children, className}) =>
+  <div className={`money ${className}`}>
+    {format(formatString, children)}
+  </div>;
 
-  static defaultProps = {
-    format: ':money р.',
-    className: ''
-  };
+Money.propTypes = {
+  validate: ({formatString}) => {
+    if(!/:money/.test(formatString)) {
+      return new Error('Invalid money formatString. Placeholder :money not found.');
+    }
+  },
+  formatString: PropTypes.string,
+  children: PropTypes.number.isRequired,
+  className: PropTypes.string
+};
 
-  format(){
-    let value = (this.props.children/100).toFixed(0);
-    return this.props.format.replace(/:money/, value);
-  }
+Money.defaultProps = {
+  formatString: ':money р.',
+  className: ''
+};
 
-  render() {
-    return (
-      <div className={`money ${this.props.className}`}>
-        {this.format()}
-      </div>
-    );
-  }
-}
-
+export default Money;

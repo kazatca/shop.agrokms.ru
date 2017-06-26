@@ -1,37 +1,29 @@
-import React, {Component, PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+
 import {setPassword} from '../actions/user.js';
 
-export class PasswordDummy extends Component {
-  static propTypes = {
-    password: PropTypes.string,
-    setPassword: PropTypes.func
-  };
+export const Password = ({password, setPassword}) =>
+  <div>
+    <input 
+      type="password" 
+      className="password"
+      value={password} 
+      onChange={e => setPassword(e.target.value)} />
+  </div>;
 
-  render() {
-    return (
-      <div>
-        <input 
-          type="password" 
-          className="password"
-          value={this.props.password} 
-          onChange={e => this.props.setPassword(e.target.value)} />
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    password: state.getIn(['user', 'password'], '')
-  };
+Password.propTypes = {
+  password: PropTypes.string,
+  setPassword: PropTypes.func
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setPassword: password => dispatch(setPassword(password))
-  };
-};
+const mapStateToProps = state => ({
+  password: state.getIn(['user', 'password'], '')
+});
 
-const Password = connect(mapStateToProps, mapDispatchToProps)(PasswordDummy);
-export default Password;
+const mapDispatchToProps = dispatch => ({
+  setPassword: password => dispatch(setPassword(password))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Password);

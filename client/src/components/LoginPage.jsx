@@ -1,47 +1,38 @@
-import React, {Component, PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Phone from './Phone.jsx';
 import Password from './Password.jsx';
 
 import {login} from '../actions/user.js';
 
-export class LoginPageDummy extends Component {
-  static propTypes = {
-    login: PropTypes.func.isRequired,
-    error: PropTypes.string
-  };
+const preventDefault = e => {
+  e.preventDefault();
+  e.stopPropagation();
+};
 
-  render() {
-    return (
-      <div>
-        {
-          this.props.error?
-          <div className="error">{this.props.error}</div>:
-          null
-        }
-        <form onSubmit={(e) => this.props.login(e)}>
-          <Phone />
-          <Password />
-          <input type="submit" value="Войти" />
-        </form>
-      </div>
-    );
-  }
-}
+export const LoginPage = ({error, login}) => 
+  <div>
+    {error && <div className="error">{error}</div>}
+    <form onSubmit={(e) => {preventDefault(e); login();}} >
+      <Phone />
+      <Password />
+      <input type="submit" value="Войти" />
+    </form>
+  </div>;
+
+LoginPage.propTypes = {
+  login: PropTypes.func.isRequired,
+  error: PropTypes.string
+};
+
 
 const mapStateToProps = state => ({
   error: state.getIn(['messages', 'loginError'])
 });
 
-const mapDispatchToProps = dispatch => {
-  return {
-    login: (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      return dispatch(login());
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  login: () => dispatch(login())
+});
 
-const LoginPage = connect(mapStateToProps, mapDispatchToProps)(LoginPageDummy);
-export default LoginPage;
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

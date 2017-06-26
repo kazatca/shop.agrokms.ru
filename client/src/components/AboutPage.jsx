@@ -1,25 +1,15 @@
-import React, {Component, PropTypes} from 'react';
-import {Helmet} from 'react-helmet';
+import React from 'react';
+
+import DocumentTitle from './DocumentTitle.jsx';
 import GMap from './GMap.jsx';
 
-export default class AboutPage extends Component {
-  static propTypes = {
-    
-  };
+const AboutPage = () =>
+  <div>
+    <DocumentTitle>Контакты</DocumentTitle>
+    <GMap />
+  </div>;
 
-  render() {
-    return (
-      <div>
-        <Helmet>
-          <title>Контакты</title>
-        </Helmet>
-        <GMap 
-        />
-      </div>
-    );
-  }
-}
-
+export default AboutPage;
 /*
           center={{
             lat: 50.570747, 

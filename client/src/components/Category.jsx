@@ -1,55 +1,28 @@
-import React, {PureComponent, PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Helmet} from 'react-helmet';
 
-import {add as addToCart} from '../actions/cart.js';
+import DocumentTitle from './DocumentTitle.jsx';
+import {getProductsInCategory} from '../selectors/category.js';
 import Product from './Product.jsx';
 
-export class CategoryDummy extends PureComponent {
-  static propTypes = {
-    products: PropTypes.array.isRequired,
-    addToCart: PropTypes.func.isRequired
-  };
+const Category = ({productIds, categoryName}) =>
+  <div>
+    <DocumentTitle>{categoryName}</DocumentTitle>
+    {productIds.map(id => <Product key={id} id={id} />)}
+  </div>;
 
-  render() {
-    return (
-      <div>
-        <Helmet>
-          <title>{this.props.category}</title>
-        </Helmet>
-        {this.props.products.map(product => <Product 
-          {...product}
-          key={product.id}
-          addToCart={this.props.addToCart.bind(this)}
-        />)}
-      </div>
-    );
-  }
-}
+Category.propTypes = {
+  productIds: PropTypes.array.isRequired,
+  categoryName: PropTypes.string.isRequired
+};
 
-const getProducts = (products, category) => 
-  products
-    .toArray()
-    .filter(product => product.get('category') == category)
-    .map(product => product.toJS());
-
-const mapStateToProps = (state, {match}) => {
-  const category = state.get('categories').find(category => category.get('id') == match.params.id);
+const mapStateToProps = (state, {match}) => { //match from router
+  const categoryId = match.params.id;
   return {
-    products: getProducts(state.get('products'), category.get('id')),
-    category: category.get('name')
+    productIds: getProductsInCategory(state, categoryId),
+    categoryName: state.getIn(['categories', categoryId, 'name'])
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addToCart: (id, qty) => dispatch(addToCart(id, qty))
-  };
-};
-
-const Category = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CategoryDummy);
-
-export default Category;
+export default connect(mapStateToProps)(Category);

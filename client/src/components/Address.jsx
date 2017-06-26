@@ -1,35 +1,26 @@
-import React, {Component, PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {setAddress} from '../actions/user.js';
 
-export class AddressDummy extends Component {
-  static propTypes = {
-    address: PropTypes.string.isRequired,
-    setAddress: PropTypes.func.isRequired
-  };
+const Address = ({address, setAddress}) =>
+  <input 
+    type="text"
+    className="address"
+    value={address}
+    onChange={e => setAddress(e.target.value)}/>;
 
-  render() {
-    return (
-      <input 
-        type="text"
-        className="address"
-        value={this.props.address}
-        onChange={e => this.props.setAddress(e.target.value)}/>
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    address: state.get('user').get('address')
-  };
+Address.propTypes = {
+  address: PropTypes.string.isRequired,
+  setAddress: PropTypes.func.isRequired
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setAddress: address => dispatch(setAddress(address))
-  };
-};
+const mapStateToProps = state => ({
+  address: state.getIn(['user', 'address'])
+});
 
-const Address = connect(mapStateToProps, mapDispatchToProps)(AddressDummy);
-export default Address;
+const mapDispatchToProps = dispatch => ({
+  setAddress: address => dispatch(setAddress(address))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Address);

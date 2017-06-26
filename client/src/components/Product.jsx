@@ -1,10 +1,12 @@
-import React, {PureComponent, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+
 import Money from './Money.jsx';
+import {add as addToCart} from '../actions/cart.js';
 
-export default class Product extends PureComponent{
-
+export class Product extends Component{
   static propTypes = {
-    id: PropTypes.string.isRequired,
     image: PropTypes.string,
     name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
@@ -16,10 +18,6 @@ export default class Product extends PureComponent{
     this.state = {qty: 1};
   }
 
-  addToCart(){
-    this.props.addToCart(this.props.id, this.state.qty);
-  }
-
   changeQty(qty){
     if(isNaN(qty) || qty < 1){
       return;
@@ -28,31 +26,33 @@ export default class Product extends PureComponent{
   }
 
   render(){
+    const {name, image, price, addToCart} = this.props;
+    const {qty} = this.state;
     return (
       <div className="product">
         <div className="thumbnail">
-          <img src={this.props.image} alt={this.props.name} title={this.props.name}/>
+          <img src={image} alt={name} title={name}/>
         </div>
         <div>
-          <h2 className="name">{this.props.name}</h2>
-          <Money className="price">{this.props.price}</Money>
+          <h2 className="name">{name}</h2>
+          <Money className="price">{price}</Money>
           <button className="minus" 
-            onClick={() => this.changeQty(this.state.qty*1 - 1)}>
+            onClick={() => this.changeQty(qty*1 - 1)}>
             -
           </button>
           <input 
             type="text" 
             className="qty" 
-            value={this.state.qty}
-            onChange={e => this.changeQty(e.target.value*1)}
-            onFocus={e => e.target.select()}
+            value={qty}
+            onChange={({target}) => this.changeQty(target.value*1)}
+            onFocus={({target}) => target.select()}
           />
           <button className="plus" 
-            onClick={() => this.changeQty(this.state.qty*1 + 1)}>
+            onClick={() => this.changeQty(qty*1 + 1)}>
             +
           </button>
           <button className="buy"
-            onClick={() => this.addToCart()}>
+            onClick={() => addToCart(qty)}>
             В корзину
           </button>
         </div>
@@ -60,3 +60,18 @@ export default class Product extends PureComponent{
     );
   }
 }
+
+const mapStateToProps = (state, {id}) => {
+  const product = state.getIn(['products', id]);
+  return {
+    name: product.get('name'),
+    image: product.get('image'),
+    price: product.get('price')
+  };
+};
+
+const mapDispatchToProps = (dispatch, {id}) => ({
+  addToCart: qty => dispatch(addToCart(id, qty))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Product);

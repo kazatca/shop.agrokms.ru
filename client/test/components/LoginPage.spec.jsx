@@ -1,35 +1,43 @@
 import React from 'react';
 import {expect} from 'chai';
-import {shallow} from 'enzyme';
+import {mount} from 'enzyme';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
 
+import reducer from '../../src/reducer.js';
 import Phone from '../../src/components/Phone.jsx';
 import Password from '../../src/components/Password.jsx';
-import {LoginPageDummy} from '../../src/components/LoginPage.jsx';
+import {set as setMessage} from '../../src/actions/messages.js';
+import LoginPage, {LoginPage as LoginPageDummy} from '../../src/components/LoginPage.jsx';
 
 describe('LoginPage component', function() {
+  let store, page;
+
+  beforeEach(() => {
+    store = createStore(reducer);
+    page = mount(<Provider store={store}><LoginPage /></Provider>);
+  });
+
   it('basic', function() {
-    const comp = shallow(<LoginPageDummy login={()=>{}}/>);
-    expect(comp.find(Phone)).to.have.length(1);
-    expect(comp.find(Password)).to.have.length(1);
+    expect(page.find(Phone)).to.have.length(1);
+    expect(page.find(Password)).to.have.length(1);
+    expect(page.find('input[type="submit"]')).to.have.length(1);
   });
 
   it('show error', ()=> {
-    const comp = shallow(<LoginPageDummy 
-      login={()=>{}}
-      error={'Error msg'}
-    />);
+    store.dispatch(setMessage('loginError', 'Error msg'));
 
-    expect(comp.find('.error')).to.have.length(1);
-    expect(comp.find('.error').text()).to.eql('Error msg');
+    expect(page.find('.error')).to.have.length(1);
+    expect(page.find('.error').text()).to.eql('Error msg');
   });
 
   it('login', ()=> {
-    var clicked;
-    const comp = shallow(<LoginPageDummy 
+    let clicked;
+    const page = mount(<Provider store={store}><LoginPageDummy 
       login={()=>{clicked = true;}}
-    />);
+    /></Provider>);
 
-    comp.find('form').simulate('submit');
+    page.find('form').simulate('submit');
 
     expect(clicked).to.be.ok;
   });

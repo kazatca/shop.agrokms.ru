@@ -1,86 +1,63 @@
-import React, {Component, PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import GoogleMap from 'google-map-react';
 import {connect} from 'react-redux';
 
-const Marker = ({text}) => <p className="marker">{text}</p>;
-Marker.propTypes = {
-  text: PropTypes.string
+import {getStores} from '../selectors/stores.js';
+import MapMarker from './MapMarker.jsx';
+
+// next props are exposed at maps
+// "Animation", "ControlPosition", "MapTypeControlStyle", "MapTypeId",
+// "NavigationControlStyle", "ScaleControlStyle", "StrokePosition", "SymbolPath", "ZoomControlStyle",
+// "DirectionsStatus", "DirectionsTravelMode", "DirectionsUnitSystem", "DistanceMatrixStatus",
+// "DistanceMatrixElementStatus", "ElevationStatus", "GeocoderLocationType", "GeocoderStatus", "KmlLayerStatus",
+// "MaxZoomStatus", "StreetViewStatus", "TransitMode", "TransitRoutePreference", "TravelMode", "UnitSystem"
+const createMapOptions = maps => ({
+  zoomControlOptions: {
+    position: maps.ControlPosition.RIGHT_CENTER,
+    style: maps.ZoomControlStyle.SMALL
+  },
+  mapTypeControlOptions: {
+    position: maps.ControlPosition.TOP_RIGHT
+  },
+  mapTypeControl: true
+});
+
+const GMap = ({center, zoom, markers, apiKey}) =>
+  <div className="map">
+    <GoogleMap
+      bootstrapURLKeys={{
+        key: apiKey,
+        language: 'ru'    
+      }}
+      center={center}
+      options={createMapOptions}
+      defaultZoom={zoom}
+    >
+      {markers.map(marker => <MapMarker key={marker.text} {...marker}/>)}
+    </GoogleMap>
+  </div>;
+
+GMap.propTypes = {
+  center: PropTypes.shape({
+    lat: PropTypes.number,
+    lng: PropTypes.number
+  }),
+  zoom: PropTypes.number,
+  markers: PropTypes.array,
+  apiKey: PropTypes.string.isRequired
 };
 
-function createMapOptions(maps) {
-  // next props are exposed at maps
-  // "Animation", "ControlPosition", "MapTypeControlStyle", "MapTypeId",
-  // "NavigationControlStyle", "ScaleControlStyle", "StrokePosition", "SymbolPath", "ZoomControlStyle",
-  // "DirectionsStatus", "DirectionsTravelMode", "DirectionsUnitSystem", "DistanceMatrixStatus",
-  // "DistanceMatrixElementStatus", "ElevationStatus", "GeocoderLocationType", "GeocoderStatus", "KmlLayerStatus",
-  // "MaxZoomStatus", "StreetViewStatus", "TransitMode", "TransitRoutePreference", "TravelMode", "UnitSystem"
-  return {
-    zoomControlOptions: {
-      position: maps.ControlPosition.RIGHT_CENTER,
-      style: maps.ZoomControlStyle.SMALL
-    },
-    mapTypeControlOptions: {
-      position: maps.ControlPosition.TOP_RIGHT
-    },
-    mapTypeControl: true
-  };
-}
-
-class GMapDummy extends Component {
-  static propTypes = {
-    center: PropTypes.shape({
-      lat: PropTypes.number,
-      lng: PropTypes.number
-    }),
-    zoom: PropTypes.number,
-    markers: PropTypes.arrayOf(PropTypes.shape({
-      lat: PropTypes.number,
-      lng: PropTypes.number,
-      text: PropTypes.string
-    }))
-  };
-
-  static defaultProps = {
-    center: {lat: 50.570747, lng: 137.016390},
-    zoom: 14,
-    markers: []
-  };
-
-  render() {
-    return (
-      <div className="map">
-        <GoogleMap
-          bootstrapURLKeys={{
-            /* eslint-disable */
-            key: this.props.apiKey,
-            /* eslint-enable */
-            language: 'ru'    
-          }}
-          center={this.props.center}
-          options={createMapOptions}
-          defaultZoom={this.props.zoom}
-        >
-          {this.props.markers.map(marker => <Marker key={marker.text} {...marker}/>)}
-        </GoogleMap>
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    apiKey: state.getIn(['settings', 'gmap', 'apiKey']),
-    markers: state.get('stores').map(store => {
-      const [lat, lng] = store.coords.split(',').map(x => x.trim()*1);
-      return {
-        text: store.address,
-        lat,
-        lng 
-      };
-    }).toJS()
-  };
+GMap.defaultProps = {
+  center: {lat: 50.570747, lng: 137.016390},
+  zoom: 14,
+  markers: []
 };
 
-const GMap = connect(mapStateToProps)(GMapDummy);
+const mapStateToProps = state => ({
+  apiKey: state.getIn(['settings', 'gmap', 'apiKey']),
+  markers: getStores(state)
+});
 
-export default GMap;
+export default connect(mapStateToProps)(GMap);
+
