@@ -55,7 +55,7 @@ describe('initState', function() {
     db.model('Category').create({name: 'Drinks'})
     .then(() => getInitState('/'))
     .then(({store, history}) => {
-      expect(store.getState().getIn(['categories', 0, 'name'])).to.eql('Drinks');
+      expect(store.getState().getIn(['categories', '1', 'name'])).to.eql('Drinks');
     })
   );
 
