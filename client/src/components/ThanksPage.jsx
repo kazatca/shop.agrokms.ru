@@ -1,11 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
-import DocumentTitle from './DocumentTitle.jsx';
+import {Helmet} from 'react-helmet';
 
 const ThanksPage = () =>
   <div>
-    <DocumentTitle>Спасибо за покупку</DocumentTitle>  
+    <Helmet>
+      <title>Спасибо за покупку</title>
+    </Helmet>  
     <div>
       Спасибо за покупку. Мы свяжемся с вами в ближайшее время.
     </div>

@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {Helmet} from 'react-helmet';
 
-import DocumentTitle from './DocumentTitle.jsx';
 import {getProductsInCategory} from '../selectors/category.js';
 import Product from './Product.jsx';
 
 const Category = ({productIds, categoryName}) =>
   <div>
-    <DocumentTitle>{categoryName}</DocumentTitle>
+    <Helmet>
+      <title>{categoryName}</title>
+    </Helmet>
     {productIds.map(id => <Product key={id} id={id} />)}
   </div>;
 

@@ -3,6 +3,7 @@ import {expect} from 'chai';
 import {mount} from 'enzyme';
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
+import {Helmet} from 'react-helmet';
 
 import reducer from '../../src/reducer.js';
 import {setAll as setProducts} from '../../src/actions/products.js';
@@ -33,9 +34,11 @@ describe('Category component', () => {
 
   it('correct name of category', () => {
     getCategory('1');
-    expect(global.document.title).to.eql('Drinks');
+    let head = Helmet.peek();
+    expect(head.title).to.eql('Drinks');
     
     getCategory('2');
-    expect(global.document.title).to.eql('Food');
+    head = Helmet.peek();
+    expect(head.title).to.eql('Food');
   });
 });

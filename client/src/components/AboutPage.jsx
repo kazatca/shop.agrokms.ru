@@ -1,11 +1,13 @@
 import React from 'react';
+import {Helmet} from 'react-helmet';
 
-import DocumentTitle from './DocumentTitle.jsx';
 import GMap from './GMap.jsx';
 
 const AboutPage = () =>
   <div>
-    <DocumentTitle>Контакты</DocumentTitle>
+    <Helmet>
+      <title>Контакты</title>
+    </Helmet>
     <GMap />
   </div>;
 

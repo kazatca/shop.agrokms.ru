@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const DocumentTitle = ({children}) => {
-  document.title = children || '';
+  if(document){
+    document.title = children || '';
+  }
+  DocumentTitle.title = children || '';
+
   return null;
 };
 

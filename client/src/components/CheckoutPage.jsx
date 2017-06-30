@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {NavLink} from 'react-router-dom';
+import {Helmet} from 'react-helmet';
 
-import DocumentTitle from './DocumentTitle.jsx';
 import Checkout from './Checkout.jsx';
 
 const EmptyCart = () =>
@@ -14,7 +14,9 @@ const EmptyCart = () =>
 
 const CheckoutPage = ({cartIsEmpty}) => 
   <div>
-    <DocumentTitle>Корзина</DocumentTitle>
+    <Helmet>
+      <title>Корзина</title>
+    </Helmet>
     {cartIsEmpty? <EmptyCart />: <Checkout />}
   </div>;
 
