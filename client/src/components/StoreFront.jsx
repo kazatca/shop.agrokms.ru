@@ -5,6 +5,7 @@ import {Helmet} from 'react-helmet';
 
 import {getProductIds} from '../selectors/products.js';
 import Product from './Product.jsx';
+import dataConnect from '../data-connect.js';
 
 export const StoreFront = ({productIds}) => 
   <div className="storefront">
@@ -22,4 +23,9 @@ const mapStateToProps = state => ({
   productIds: getProductIds(state)
 });
 
-export default connect(mapStateToProps)(StoreFront);
+export default 
+  dataConnect('/products/all')(
+    connect(mapStateToProps)(
+      StoreFront
+    )
+  );

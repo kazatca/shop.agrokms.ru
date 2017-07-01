@@ -1,7 +1,7 @@
 import React from 'react';
 import {expect} from 'chai';
 import {mount} from 'enzyme';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 
 import {setAll as setProducts} from '../../src/actions/products.js';
@@ -22,5 +22,24 @@ describe('StoreFront component', function() {
     store.dispatch(setProducts([coffee, burger]));
 
     expect(storeFront.find('.product').length).to.eql(2);
+  });
+
+  it('dataConnect working', () => {
+    let fetched = false;
+    const fetcher = store => next => action => {
+      if(action.type == 'FETCH'){
+        fetched = action;
+      }
+      return next(action);
+    };
+
+    const store = createStore(reducer, applyMiddleware(fetcher));
+    
+    mount(<Provider store={store}>
+      <StoreFront />
+    </Provider>);
+
+    expect(fetched).to.have.property('url', '/products/all');
+    expect(fetched).to.have.property('params');
   });
 });
